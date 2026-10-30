@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shipcel vs Firebase: free tiers, pricing and features compared</title>
+<meta name="description" content="Shipcel vs Firebase: Spark and Blaze plans, Firestore and Hosting pricing, functions, spending caps and realtime compared with sources, and when Firebase is the better choice.">
+<meta property="og:title" content="Shipcel vs Firebase: free tiers, pricing and features compared">
+<meta property="og:description" content="Shipcel vs Firebase: Spark and Blaze plans, Firestore and Hosting pricing, functions, spending caps and realtime compared with sources, and when Firebase is the better choice.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/" aria-current="page">Compare</a></li><li><a href="/docs/">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<section class="hero" aria-labelledby="vs-title">
+<h1 id="vs-title">Shipcel vs Firebase</h1>
+<p class="lede">Firebase is Google’s backend for mobile and web apps: Firestore with realtime listeners and offline support, sign-in, hosting and Cloud Functions. Its free Spark plan now excludes Cloud Functions and Cloud Storage, and Blaze bills usage with budget alerts that don’t stop spending. Shipcel deploys web apps with server code, SQL databases, file storage, sign-in and realtime channels into your own Cloudflare account, where the free plan includes server code.</p>
+</section>
+
+<section aria-labelledby="choose-title">
+<h2 id="choose-title">Which one fits</h2>
+
+<div class="grid two">
+<article class="card featured"><h3>Choose Shipcel if</h3><ul class="checks"><li>You want server code on a free plan: Cloud Functions require Blaze, while Cloudflare’s free plan runs 100,000 Worker requests a day.</li><li>You want file storage without per-gigabyte download fees: Cloud Storage requires Blaze and charges $0.12 per GiB of egress; R2 has no egress fees.</li><li>You want predictable hosting costs: Firebase Hosting allows 360 MB of transfer a day on Spark and charges $0.15 per GB beyond the free tier on Blaze; Cloudflare doesn’t meter static files.</li><li>You prefer SQL: D1 is a relational SQLite database; Firestore is a document database billed per document read and write.</li></ul></article>
+<article class="card"><h3>Choose Firebase if</h3><ul class="checks"><li>You build a mobile app and want offline sync, realtime listeners and push messaging from one SDK.</li><li>You need sign-in methods Shipcel doesn’t offer yet, such as email and password, phone numbers or anonymous accounts.</li><li>You want Google Cloud products such as Cloud Run, BigQuery and Pub/Sub alongside your app.</li><li>You need a proven service today. Shipcel is in alpha.</li></ul></article>
+</div>
+</section>
+<section aria-labelledby="details-title">
+<h2 id="details-title">Side by side</h2>
+<div class="table-wrap" role="region" aria-labelledby="table-0" tabindex="0">
+<table>
+<caption id="table-0">Free plans</caption>
+<thead><tr><th scope="col"></th><th scope="col">Shipcel + Cloudflare free plans</th><th scope="col">Firebase Spark</th></tr></thead>
+<tbody>
+<tr><th scope="row">Price</th><td>$0</td><td>$0</td></tr>
+<tr><th scope="row">Server code</th><td>100,000 Worker requests a day</td><td>Cloud Functions not available (Blaze only)</td></tr>
+<tr><th scope="row">Database</th><td>D1 (SQL): 5 GB, 5 million rows read and 100,000 written a day</td><td>Firestore (documents): 1 GiB, 50,000 reads, 20,000 writes and 20,000 deletes a day</td></tr>
+<tr><th scope="row">File storage</th><td>R2: 10 GB free (R2 is added through a checkout that needs a payment method)</td><td>Cloud Storage not available (Blaze only, since February 2026)</td></tr>
+<tr><th scope="row">Hosting</th><td>Static files free and unlimited</td><td>10 GB stored, 360 MB of transfer a day</td></tr>
+<tr><th scope="row">Sign-in</th><td>Included: passkeys, GitHub and Google. No monthly user limit; a sign-in uses about 5 to 7 of your 100,000 daily Worker requests</td><td>50,000 monthly active users (50 for SAML and OpenID Connect providers)</td></tr>
+<tr><th scope="row">Realtime</th><td>Included: channels with presence and broadcast on Durable Objects. Connections and incoming messages count toward 100,000 requests a day; messages to listeners are free and idle connections hibernate</td><td>Realtime Database: 100 simultaneous connections; Firestore listeners billed as document reads</td></tr>
+<tr><th scope="row">When you exceed it</th><td>Requests fail until midnight UTC</td><td>The product is shut off for the rest of the month; Hosting after a short grace period</td></tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrap" role="region" aria-labelledby="table-1" tabindex="0">
+<table>
+<caption id="table-1">Paid plans</caption>
+<thead><tr><th scope="col"></th><th scope="col">Shipcel + Cloudflare Workers Paid</th><th scope="col">Firebase Blaze</th></tr></thead>
+<tbody>
+<tr><th scope="row">Base price</th><td>$5 a month per account</td><td>No fee; pay as you go beyond the free quotas</td></tr>
+<tr><th scope="row">Database</th><td>D1: 25 billion rows read and 50 million written a month included; 5 GB included</td><td>Firestore (us-central1): $0.03 per 100,000 reads, $0.09 per 100,000 writes, $0.15 per GiB-month</td></tr>
+<tr><th scope="row">Transfer</th><td>No per-gigabyte charge for static files, Workers responses or R2</td><td>Hosting $0.15 per GB; Cloud Storage $0.12 per GiB</td></tr>
+<tr><th scope="row">Server code</th><td>10 million requests a month included, then $0.30 per million</td><td>2 million invocations free, then $0.40 per million, plus compute</td></tr>
+<tr><th scope="row">Spending control</th><td>No hard cap from Cloudflare. Shipcel’s budget guard alerts over a budget ($0 by default) and can pause the app; Cloudflare’s budget alerts email you</td><td>Budget alerts don’t stop usage; spend caps are a preview for four services, not Firestore or Hosting</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section aria-labelledby="bills-title">
+<h2 id="bills-title">Billing and surprise-bill protection</h2>
+<ul class="checks"><li>On Spark, Firebase shuts a product off for the rest of the month when its quota is used up.</li><li>On Blaze, Google Cloud budget alerts never cap usage. Firebase’s spend caps are in preview, cover only AI Logic, App Hosting, Cloud Functions and Extensions, and Firebase notes they are not hard caps.</li><li>Cloudflare’s free plan is never billed for Workers, D1 or KV: over a daily limit, requests and queries fail until midnight UTC. R2 file storage bills usage beyond its free tier (never egress).</li><li>Workers Paid ($5 a month per account) has no hard spending cap. Budget alerts email you when usage passes an amount ($10 by default) but don’t stop anything; per-Worker CPU and subrequest limits can stop runaway code. Shipcel’s budget guard alerts over each app’s budget ($0 by default) and can pause the app, minutes after the budget is crossed.</li></ul>
+</section>
+<section aria-labelledby="moving-title">
+<h2 id="moving-title">Moving from Firebase</h2>
+<ul class="checks"><li>Firestore documents need a relational schema in D1, or a key-value design in KV for simple lookups.</li><li>Firebase Hosting sites move as static assets; Cloud Functions become Worker routes.</li><li>Keep Firebase Authentication if you rely on it: your Worker can verify Firebase ID tokens.</li></ul>
+</section>
+<section aria-labelledby="sources">
+<h2 id="sources">Sources</h2>
+<p class="small muted">Checked 8 October 2026. Prices change; confirm on each provider's page before you decide.</p>
+<ol class="sources"><li><a href="https://firebase.google.com/pricing" rel="noreferrer">Firebase pricing</a></li><li><a href="https://firebase.google.com/docs/projects/billing/firebase-pricing-plans" rel="noreferrer">Firebase pricing plans</a></li><li><a href="https://firebase.google.com/docs/storage/faqs-storage-changes-announced-sept-2024" rel="noreferrer">Firebase Cloud Storage changes (Blaze required)</a></li><li><a href="https://firebase.google.com/docs/projects/billing/spend-caps" rel="noreferrer">Firebase spend caps (preview)</a></li><li><a href="https://cloud.google.com/firestore/pricing" rel="noreferrer">Firestore pricing</a></li><li><a href="https://cloud.google.com/billing/docs/how-to/budgets" rel="noreferrer">Google Cloud budgets and alerts</a></li><li><a href="https://developers.cloudflare.com/workers/platform/pricing/" rel="noreferrer">Cloudflare Workers pricing</a></li><li><a href="https://developers.cloudflare.com/workers/platform/limits/" rel="noreferrer">Cloudflare Workers limits</a></li><li><a href="https://developers.cloudflare.com/d1/platform/pricing/" rel="noreferrer">Cloudflare D1 pricing</a></li><li><a href="https://developers.cloudflare.com/r2/pricing/" rel="noreferrer">Cloudflare R2 pricing</a></li><li><a href="https://developers.cloudflare.com/durable-objects/platform/pricing/" rel="noreferrer">Cloudflare Durable Objects pricing</a></li><li><a href="https://developers.cloudflare.com/billing/manage/budget-alerts/" rel="noreferrer">Cloudflare budget alerts</a></li></ol>
+</section>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,66 @@
+/* Hallmark · checked: 2026-10-28 · genre: modern-minimal (inferred) · scope: app · floor: see styles.css
+ * built: the project · redesign: polish · v2.0.0 */
+.direct-upload .drop-zone {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 28px 16px;
+  border: 2px dashed #c9d6c9;
+  border-radius: 10px;
+  background: #fafbf8;
+  text-align: center;
+  margin: 12px 0;
+}
+/* An app Wrangler deploys takes no dropped folder. */
+.direct-upload .drop-zone[hidden] {
+  display: none;
+}
+.direct-upload .drop-zone.dragging {
+  border-color: #267654;
+  background: #f0f8f2;
+}
+.direct-upload .drop-zone p {
+  margin: 0;
+  font-weight: 600;
+}
+.upload-summary {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0;
+  max-width: 780px;
+}
+.upload-summary > p {
+  margin: 0;
+  font-size: 13px;
+}
+.upload-summary > .button {
+  justify-self: start;
+}
+.upload-problems {
+  margin: 0;
+  padding: 10px 14px 10px 28px;
+  border-radius: 8px;
+  background: #fff4f2;
+  color: #8a2a17;
+  font-size: 13px;
+}
+.upload-result {
+  border: 1px solid #c9dfcf;
+  background: #f3faf5;
+  border-radius: 8px;
+  padding: 14px;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.upload-result p {
+  margin: 8px 0 0;
+}
+.publish-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}

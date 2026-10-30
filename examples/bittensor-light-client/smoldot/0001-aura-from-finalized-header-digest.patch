@@ -1,0 +1,53 @@
+diff --git a/lib/src/chain/chain_information/build.rs b/lib/src/chain/chain_information/build.rs
+index 994a5c7..51dda09 100644
+--- a/lib/src/chain/chain_information/build.rs
++++ b/lib/src/chain/chain_information/build.rs
+@@ -195,12 +195,42 @@ impl ChainInformationBuild {
+             .decode()
+             .apis
+             .find_versions(["AuraApi", "BabeApi", "GrandpaApi"]);
+-        let runtime_has_aura = aura_version.map_or(false, |version_number| version_number == 1);
+-        let runtime_babeapi_is_v1 = babe_version.and_then(|version_number| match version_number {
+-            1 => Some(true),
+-            2 => Some(false),
+-            _ => None,
+-        });
++        let mut runtime_has_aura =
++            aura_version.map_or(false, |version_number| version_number == 1);
++        let mut runtime_babeapi_is_v1 =
++            babe_version.and_then(|version_number| match version_number {
++                1 => Some(true),
++                2 => Some(false),
++                _ => None,
++            });
++
++        // Patch (Cloudcel's Bittensor light client): some runtimes, such as Subtensor's on
++        // Finney, advertise both `AuraApi` and `BabeApi` while their blocks are authored with
++        // Aura only. When the finalized block isn't the genesis, its header says which engine
++        // authored it: exactly one of an Aura or a BABE pre-runtime digest selects that engine
++        // (the header decoder already refuses two of the same kind). A header with neither or
++        // both keeps the upstream outcome, `Error::MultipleConsensusAlgorithms`.
++        if runtime_has_aura && runtime_babeapi_is_v1.is_some() {
++            if let ConfigFinalizedBlockHeader::Any {
++                scale_encoded_header,
++                ..
++            } = &config.finalized_block_header
++            {
++                if let Ok(decoded) = header::decode(scale_encoded_header, config.block_number_bytes)
++                {
++                    if decoded.number != 0 {
++                        match (
++                            decoded.digest.aura_pre_runtime().is_some(),
++                            decoded.digest.babe_pre_runtime().is_some(),
++                        ) {
++                            (true, false) => runtime_babeapi_is_v1 = None,
++                            (false, true) => runtime_has_aura = false,
++                            _ => {}
++                        }
++                    }
++                }
++            }
++        }
+         let runtime_grandpa_supports_currentsetid =
+             grandpa_version.and_then(|version_number| match version_number {
+                 // Version 1 is from 2019 and isn't used by any chain in production, so we don't

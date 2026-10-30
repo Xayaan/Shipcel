@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pricing and free plan | Shipcel</title>
+<meta name="description" content="Shipcel is free. Your apps run on Cloudflare’s free plan in your own account: 100,000 requests a day, free static files, D1, KV, R2 and builds. Full limits, Workers Paid and worked cost examples.">
+<meta property="og:title" content="Pricing and free plan | Shipcel">
+<meta property="og:description" content="Shipcel is free. Your apps run on Cloudflare’s free plan in your own account: 100,000 requests a day, free static files, D1, KV, R2 and builds. Full limits, Workers Paid and worked cost examples.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/" aria-current="page">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<section class="hero" aria-labelledby="pricing-title">
+<h1 id="pricing-title">Free to start. Cloudflare's prices after that.</h1>
+<p class="lede">Shipcel charges nothing, as a launch offer: no plan, no card. Everything runs in your own Cloudflare account, so the only bill you can ever get is Cloudflare's, charged by Cloudflare at its list prices, with no markup.</p>
+</section>
+<section aria-labelledby="plans-title">
+<h2 id="plans-title">The free plan</h2>
+<article class="card featured plan-card">
+<div class="plan-head"><span class="badge">Free</span><p class="price">$0 <span>a month, no card</span></p></div>
+<div class="plan-cols">
+<div>
+<h3>From Shipcel</h3>
+<ul class="checks"><li><strong>Up to 100 projects</strong>, as many Workers as Cloudflare’s free plan allows in one account</li><li><strong>Free-only mode, on by default:</strong> nothing a project can be billed for, such as R2 storage or containers, is created</li><li><strong>A budget guard for every app:</strong> alerts at 50%, 80% and over a budget you set ($0 beyond what Cloudflare includes, by default), and an optional pause</li><li>Deploys from GitHub on every push, and a preview address for every branch and pull request, on staging copies of your data</li><li>Deploys without Git: <code>shipcel</code> from your terminal, drag and drop, or your own AI agent through MCP</li><li>A free address for every app, <code>your-app.your-name.workers.dev</code>, and custom domains when you want them</li><li>D1 SQL databases, R2 file storage and KV, created in your account after you review them</li><li>Sign-in for your users (passkeys, GitHub, Google, email) and realtime channels, in your account</li><li>Database migrations, exports and point-in-time restore</li><li>Health checks after every deploy, one-click rollback, traffic splitting, and recovery of interrupted steps</li><li>Fourteen starter kits, including Next.js, Python, containers, Umami, n8n and WordPress (experimental), and imports of existing repositories (containers need Workers Paid, Cloudflare’s $5-a-month plan)</li><li>No monthly limit on deployments; one setup runs at a time, like Cloudflare’s single free build</li></ul>
+</div>
+<div>
+<h3>In your Cloudflare account</h3>
+<p>Shipcel adds no limits below Cloudflare's. The table below lists every service's free allowance, and what Workers Paid, Cloudflare's $5-a-month plan, adds.</p>
+<p class="small muted">Workers, D1 and KV stop at their daily limits until midnight UTC instead of billing you. R2 is pay-as-you-go beyond its free tier.</p>
+</div>
+</div>
+</article>
+</section>
+<section aria-labelledby="limits-title">
+<h2 id="limits-title">Cloudflare's free and paid limits</h2>
+<p class="section-intro">What your apps get in your Cloudflare account, and what Workers Paid ($5 a month per account) adds.</p>
+<div class="table-wrap" role="region" aria-labelledby="limits-table" tabindex="0">
+<table>
+<caption id="limits-table">Cloudflare Workers Free and Workers Paid</caption>
+<thead><tr><th scope="col">Service</th><th scope="col">Free plan</th><th scope="col">Workers Paid ($5/month per account)</th></tr></thead>
+<tbody>
+<tr><th scope="row">Server code (Workers)</th><td>100,000 requests a day, 10 ms CPU time per request</td><td>10 million requests and 30 million CPU-milliseconds a month included, then $0.30 per million requests and $0.02 per million CPU-milliseconds; up to 5 minutes of CPU per request (30 seconds by default)</td></tr>
+<tr><th scope="row">Static files</th><td>Free and unlimited requests</td><td>Free and unlimited requests</td></tr>
+<tr><th scope="row">D1 SQL databases</th><td>5 GB in total, up to 10 databases of 500 MB; 5 million rows read and 100,000 rows written a day; 7 days of point-in-time restore</td><td>25 billion rows read and 50 million written a month included, then $0.001 and $1.00 per million; 5 GB included, then $0.75 per GB-month; databases up to 10 GB; 30 days of restore</td></tr>
+<tr><th scope="row">Postgres and MySQL through Hyperdrive</th><td>100,000 queries a day to a database hosted elsewhere, which bills you itself</td><td>Unlimited queries</td></tr>
+<tr><th scope="row">KV key-value data</th><td>100,000 reads and 1,000 writes a day; 1 GB stored</td><td>10 million reads and 1 million writes a month included, then $0.50 and $5.00 per million; 1 GB, then $0.50 per GB-month</td></tr>
+<tr><th scope="row">R2 file storage</th><td>10 GB stored, 1 million writes and 10 million reads a month; no egress fees. R2 bills usage beyond this even on the free plan</td><td>After the free amounts: $0.015 per GB-month, $4.50 per million writes, $0.36 per million reads; no egress fees</td></tr>
+<tr><th scope="row">Durable Objects (realtime)</th><td>100,000 requests and 13,000 GB-seconds a day; idle WebSocket connections hibernate at no cost</td><td>1 million requests and 400,000 GB-seconds a month included, then $0.15 per million requests and $12.50 per million GB-seconds; outgoing WebSocket messages are free</td></tr>
+<tr><th scope="row">Builds</th><td>3,000 build minutes a month, one build at a time</td><td>6,000 minutes a month included, then $0.005 a minute; six builds at a time</td></tr>
+<tr><th scope="row">Email sending</th><td>Not offered</td><td>3,000 a month, then $0.35 per 1,000</td></tr>
+<tr><th scope="row">Containers</th><td>Not available</td><td>25 GiB-hours of memory, 375 vCPU-minutes and 200 GB-hours of disk a month included; beyond that, billed in 10 ms increments while running</td></tr>
+</tbody>
+</table>
+</div>
+<ul class="checks"><li><strong>Workers Paid</strong> is Cloudflare’s plan, charged by Cloudflare: $5 a month per Cloudflare account, not per developer, covering every app in that account. Shipcel charges nothing.</li><li>It removes the free plan’s daily caps; usage beyond the included amounts is billed at the table’s rates.</li><li>Workers Paid has no hard spending cap: Cloudflare’s budget alerts email you ($10 by default) but stop nothing.</li><li>Shipcel’s <strong>budget guard</strong> estimates each app’s cost every five minutes, alerts at 50%, 80% and over the budget you set ($0 by default), and can pause an app that goes over.</li></ul>
+</section>
+<section aria-labelledby="examples">
+<h2 id="examples">Worked examples</h2>
+<p class="section-intro">Real list prices, stated assumptions, and the arithmetic, so you can check every number.</p>
+<div class="grid two"><article class="card" id="small-commercial-app">
+<h3>A small commercial app</h3>
+<p>One developer runs a paid product: a web frontend and API, a 2 GB database and 20 GB of user files, with about 300,000 page views a month.</p>
+<div class="table-wrap cost" role="region" aria-labelledby="small-commercial-app-table" tabindex="0">
+<table>
+<caption id="small-commercial-app-table">Monthly cost</caption>
+<thead><tr><th scope="col">Setup</th><th scope="col">Per month</th><th scope="col">How it adds up</th></tr></thead>
+<tbody>
+<tr><th scope="row">Vercel Pro + Supabase Pro</th><td>$45</td><td>Vercel Pro: $20 for one developer, with $20 of usage, enough here; Hobby can’t be used commercially. Supabase Pro: $25, including one Micro database (8 GB disk, 100 GB of files).</td></tr>
+<tr><th scope="row">Shipcel + Cloudflare</th><td>$5.15</td><td>Shipcel: $0. Workers Paid: $5, needed because the 2 GB database is over D1’s 500 MB free limit per database; it includes 10 million requests and 5 GB of D1 storage. R2: 10 GB free, then 10 GB × $0.015 = $0.15.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="small muted">Assumptions: About 300,000 page views a month is roughly 10,000 a day, well inside the included requests. Usage stays inside Vercel Pro’s $20 credit and Supabase Pro’s quotas. US dollars before tax.</p>
+<p><strong>About $5 a month instead of $45, roughly a ninth, mostly because there is no per-seat fee and the database comes with the same account.</strong></p>
+</article>
+<article class="card" id="side-projects">
+<h3>Five side projects with databases</h3>
+<p>Five small apps, each with its own database and light traffic.</p>
+<div class="table-wrap cost" role="region" aria-labelledby="side-projects-table" tabindex="0">
+<table>
+<caption id="side-projects-table">Monthly cost</caption>
+<thead><tr><th scope="col">Setup</th><th scope="col">Per month</th><th scope="col">How it adds up</th></tr></thead>
+<tbody>
+<tr><th scope="row">Vercel Hobby + Supabase Pro</th><td>$65</td><td>Vercel Hobby: $0, for non-commercial use only. Supabase Free allows 2 active projects, so five need Pro: $25 with one Micro database, plus about $10 for each of the other four.</td></tr>
+<tr><th scope="row">Shipcel + Cloudflare</th><td>$0</td><td>Shipcel: $0. Cloudflare’s free plan: five Workers and five D1 databases (up to 10 per account), each under 500 MB.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="small muted">Assumptions: Each app stays within Cloudflare’s free daily limits. Supabase bills Micro compute at $0.01344 an hour, about $10 a month per project, and Pro includes $10 of compute credit.</p>
+<p><strong>$0 instead of $65 a month. On Supabase Free you could keep two of the five, and they pause after a week of low activity.</strong></p>
+</article>
+<article class="card" id="downloads">
+<h3>An app serving 1 TB of downloads a month</h3>
+<p>A product stores 100 GB of files and serves 1 TB of downloads a month.</p>
+<div class="table-wrap cost" role="region" aria-labelledby="downloads-table" tabindex="0">
+<table>
+<caption id="downloads-table">Monthly cost</caption>
+<thead><tr><th scope="col">Setup</th><th scope="col">Per month</th><th scope="col">How it adds up</th></tr></thead>
+<tbody>
+<tr><th scope="row">Supabase Pro Storage</th><td>$47.50 to $92.50</td><td>$25 base fee; 100 GB of files included. Egress: 250 GB included; the other 750 GB costs $0.03 per GB from Supabase’s CDN cache ($22.50) or $0.09 per GB uncached ($67.50).</td></tr>
+<tr><th scope="row">Cloudflare R2</th><td>$1.35</td><td>Storage: 90 GB beyond the free 10 GB × $0.015 = $1.35. Egress: $0, because R2 has no egress fees. Reads: about 1 million downloads, inside the 10 million free reads a month.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="small muted">Assumptions: An average file of 1 MB. Storage costs only; the app’s own compute is separate on both.</p>
+<p><strong>About $1.35 a month instead of $47.50 to $92.50 for the same files and downloads.</strong></p>
+</article>
+<article class="card" id="always-on-api">
+<h3>An always-on API with a 1 GB database</h3>
+<p>A small API that must answer immediately at any hour, with a 1 GB SQL database.</p>
+<div class="table-wrap cost" role="region" aria-labelledby="always-on-api-table" tabindex="0">
+<table>
+<caption id="always-on-api-table">Monthly cost</caption>
+<thead><tr><th scope="col">Setup</th><th scope="col">Per month</th><th scope="col">How it adds up</th></tr></thead>
+<tbody>
+<tr><th scope="row">Heroku</th><td>$12</td><td>Basic dyno $7 (Eco dynos sleep after 30 minutes without traffic). Postgres Essential-0 $5 (1 GB).</td></tr>
+<tr><th scope="row">Render</th><td>$13.30</td><td>Web service <code>0.5c-512mb</code> $7 (free instances sleep after 15 minutes). Postgres $6 plus 1 GB of storage at $0.30.</td></tr>
+<tr><th scope="row">Shipcel + Cloudflare</th><td>$5</td><td>Workers Paid $5, because a 1 GB D1 database is over the free plan’s 500 MB per database. Workers start per request in milliseconds; nothing sleeps.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="small muted">Assumptions: Under 10 million requests a month. The API can run as a Worker (JavaScript, TypeScript or Python). A Docker image would run as a Cloudflare Container, billed by use on Workers Paid.</p>
+<p><strong>$5 a month instead of $12 to $13.30, with nothing that sleeps.</strong></p>
+</article></div>
+</section>
+<section aria-labelledby="faq-title">
+<h2 id="faq-title">Questions</h2>
+<details><summary>Is Shipcel really free?</summary><p>Yes. Shipcel’s Free plan costs nothing and needs no card, and paid Shipcel plans are not offered. Your apps run in your own Cloudflare account, so the only infrastructure bill you can get is Cloudflare’s.</p></details>
+<details><summary>Do I need Cloudflare’s Workers Paid plan?</summary><p>Only for containers, or when an app needs more than the free plan: more than 100,000 requests a day, more than 10 ms of CPU per request, or a database over 500 MB. It costs $5 a month per Cloudflare account and covers every app in it.</p></details>
+<details><summary>Does Shipcel include sign-in and realtime for my users?</summary><p>Yes. Turn on Manage → Sign-in &amp; realtime and Shipcel deploys a sign-in service and realtime channels into your Cloudflare account. People sign in with a passkey, GitHub, Google or an emailed link, and can add a password; your app uses standard OpenID Connect. Passkeys, GitHub, Google and realtime run on the free plan: a sign-in uses about 5 to 7 of your 100,000 daily requests, and realtime uses Durable Objects, with messages to listeners free. Email and passwords need Workers Paid.</p></details>
+<details><summary>Can people sign in with a password?</summary><p>Yes, if you allow passwords: once signed in, a person sets one and uses it with their email address from then on. Passwords and email links need Workers Paid: hashing a password safely takes more CPU time than the free plan’s 10 ms per request, and Cloudflare’s Email Service is a Workers Paid feature. Passkeys, GitHub and Google work on the free plan.</p></details>
+<details><summary>Can I deploy without Git?</summary><p>Yes. Run <code>shipcel</code> in your project’s folder: it builds on your computer and deploys, with nothing to set up in Cloudflare first. Or drop a built folder in the dashboard, or ask your AI agent. From the terminal a new app’s first deploy goes live at its free address; a dropped folder stays unpublished, with only its preview address working, until you publish it.</p></details>
+<details><summary>Can an AI agent build and deploy my app?</summary><p>Yes, the agent you already use. Connect Claude Code, Codex, Cursor or another MCP client to Shipcel with an API token, and it can create projects, deploy, publish and roll back for you. Shipcel runs no AI model and charges nothing for it; your agent’s own plan covers the AI.</p></details>
+<details><summary>Does every pull request get a preview?</summary><p>For apps deployed from GitHub, yes: turn on branch previews and Cloudflare builds every branch as a Preview of your app and comments its address on the pull request. Previews use staging copies of your databases, so they never touch production data. Cloudflare’s Worker Previews are in beta.</p></details>
+<details><summary>How do I undo a bad deploy?</summary><p>Roll back in one click from Manage → Builds &amp; versions, or try a new version on a share of your traffic first. Shipcel checks the homepage after each change. Rolling back restores code, not database changes; databases have point-in-time restore.</p></details>
+<details><summary>What happens when my app reaches a free limit?</summary><p>Worker requests over 100,000 a day get an error page (Cloudflare error 1027), and D1 and KV operations fail, until midnight UTC. Nothing is billed. R2 is different: it is pay-as-you-go beyond its free tier. Workers Paid removes the daily limits.</p></details>
+<details><summary>Do I need a credit card?</summary><p>Not for Shipcel, and Cloudflare’s plans page says its free plan needs no card. R2 file storage is the exception: you add it through a checkout, which needs a payment method, even though its free tier costs nothing.</p></details>
+<details><summary>Can I make sure I never pay anything?</summary><p>Yes. Keep your Cloudflare account on the free Workers plan and leave each project’s Free-only mode on, as it is by default. Shipcel then creates nothing that can bill, such as R2 storage or containers, and Workers, D1, KV and Durable Objects stop at their daily limits instead of billing. A custom domain, if you want one, is bought separately.</p></details>
+<details><summary>Can I cap my spending?</summary><p>On the free plan Workers, D1 and KV simply stop at their limits. Workers Paid has no hard cap: Cloudflare’s budget alerts email you ($10 by default) without stopping anything. Shipcel’s budget guard estimates each app’s cost every five minutes, alerts at 50%, 80% and over the budget you set ($0 beyond what Cloudflare includes, by default), and can pause the app when it goes over.</p></details>
+<details><summary>Can I take card payments in an app on the free plan?</summary><p>Cloudflare’s Self-Serve Subscription Agreement (section 2.2.1(h)) does not allow processing or collecting credit card information on a web property receiving Cloudflare’s Free Services. If your app takes payments, use your payment provider’s hosted checkout and review Cloudflare’s terms for your setup.</p></details>
+<details><summary>Is a workers.dev address fine for a business?</summary><p>Cloudflare describes workers.dev addresses as free sites intended for personal or hobby projects that aren’t business-critical. For a business, attach your own domain; Cloudflare sells domains at cost and its free DNS plan costs nothing.</p></details>
+<details><summary>What happens if I stop using Shipcel?</summary><p>Your apps, databases, files and automatic deploys stay in your Cloudflare account and keep running. Shipcel never holds your data.</p></details>
+</section>
+<section aria-labelledby="sources">
+<h2 id="sources">Sources</h2>
+<p class="small muted">Checked 8 October 2026. Prices change; confirm on each provider's page before you decide.</p>
+<ol class="sources"><li><a href="https://developers.cloudflare.com/workers/platform/pricing/" rel="noreferrer">Cloudflare Workers pricing</a></li><li><a href="https://developers.cloudflare.com/workers/platform/limits/" rel="noreferrer">Cloudflare Workers limits</a></li><li><a href="https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/" rel="noreferrer">Cloudflare static assets billing and limitations</a></li><li><a href="https://developers.cloudflare.com/d1/platform/pricing/" rel="noreferrer">Cloudflare D1 pricing</a></li><li><a href="https://developers.cloudflare.com/d1/platform/limits/" rel="noreferrer">Cloudflare D1 limits</a></li><li><a href="https://developers.cloudflare.com/kv/platform/pricing/" rel="noreferrer">Cloudflare Workers KV pricing</a></li><li><a href="https://developers.cloudflare.com/r2/pricing/" rel="noreferrer">Cloudflare R2 pricing</a></li><li><a href="https://developers.cloudflare.com/r2/get-started/" rel="noreferrer">Cloudflare R2: get started (subscription)</a></li><li><a href="https://developers.cloudflare.com/workers/ci-cd/builds/limits-and-pricing/" rel="noreferrer">Cloudflare Workers Builds limits and pricing</a></li><li><a href="https://developers.cloudflare.com/containers/pricing/" rel="noreferrer">Cloudflare Containers pricing</a></li><li><a href="https://developers.cloudflare.com/billing/manage/budget-alerts/" rel="noreferrer">Cloudflare budget alerts</a></li><li><a href="https://www.cloudflare.com/plans/" rel="noreferrer">Cloudflare plans</a></li><li><a href="https://www.cloudflare.com/terms/" rel="noreferrer">Cloudflare Self-Serve Subscription Agreement</a></li><li><a href="https://developers.cloudflare.com/workers/configuration/routing/workers-dev/" rel="noreferrer">Cloudflare workers.dev routing</a></li><li><a href="https://vercel.com/docs/plans/pro-plan" rel="noreferrer">Vercel Pro plan</a></li><li><a href="https://vercel.com/docs/limits/fair-use-guidelines#commercial-usage" rel="noreferrer">Vercel fair use guidelines: commercial usage</a></li><li><a href="https://supabase.com/pricing" rel="noreferrer">Supabase pricing</a></li><li><a href="https://supabase.com/docs/guides/platform/manage-your-usage/compute" rel="noreferrer">Supabase compute usage</a></li><li><a href="https://supabase.com/docs/guides/platform/manage-your-usage/egress" rel="noreferrer">Supabase egress</a></li><li><a href="https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/credit-based-pricing-plans/" rel="noreferrer">Netlify credit-based plans</a></li><li><a href="https://firebase.google.com/pricing" rel="noreferrer">Firebase pricing</a></li><li><a href="https://render.com/docs/free" rel="noreferrer">Render free instances</a></li><li><a href="https://render.com/docs/outbound-bandwidth" rel="noreferrer">Render outbound bandwidth</a></li><li><a href="https://railway.com/pricing" rel="noreferrer">Railway pricing</a></li><li><a href="https://www.heroku.com/pricing" rel="noreferrer">Heroku pricing</a></li><li><a href="https://devcenter.heroku.com/articles/heroku-postgres-plans" rel="noreferrer">Heroku Postgres plans</a></li></ol>
+</section>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

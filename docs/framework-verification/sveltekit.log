@@ -1,0 +1,101 @@
+$ npm install --no-audit --no-fund
+
+added 80 packages in 12s
+
+npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts   workerd@1.20261023.1 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+$ npm ci --no-audit --no-fund
+
+added 81 packages in 2s
+
+npm warn install-scripts 3 packages have install scripts not yet covered by allowScripts:
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts   fsevents@2.3.3 (install: (install scripts present))
+npm warn install-scripts   workerd@1.20261023.1 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+$ npm run build
+
+> shipcel-check-sveltekit@1.0.0 build
+> vite build
+
+[36mvite v8.3.5 [32mbuilding ssr environment for production...[36m[39m
+transforming...
+✓ 136 modules transformed.
+rendering chunks...
+computing gzip size...
+.svelte-kit/output/server/.vite/manifest.json                        2.59 kB │ gzip:  0.47 kB
+.svelte-kit/output/server/entries/endpoints/api/health/_server.js    0.17 kB │ gzip:  0.16 kB │ map:   0.30 kB
+.svelte-kit/output/server/entries/pages/_page.svelte.js              0.21 kB │ gzip:  0.18 kB │ map:   0.17 kB
+.svelte-kit/output/server/env.js                                     0.29 kB │ gzip:  0.18 kB │ map:   0.57 kB
+.svelte-kit/output/server/entries/fallbacks/layout.svelte.js         0.29 kB │ gzip:  0.22 kB │ map:   0.34 kB
+.svelte-kit/output/server/entries/fallbacks/error.svelte.js          1.02 kB │ gzip:  0.41 kB │ map:   2.58 kB
+.svelte-kit/output/server/index.js                                   2.24 kB │ gzip:  0.90 kB │ map:   3.32 kB
+.svelte-kit/output/server/chunks/server-errors.js                   23.96 kB │ gzip:  4.49 kB │ map:  34.73 kB
+.svelte-kit/output/server/chunks/server.js                          42.48 kB │ gzip: 11.81 kB │ map: 125.31 kB
+.svelte-kit/output/server/remote-entry.js                           54.23 kB │ gzip: 11.81 kB │ map:  89.76 kB
+.svelte-kit/output/server/chunks/internal.js                        87.86 kB │ gzip: 24.14 kB │ map: 192.25 kB
+.svelte-kit/output/server/chunks/instance.js                       117.29 kB │ gzip: 31.58 kB │ map: 239.66 kB
+
+[32m✓ built in 53ms[39m
+Analysing routes
+Building app
+[36mvite v8.3.5 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 173 modules transformed.
+rendering chunks...
+computing gzip size...
+.svelte-kit/output/client/_app/version.json                          0.02 kB │ gzip:  0.04 kB
+.svelte-kit/output/client/.vite/manifest.json                        3.14 kB │ gzip:  0.55 kB
+.svelte-kit/output/client/_app/immutable/entry/payload.DSmR2FwN.js   0.06 kB │ gzip:  0.07 kB
+.svelte-kit/output/client/_app/immutable/nodes/0.BB2k2bss.js         0.14 kB │ gzip:  0.14 kB
+.svelte-kit/output/client/_app/immutable/nodes/2.DQBtcdBM.js         0.16 kB │ gzip:  0.15 kB
+.svelte-kit/output/client/_app/immutable/nodes/1.Bir7dFa9.js         0.32 kB │ gzip:  0.24 kB
+.svelte-kit/output/client/_app/immutable/entry/start.gMEafgML.js     0.52 kB │ gzip:  0.30 kB
+.svelte-kit/output/client/_app/immutable/entry/app.BWqLOk-Y.js       1.06 kB │ gzip:  0.53 kB
+.svelte-kit/output/client/_app/immutable/chunks/Bjy-W4x2.js          1.36 kB │ gzip:  0.65 kB
+.svelte-kit/output/client/_app/immutable/chunks/CRzLMJPS.js          1.53 kB │ gzip:  0.80 kB
+.svelte-kit/output/client/_app/immutable/chunks/BqHaDQCi.js          4.29 kB │ gzip:  1.94 kB
+.svelte-kit/output/client/_app/immutable/chunks/BBYSRtkm.js         32.14 kB │ gzip: 12.50 kB
+.svelte-kit/output/client/_app/immutable/chunks/DPpNhtiP.js         39.72 kB │ gzip: 14.64 kB
+
+[32m✓ built in 52ms[39m
+
+Run npm run preview to preview your production build locally.
+
+> Using @sveltejs/adapter-cloudflare
+✔ done
+
+
+$ /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js deploy --no-autoconfig --x-provision --x-auto-create --name cc-check-sveltekit-0123456789ab --dry-run --outdir .bundle-check
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+✨ Read 21 files from the assets directory /private<temporary-directory>/sveltekit/.svelte-kit/cloudflare
+Total Upload: 288.76 KiB / gzip: 67.43 KiB
+Your Worker has access to the following bindings:
+Binding            Resource         
+env.DB             D1 Database      
+env.ASSETS         Assets           
+
+--dry-run: exiting now.
+
+
+$ /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js dev (local run)
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+Your Worker has access to the following bindings:
+Binding            Resource         Mode
+env.DB             D1 Database      local
+env.ASSETS         Assets           local
+
+⎔ Starting local server...
+[wrangler:info] ✨ Parsed 2 valid header rules.
+[wrangler:info] Ready on http://127.0.0.1:8821
+[wrangler:info] GET /api/health 200 OK (10ms)

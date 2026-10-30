@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deploy from GitHub | Shipcel docs</title>
+<meta name="description" content="Connect a repository and every push deploys. Shipcel adds a GitHub Actions workflow to the repository: GitHub builds each push and deploys it to your Cloudflare account through Shipcel. Pushes to the default branch go to production, and other branches get a preview. Nothing is set up in Cloudflare, and the repository holds no secret: each run signs in with GitHub's own token for that run.">
+<meta property="og:title" content="Deploy from GitHub | Shipcel docs">
+<meta property="og:description" content="Connect a repository and every push deploys. Shipcel adds a GitHub Actions workflow to the repository: GitHub builds each push and deploys it to your Cloudflare account through Shipcel. Pushes to the default branch go to production, and other branches get a preview. Nothing is set up in Cloudflare, and the repository holds no secret: each run signs in with GitHub's own token for that run.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/" aria-current="page">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Deploy</span></nav>
+<h1>Deploy from GitHub</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#before-you-start">Before you start</a></li><li><a href="#connect-a-repository">Connect a repository</a></li><li><a href="#what-happens-on-each-push">What happens on each push</a></li><li><a href="#disconnect">Disconnect</a></li><li><a href="#what-a-repository-needs">What a repository needs</a></li><li><a href="#builds-by-cloudflare">Builds by Cloudflare</a></li><li><a href="#after-the-first-deploy">After the first deploy</a></li></ul></nav>
+<p>Connect a repository and every push deploys. Shipcel adds a GitHub Actions workflow to the repository: GitHub builds each push and deploys it to your Cloudflare account through Shipcel. Pushes to the default branch go to production, and other branches get a preview. Nothing is set up in Cloudflare, and the repository holds no secret: each run signs in with GitHub's own token for that run.</p>
+<h2 id="before-you-start">Before you start</h2>
+<p>On <strong>Connections</strong>, once:</p>
+<ul><li><strong>GitHub is connected</strong>, and Shipcel's GitHub App can see the repository. You need push access to it. The app asks for read and write access to the repository's contents and workflows, which is what lets it add the workflow file.</li><li><strong>Cloudflare is connected</strong>, with the account your apps deploy to. With one Cloudflare account, Shipcel deploys to it; with several, you choose one.</li><li><strong>The account has a <code>workers.dev</code> subdomain.</strong> If it doesn't, the first deploy says so, and Deployments offers to claim one.</li></ul>
+<p>The <strong>Deploying from GitHub</strong> box there says when that's done. GitHub's runners reach Shipcel over the internet, so a Shipcel running on your own computer deploys pushes with <a href="#builds-by-cloudflare">Cloudflare's own builds</a> instead.</p>
+<h2 id="connect-a-repository">Connect a repository</h2>
+<p>On a project's <strong>Deployments</strong> tab, under <strong>Deploy from GitHub</strong>:</p>
+<ol><li>Choose the repository. The one the project was created with is chosen already; <strong>Change repository</strong> picks another.</li><li><strong>What Shipcel adds</strong> shows the workflow, <code>.github/workflows/shipcel.yml</code>, before anything changes.</li><li>Tick the box and click <strong>Connect repository</strong>.</li></ol>
+<p>Shipcel commits the workflow to the default branch. That commit is a push too, so GitHub starts the first deploy straight away: <strong>Runs on GitHub</strong> opens its progress. Every deploy then appears in the project's deploy history, as one from your computer would.</p>
+<p>From the terminal, <code>shipcel git connect</code> in the repository's folder does the same. See <a href="/docs/cli/#deploy-every-push">Deploy every push</a>.</p>
+<h3 id="if-github-refuses-the-commit">If GitHub refuses the commit</h3>
+<p>A protected default branch takes changes through pull requests only, and a GitHub App without permission for workflows can't add one. The repository is linked anyway, and <strong>Add it on GitHub</strong> opens GitHub's new-file page with the workflow filled in: commit it there, or propose it in a pull request. A <code>.github/workflows/shipcel.yml</code> the repository has already is kept as it is.</p>
+<p>Shipcel's GitHub App commits only where it is installed. When it isn't installed on the repository's owner, or was given other repositories than this one, Shipcel says so and links GitHub's page for it: install it there, or add the repository, then <strong>connect again</strong>, and Shipcel adds the workflow.</p>
+<h2 id="what-happens-on-each-push">What happens on each push</h2>
+<pre class="code" tabindex="0"><code>name: Shipcel
+on:
+  push:
+    branches: ['**']
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: shipcel-${{ github.ref }}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npx --yes --package=https://shipcel.com/cli/shipcel.tgz shipcel deploy
+        env:
+          SHIPCEL_URL: https://shipcel.com</code></pre>
+<p>(From a Shipcel you run yourself, the workflow names its address instead.)</p>
+<ul><li>GitHub checks out the commit and sets up Node.js 24, which comes with npm 11.</li><li><code>shipcel deploy</code>, the CLI your Shipcel serves, asks GitHub for a token that names this run (<code>id-token: write</code>), and Shipcel exchanges it for one that deploys this project only, for an hour. Shipcel checks GitHub's signature, that the token was made for your Shipcel and the linked repository, and that it is used only once.</li><li>It then builds and deploys the way <code>shipcel</code> does on your computer: a site as files, and an app with code or bindings through Wrangler. See <a href="/docs/cli/">The CLI</a>.</li><li><strong>The default branch</strong> deploys to production. <strong>Any other branch</strong> deploys a preview: a new version with its own address, while production keeps serving the current one. A branch's run can't change production, and previews start after the first production deploy.</li><li>Runs of one branch go one at a time. Pushes and manual runs (<strong>Run workflow</strong> on GitHub) deploy; tags and pull requests don't.</li><li>Runs use the repository's GitHub Actions minutes: free for public repositories, and GitHub's plans include minutes for private ones.</li><li>Variables the build needs go in the workflow's <code>env</code> or in the repository's GitHub Actions variables. Secrets for the running app are set in Shipcel: see <a href="/docs/environment-variables/">Environment variables</a>.</li></ul>
+<p>Deploys act for the person who connected the repository. If they leave the workspace or become a viewer, runs stop until someone else connects it again. So does a repository moved to another owner.</p>
+<h2 id="disconnect">Disconnect</h2>
+<p><strong>Disconnect repository</strong> (or <code>shipcel git disconnect</code>) stops the repository's pushes from deploying. Shipcel changes nothing in the repository: delete <code>.github/workflows/shipcel.yml</code> there too, or its runs fail.</p>
+<h2 id="what-a-repository-needs">What a repository needs</h2>
+<h3 id="sites-nothing-to-add">Sites: nothing to add</h3>
+<p>A site that builds to static files deploys as it is, like a framework preset on Vercel: Shipcel recognises the tool that builds it, runs its build, and writes the Wrangler configuration while it deploys.</p>
+<div class="table-wrap" role="region" aria-label="Sites: nothing to add" tabindex="0"><table><thead><tr><th scope="col">Built with</th><th scope="col">Shipcel serves</th><th scope="col">Unknown paths</th></tr></thead><tbody><tr><td>Vite (React, Vue, Svelte, Preact, Solid or plain)</td><td><code>dist</code>, or the <code>build.outDir</code> in <code>vite.config</code></td><td>go to <code>index.html</code> (single-page app)</td></tr><tr><td>Create React App</td><td><code>build</code></td><td>go to <code>index.html</code></td></tr><tr><td>Vue CLI</td><td><code>dist</code></td><td>go to <code>index.html</code></td></tr><tr><td>Astro, without a server adapter</td><td><code>dist</code></td><td>get <code>404.html</code></td></tr><tr><td>Gatsby</td><td><code>public</code></td><td>get <code>404.html</code></td></tr><tr><td>Plain HTML, CSS and JavaScript, with <code>index.html</code> at the root</td><td>the repository's files, except <code>.git</code>, <code>.github</code> and <code>node_modules</code></td><td>get <code>404.html</code></td></tr></tbody></table></div>
+<ul><li>The build runs <code>npm run build</code>, so <code>package.json</code> needs a <code>build</code> script. Dependencies install from the repository's lockfile, whichever of npm, pnpm, Yarn and Bun made it; without a lockfile they still install, but each build may get newer versions.</li><li>Keep one lockfile. Two from different package managers have to be fixed first.</li><li>To serve the site differently, commit your own <code>wrangler.jsonc</code>: Shipcel then uses it as it is.</li></ul>
+<h3 id="apps-a-wrangler-configuration">Apps: a Wrangler configuration</h3>
+<p>Apps with server code or Cloudflare bindings (a Worker, D1, KV, R2…) deploy with their own configuration, from the repository's root:</p>
+<ul><li><code>package.json</code> with a <code>build</code> script if the app needs building, and a committed lockfile.</li><li>A root <code>wrangler.json</code> or <code>wrangler.jsonc</code>. TOML and programmatic configurations aren't read.</li><li>Resource bindings as drafts, without IDs: Wrangler creates them on the first deploy. Existing resource IDs are refused, so a new app never attaches to someone else's data.</li></ul>
+<h3 id="frameworks">Frameworks</h3>
+<div class="table-wrap" role="region" aria-label="Frameworks" tabindex="0"><table><thead><tr><th scope="col">Framework</th><th scope="col">What to commit</th></tr></thead><tbody><tr><td>Astro</td><td>for server rendering: <code>@astrojs/cloudflare</code>, set up once with <code>npx wrangler setup</code> (a static Astro site needs nothing)</td></tr><tr><td>SvelteKit</td><td><code>@sveltejs/adapter-cloudflare</code> and a <code>wrangler.jsonc</code> whose <code>main</code> is <code>.svelte-kit/cloudflare/_worker.js</code></td></tr><tr><td>Next.js</td><td><code>@opennextjs/cloudflare</code> 1.20.13 or later, set up once with <code>npx wrangler setup</code>, and Next.js 16.4.1 or later; Cache Components don't run on Cloudflare yet</td></tr><tr><td>Python</td><td>a Python Worker with <code>python_workers</code> in <code>compatibility_flags</code>; Python packages deploy with <a href="#builds-by-cloudflare">Cloudflare's own builds</a></td></tr></tbody></table></div>
+<p>The <a href="/docs/starter-kits/">starter kits</a> are already in these shapes. Containers, queues, routes and Python packages deploy only with <a href="#builds-by-cloudflare">Cloudflare's own builds</a> for now.</p>
+<h2 id="builds-by-cloudflare">Builds by Cloudflare</h2>
+<p>For what GitHub Actions can't deploy yet (containers, whose images Cloudflare's builds make; queues; routes; Python Workers with packages) and for a Shipcel on your own computer, Cloudflare can build every push itself instead, with Workers Builds. It needs two things once per Cloudflare account: Cloudflare's own GitHub app, and a build token. On a hosted Shipcel, <strong>Cloudflare's own builds (optional)</strong> at the bottom of Connections sets up both; on your own computer they are on the GitHub and Cloudflare cards. Then connect the repository with <strong>Build with Cloudflare instead</strong> on the project's Deployments tab, or with <code>shipcel git connect --cloudflare-builds</code>.</p>
+<h3 id="connect-github-in-cloudflare">Connect GitHub in Cloudflare</h3>
+<p>Shipcel checks whether Cloudflare can read your repositories. If it can't, <strong>Connect GitHub in Cloudflare</strong> opens Cloudflare's <strong>Create application</strong> page for your account. There, choose <strong>GitHub</strong>, sign in to GitHub if asked, give <em>Cloudflare Workers and Pages</em> your account and its repositories, then <strong>Install &amp; Authorize</strong>. When Cloudflare lists your repositories you're done: nothing needs creating. This is how <a href="https://developers.cloudflare.com/workers/ci-cd/builds/" rel="noreferrer">Cloudflare's docs</a> connect a repository to Workers Builds, through the dashboard, which links its GitHub app to your Cloudflare account. When you come back, Shipcel checks again by itself. <strong>Repository access on GitHub</strong> opens the app's settings to add another repository later.</p>
+<h3 id="add-a-build-token">Add a build token</h3>
+<p>Cloudflare runs these builds with a build token: an API token of yours that Workers Builds keeps. Cloudflare only accepts user API tokens for this and doesn't let apps create one (<a href="https://developers.cloudflare.com/workers/ci-cd/builds/configuration/" rel="noreferrer">Workers Builds configuration</a>), so you make it once per Cloudflare account:</p>
+<ol><li><strong>Create the token in Cloudflare</strong> opens Cloudflare's token page with the permissions filled in: Workers Scripts, KV, R2, D1 and Workers Routes (edit), Account Settings, User Details and Memberships (read). Choose <strong>Continue to summary</strong>, then <strong>Create Token</strong>, and copy it.</li><li>Paste it under <strong>API token</strong> and click <strong>Add build token</strong>.</li></ol>
+<p>Shipcel checks the token with Cloudflare, registers it with Workers Builds as <em>Shipcel builds</em> and keeps no copy. Only workspace owners can add one. Revoking the API token in Cloudflare stops the builds that use it.</p>
+<h3 id="deploy-with-cloudflare-s-builds">Deploy with Cloudflare's builds</h3>
+<p>Deployments reviews the repository at its latest commit: the branch and commit, the adapter, the D1 databases, R2 buckets and KV namespaces to create (each needing your consent), containers with their instance size and limits, and anything to fix first. Choose the app's free address, tick the consent box and click <strong>Deploy repository</strong>. Shipcel creates the Worker, connects the repository, creates a build trigger for the default branch and starts the first build, which Cloudflare runs. From then on Cloudflare builds and deploys every push to the default branch. If a step can't finish, <strong>Check Cloudflare and resume</strong> checks what already exists and continues without creating anything twice. A project deploys one way: one Cloudflare builds isn't deployed with GitHub Actions too.</p>
+<h2 id="after-the-first-deploy">After the first deploy</h2>
+<ul><li><strong>Previews</strong>: with GitHub Actions every branch gets a preview by itself. With Cloudflare's builds, turn branch previews on from the Deployments tab. See <a href="/docs/previews-and-rollbacks/#branch-previews-github">Previews and rollbacks</a>.</li><li><strong>Secrets</strong> for the running app: see <a href="/docs/environment-variables/">Environment variables</a>.</li><li><strong>Deploy again</strong>: run the workflow on GitHub (Actions → Shipcel → <strong>Run workflow</strong>). With Cloudflare's builds: Manage → Builds &amp; versions, or <code>shipcel redeploy</code>.</li><li>A project deploys one repository. To deploy another, create another project.</li></ul>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/cli/"><span>Previous</span>The shipcel CLI</a><a class="next" href="/docs/other-git-hosts/"><span>Next</span>Deploy from GitLab, Bitbucket or Gitea</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

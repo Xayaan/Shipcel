@@ -1,0 +1,42 @@
+diff --git a/light-base/src/json_rpc_service/background.rs b/light-base/src/json_rpc_service/background.rs
+index 611aaf7..12582ff 100644
+--- a/light-base/src/json_rpc_service/background.rs
++++ b/light-base/src/json_rpc_service/background.rs
+@@ -3729,6 +3729,37 @@ pub(super) async fn run<TPlat: PlatformRef>(
+                     continue;
+                 }
+ 
++                // Patch (Shipcel's Bittensor light client): the runtime service keeps the
++                // runtime of the recent blocks it reports, which are the blocks JSON-RPC clients
++                // mostly ask about. Take it from there rather than
++                // downloading the block's `:code`, megabytes for every new block, and comparing it
++                // with the runtimes already compiled.
++                let subscription_holding_block = match &me.runtime_service_subscription {
++                    RuntimeServiceSubscription::Active {
++                        subscription,
++                        pinned_blocks,
++                        ..
++                    } if pinned_blocks.contains_key(&block_hash) => Some(subscription.id()),
++                    _ => None,
++                };
++                if let Some(subscription_id) = subscription_holding_block {
++                    if let Ok((pinned_runtime, _, _)) = me
++                        .runtime_service
++                        .pin_pinned_block_runtime(subscription_id, block_hash)
++                        .await
++                    {
++                        me.block_runtimes_cache.put(block_hash, pinned_runtime);
++                        // As when a runtime has been downloaded: the request starts again and
++                        // finds the runtime in the cache.
++                        me.multistage_requests_to_advance.push_front((
++                            request_id_json,
++                            MultiStageRequestStage::BlockHashKnown { block_hash },
++                            request_ty,
++                        ));
++                        continue;
++                    }
++                }
++
+                 // Runtime is not available in cache. Download it from the network.
+                 match me.block_runtimes_pending.entry(block_hash) {
+                     hashbrown::hash_map::Entry::Occupied(entry) => {

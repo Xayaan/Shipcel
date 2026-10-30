@@ -1,0 +1,60 @@
+{
+  "name": "shipcel",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev-env.mjs && npm run cli:build && vite --host 127.0.0.1",
+    "build": "npm run backend:build && npm run cli:build && npm run site:build && vite build",
+    "check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:browser": "playwright test",
+    "db:migrate": "wrangler d1 migrations apply cloudcel-local --local --config wrangler.jsonc",
+    "production:setup": "node --experimental-strip-types --no-warnings scripts/setup-production.mjs",
+    "preview": "vite preview --host 127.0.0.1",
+    "setup:check": "node scripts/check-setup.mjs",
+    "verify:frameworks": "node --experimental-strip-types --no-warnings scripts/verify-frameworks.mjs",
+    "verify:kits": "node --experimental-strip-types --no-warnings scripts/verify-kits.mjs",
+    "site:build": "node --experimental-strip-types --no-warnings scripts/build-site.mjs",
+    "site:media": "playwright test -c playwright.media.config.ts",
+    "media:publish": "node --experimental-strip-types --no-warnings scripts/publish-media.mjs",
+    "backend:build": "node scripts/build-backend.mjs",
+    "cli:build": "node scripts/build-cli.mjs",
+    "cli": "node packages/cli/dist/shipcel.js"
+  },
+  "dependencies": {
+    "@noble/hashes": "^2.4.0",
+    "fflate": "^0.8.3",
+    "hono": "^4.13.14",
+    "jsonc-parser": "^3.3.1",
+    "lucide-react": "^1.65.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@cloudflare/vite-plugin": "^1.66.0",
+    "@cloudflare/workers-types": "^5.20261030.1",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "prettier": "^3.9.10",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5",
+    "wrangler": "^4.156.0"
+  },
+  "allowScripts": {
+    "esbuild": false,
+    "workerd": false,
+    "fsevents": false
+  },
+  "overrides": {
+    "undici": "7.30.1"
+  }
+}

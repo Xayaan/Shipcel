@@ -1,0 +1,77 @@
+$ npm install --no-audit --no-fund
+
+added 36 packages in 9s
+
+npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts   workerd@1.20261023.1 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+$ npm ci --no-audit --no-fund
+
+added 37 packages in 2s
+
+npm warn install-scripts 3 packages have install scripts not yet covered by allowScripts:
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts   fsevents@2.3.3 (install: (install scripts present))
+npm warn install-scripts   workerd@1.20261023.1 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+$ /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js deploy --no-autoconfig --x-provision --x-auto-create --name shipcel-check-container --dry-run --outdir .bundle-check
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+Building image shipcel-check-container-site:wrangler-85e937ba-56c4-4b88-baf8-35d2f16a21ee
+Total Upload: 53.25 KiB / gzip: 13.07 KiB
+Your Worker has access to the following bindings:
+Binding              Resource            
+env.SITE (Site)      Durable Object      
+env.DB               D1 Database         
+
+The following containers are available:
+- shipcel-check-container-site (/private<temporary-directory>/container/Dockerfile)
+
+--dry-run: exiting now.
+Untagged: shipcel-check-container-site:wrangler-85e937ba-56c4-4b88-baf8-35d2f16a21ee
+Deleted: sha256:976983f1769dbc7b80056cd56d4928e27d2204f07c790a406ec423dde999cfc5
+
+#0 building with "orbstack" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 137B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/busybox:1.37.0
+#2 DONE 2.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 103B done
+#4 DONE 0.0s
+
+#5 [1/2] FROM docker.io/library/busybox:1.37.0@sha256:a7dbc319b1438115a207e11930dc4bb3e643dcb3ec0bdd694bb36cd8fad289ec
+#5 resolve docker.io/library/busybox:1.37.0@sha256:a7dbc319b1438115a207e11930dc4bb3e643dcb3ec0bdd694bb36cd8fad289ec 0.1s done
+#5 sha256:a7dbc319b1438115a207e11930dc4bb3e643dcb3ec0bdd694bb36cd8fad289ec 9.54kB / 9.54kB done
+#5 sha256:66a6306db78bf2dbf3487f293aa8d6990d8e506fdffab9cc43fe422becf886e4 610B / 610B done
+#5 sha256:30ecbe1509090b38ef3260f3609d64d8261230464eaa4d235901db496e9647fb 459B / 459B done
+#5 DONE 0.1s
+
+#6 [2/2] COPY www /www
+#6 DONE 0.2s
+
+#7 exporting to image
+#7 exporting layers 0.0s done
+#7 writing image sha256:976983f1769dbc7b80056cd56d4928e27d2204f07c790a406ec423dde999cfc5 done
+#7 naming to docker.io/library/shipcel-check-container-site:wrangler-85e937ba-56c4-4b88-baf8-35d2f16a21ee done
+#7 DONE 0.1s
+
+View build details: docker-desktop://dashboard/build/orbstack/orbstack/a5fc0v8bm2wh2m9mn1sisp55t
+
+$ docker version --format {{.Server.Version}}
+29.8.2
+

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shipcel vs Coolify: free tiers, pricing and features compared</title>
+<meta name="description" content="Shipcel vs Coolify: what each runs on, what you look after, costs, backups, notifications and shared variables compared with sources, and when Coolify is the better choice.">
+<meta property="og:title" content="Shipcel vs Coolify: free tiers, pricing and features compared">
+<meta property="og:description" content="Shipcel vs Coolify: what each runs on, what you look after, costs, backups, notifications and shared variables compared with sources, and when Coolify is the better choice.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/" aria-current="page">Compare</a></li><li><a href="/docs/">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<section class="hero" aria-labelledby="vs-title">
+<h1 id="vs-title">Shipcel vs Coolify</h1>
+<p class="lede">Coolify installs on a Linux server (2 cores, 2 GB of memory and 10 GB of disk at least) and runs your apps there in Docker, built from Git with Nixpacks, Railpack, a Dockerfile or Docker Compose, beside databases and one-click services. You keep the server updated, backed up and big enough. Shipcel deploys to Cloudflare’s network in your own account: a Worker starts per request and costs nothing while idle, and there’s no machine to look after. Long-running Docker services run as Cloudflare Containers on Workers Paid.</p>
+</section>
+
+<section aria-labelledby="choose-title">
+<h2 id="choose-title">Which one fits</h2>
+
+<div class="grid two">
+<article class="card featured"><h3>Choose Shipcel if</h3><ul class="checks"><li>You don’t want to run a server: no operating system updates, disks, Docker upgrades or capacity to plan. Cloudflare runs Workers in its own data centres, near your visitors.</li><li>Your traffic is small or uneven: Cloudflare’s free plan includes 100,000 requests a day and a Worker costs nothing between requests, where a server is paid for all month.</li><li>You want a database, files and sign-in without hosting them: D1, R2 and KV in your account, scheduled copies of D1 in R2, and Shipcel’s sign-in and data API.</li></ul></article>
+<article class="card"><h3>Choose Coolify if</h3><ul class="checks"><li>You run long-lived Docker services or anything that needs a full Linux machine: Docker Compose stacks, 360+ one-click services, and Postgres, MySQL, MongoDB or Redis next to your app.</li><li>You already have servers, or your data must stay on hardware you choose.</li><li>You want an open-source platform today: Coolify is Apache-2.0; Shipcel’s license isn’t chosen yet.</li></ul></article>
+</div>
+</section>
+<section aria-labelledby="details-title">
+<h2 id="details-title">Side by side</h2>
+<div class="table-wrap" role="region" aria-labelledby="table-0" tabindex="0">
+<table>
+<caption id="table-0">What runs where, and what it costs</caption>
+<thead><tr><th scope="col"></th><th scope="col">Shipcel + Cloudflare</th><th scope="col">Coolify</th></tr></thead>
+<tbody>
+<tr><th scope="row">Runs on</th><td>Cloudflare’s network, in your account; no server</td><td>Your Linux servers, amd64 or arm64, at least 2 cores, 2 GB of memory and 10 GB of disk</td></tr>
+<tr><th scope="row">The platform</th><td>Free, as a launch offer</td><td>Free self-hosted; Cloud $5 a month for 2 servers, then $3 a month a server</td></tr>
+<tr><th scope="row">Compute</th><td>Workers: 100,000 requests a day free; Workers Paid $5 a month</td><td>The servers, billed by whoever rents them to you</td></tr>
+<tr><th scope="row">Deploys from</th><td>GitHub, GitLab, Bitbucket and Gitea, your terminal, drag and drop, AI agents</td><td>GitHub, GitLab, Bitbucket and Gitea, with Nixpacks, Railpack, a Dockerfile, Docker Compose or an image</td></tr>
+<tr><th scope="row">Databases</th><td>D1 (SQLite) in your account; Postgres or MySQL hosted elsewhere, through Hyperdrive</td><td>Postgres, MySQL, MariaDB, MongoDB, Redis and others, on your server</td></tr>
+<tr><th scope="row">Backups</th><td>Time Travel restore (30 days on Workers Paid), and daily or weekly copies in R2</td><td>Scheduled dumps of Postgres, MySQL, MariaDB, MongoDB, ClickHouse and SQLite, on the server and in S3-compatible storage</td></tr>
+<tr><th scope="row">Notifications</th><td>Webhook, Telegram and email</td><td>Email, Discord, Telegram, Slack or Mattermost, Pushover and webhooks</td></tr>
+<tr><th scope="row">Shared variables</th><td>A secret set on several projects at once</td><td>Team, project, environment and server variables, referenced from an app’s</td></tr>
+<tr><th scope="row">License</th><td>Not chosen yet</td><td>Apache-2.0</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section aria-labelledby="bills-title">
+<h2 id="bills-title">Billing and surprise-bill protection</h2>
+<ul class="checks"><li>Coolify itself costs nothing when you host it. Coolify Cloud runs it for you for $5 a month with 2 servers connected and $3 a month for each one after; the servers stay yours to rent, and a team on Cloud has its own subscription.</li><li>Cloudflare’s free plan is never billed for Workers, D1 or KV: over a daily limit, requests and queries fail until midnight UTC. R2 file storage bills usage beyond its free tier (never egress).</li><li>Workers Paid ($5 a month per account) has no hard spending cap. Budget alerts email you when usage passes an amount ($10 by default) but don’t stop anything; per-Worker CPU and subrequest limits can stop runaway code. Shipcel’s budget guard alerts over each app’s budget ($0 by default) and can pause the app, minutes after the budget is crossed.</li></ul>
+</section>
+<section aria-labelledby="moving-title">
+<h2 id="moving-title">Moving from Coolify</h2>
+<ul class="checks"><li>An app Nixpacks or a Dockerfile builds, serving HTTP, often runs as a Worker with the <code>nodejs_compat</code> flag, or unchanged as a Cloudflare Container on Workers Paid.</li><li>A database on the Coolify server moves to D1 if it fits SQLite, or stays where it is and is reached through Hyperdrive (Postgres and MySQL).</li><li>One-click services are few on Shipcel (Umami and n8n as starter kits) where Coolify has hundreds.</li></ul>
+</section>
+<section aria-labelledby="sources">
+<h2 id="sources">Sources</h2>
+<p class="small muted">Checked 8 October 2026. Prices change; confirm on each provider's page before you decide.</p>
+<ol class="sources"><li><a href="https://coolify.io/pricing" rel="noreferrer">Coolify pricing</a></li><li><a href="https://coolify.io/docs/get-started/installation" rel="noreferrer">Coolify installation</a></li><li><a href="https://github.com/coollabsio/coolify" rel="noreferrer">Coolify on GitHub</a></li><li><a href="https://coolify.io/docs/databases/backups" rel="noreferrer">Coolify database backups</a></li><li><a href="https://coolify.io/docs/knowledge-base/notifications" rel="noreferrer">Coolify notifications</a></li><li><a href="https://coolify.io/docs/knowledge-base/environment-variables" rel="noreferrer">Coolify environment variables</a></li><li><a href="https://developers.cloudflare.com/workers/platform/pricing/" rel="noreferrer">Cloudflare Workers pricing</a></li><li><a href="https://developers.cloudflare.com/workers/platform/limits/" rel="noreferrer">Cloudflare Workers limits</a></li><li><a href="https://developers.cloudflare.com/containers/pricing/" rel="noreferrer">Cloudflare Containers pricing</a></li></ol>
+</section>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

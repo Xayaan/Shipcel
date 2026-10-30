@@ -1,0 +1,139 @@
+$ npm install --no-audit --no-fund
+
+added 46 packages in 10s
+
+
+$ /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js setup --yes --build --no-install-wrangler
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+
+Detected Project Settings:
+ - Worker Name: shipcel-check-sveltekit-autoconfig
+ - Framework: SvelteKit
+ - Build Command: npm run build
+ - Output Directory: build
+
+
+📝 Update package.json scripts:
+ - "deploy": "npm run build && wrangler deploy"
+ - "preview": "npm run build && wrangler dev"
+
+📄 Create wrangler.jsonc:
+  {
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "shipcel-check-sveltekit-autoconfig",
+    "main": ".svelte-kit/cloudflare/_worker.js",
+    "compatibility_date": "2026-10-23",
+    "observability": {
+      "enabled": true
+    },
+    "assets": {
+      "binding": "ASSETS",
+      "directory": ".svelte-kit/cloudflare"
+    }
+  }
+
+🛠️  Configuring project for SvelteKit with "sv add"
+
+[build] Running: npm run build
+[build] 
+[build] > shipcel-check-sveltekit-autoconfig@1.0.0 build
+[build] > vite build
+[build] 
+[build] 
+[build] [36mvite v8.3.5 [32mbuilding ssr environment for production...[36m[39m
+[build] 
+[build] transforming...
+[build] 
+[build] ✓ 136 modules transformed.
+[build] 
+[build] rendering chunks...
+[build] 
+[build] computing gzip size...
+[build] 
+[build] .svelte-kit/output/server/.vite/manifest.json                        2.59 kB │ gzip:  0.47 kB
+[build] .svelte-kit/output/server/entries/endpoints/api/health/_server.js    0.17 kB │ gzip:  0.16 kB │ map:   0.30 kB
+[build] .svelte-kit/output/server/entries/pages/_page.svelte.js              0.21 kB │ gzip:  0.18 kB │ map:   0.17 kB
+[build] .svelte-kit/output/server/env.js                                     0.29 kB │ gzip:  0.18 kB │ map:   0.57 kB
+[build] .svelte-kit/output/server/entries/fallbacks/layout.svelte.js         0.29 kB │ gzip:  0.22 kB │ map:   0.34 kB
+[build] .svelte-kit/output/server/entries/fallbacks/error.svelte.js          1.02 kB │ gzip:  0.41 kB │ map:   2.58 kB
+[build] .svelte-kit/output/server/index.js                                   2.24 kB │ gzip:  0.90 kB │ map:   3.32 kB
+[build] .svelte-kit/output/server/chunks/server-errors.js                   23.96 kB │ gzip:  4.49 kB │ map:  34.73 kB
+[build] .svelte-kit/output/server/chunks/server.js                          42.48 kB │ gzip: 11.81 kB │ map: 125.31 kB
+[build] .svelte-kit/output/server/remote-entry.js                           54.23 kB │ gzip: 11.81 kB │ map:  89.76 kB
+[build] .svelte-kit/output/server/chunks/internal.js                        87.86 kB │ gzip: 24.13 kB │ map: 192.25 kB
+[build] .svelte-kit/output/server/chunks/instance.js                       117.27 kB │ gzip: 31.57 kB │ map: 239.66 kB
+[build] 
+[build] 
+[build] [32m✓ built in 56ms[39m
+[build] 
+[build] Analysing routes
+[build] 
+[build] Building app
+[build] 
+[build] [36mvite v8.3.5 [32mbuilding client environment for production...[36m[39m
+[build] 
+[build] transforming...
+[build] 
+[build] ✓ 173 modules transformed.
+[build] 
+[build] rendering chunks...
+[build] 
+[build] computing gzip size...
+[build] 
+[build] .svelte-kit/output/client/_app/version.json                          0.02 kB │ gzip:  0.04 kB
+[build] .svelte-kit/output/client/.vite/manifest.json                        3.14 kB │ gzip:  0.55 kB
+[build] .svelte-kit/output/client/_app/immutable/entry/payload.DSmR2FwN.js   0.06 kB │ gzip:  0.07 kB
+[build] .svelte-kit/output/client/_app/immutable/nodes/0.BB2k2bss.js         0.14 kB │ gzip:  0.14 kB
+[build] .svelte-kit/output/client/_app/immutable/nodes/2.DQBtcdBM.js         0.16 kB │ gzip:  0.15 kB
+[build] .svelte-kit/output/client/_app/immutable/nodes/1.Bir7dFa9.js         0.32 kB │ gzip:  0.24 kB
+[build] .svelte-kit/output/client/_app/immutable/entry/start.gMEafgML.js     0.52 kB │ gzip:  0.30 kB
+[build] .svelte-kit/output/client/_app/immutable/entry/app.BWqLOk-Y.js       1.06 kB │ gzip:  0.53 kB
+[build] .svelte-kit/output/client/_app/immutable/chunks/Bjy-W4x2.js          1.36 kB │ gzip:  0.65 kB
+[build] .svelte-kit/output/client/_app/immutable/chunks/CRzLMJPS.js          1.53 kB │ gzip:  0.80 kB
+[build] .svelte-kit/output/client/_app/immutable/chunks/BqHaDQCi.js          4.29 kB │ gzip:  1.94 kB
+[build] .svelte-kit/output/client/_app/immutable/chunks/BBYSRtkm.js         32.14 kB │ gzip: 12.50 kB
+[build] .svelte-kit/output/client/_app/immutable/chunks/DPpNhtiP.js         39.72 kB │ gzip: 14.64 kB
+[build] 
+[build] 
+[build] [32m✓ built in 55ms[39m
+[build] 
+[build] 
+[build] Run npm run preview to preview your production build locally.
+[build] 
+[build] adapter_missing
+[build] No adapter specified. See https://svelte.dev/docs/kit/adapters to learn how to configure your app to run on the platform of your choosing
+[build] https://svelte.dev/e/kit/adapter_missing
+[build] 
+🎉 Your project is now setup to deploy to Cloudflare
+You can now deploy with npm run deploy
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mThe version of SvelteKit used in the project ("3.1.1") is not officially supported, and may fail to correctly configure. Please report any issues to https://github.com/cloudflare/workers-sdk/issues[0m
+
+
+
+$ /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js deploy --dry-run --outdir .bundle-check --name cc-check-sveltekit-autoconfig
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mThe entry-point file at ".svelte-kit/cloudflare/_worker.js" was not found.[0m
+
+  
+  This might mean that your entry-point file needs to be generated (which is the general case when a framework is being used).
+  If that's the case please run your project's build command and try again.
+
+
+🪵  Logs were written to "<temporary-directory>/wrangler-logs/wrangler-2026-10-30_21-37-56_003.log"
+
+Command failed: /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js deploy --dry-run --outdir .bundle-check --name cc-check-sveltekit-autoconfig
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mThe entry-point file at ".svelte-kit/cloudflare/_worker.js" was not found.[0m
+
+  
+  This might mean that your entry-point file needs to be generated (which is the general case when a framework is being used).
+  If that's the case please run your project's build command and try again.
+
+
+🪵  Logs were written to "<temporary-directory>/wrangler-logs/wrangler-2026-10-30_21-37-56_003.log"

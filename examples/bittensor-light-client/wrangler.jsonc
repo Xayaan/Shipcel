@@ -1,0 +1,20 @@
+{
+  // A Bittensor (Finney) light client: smoldot runs in one Durable Object, which needs Workers
+  // Paid (a Durable Object on Workers Free gets 10 ms of CPU per request). The object's alarm
+  // keeps it in memory, and the cron's request each minute renews its CPU; see README.md. The
+  // RPC_KEY secret, when set, keeps the light client to whoever has the key. Old blocks come from
+  // an archive node (ARCHIVE_URL, HISTORY_DAYS; README.md, "Old blocks").
+  "name": "bittensor-light-client",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  // smoldot's platform-neutral client: the package exports only its Node, Deno and browser ones.
+  "alias": {
+    "smoldot-client": "./node_modules/smoldot/dist/mjs/internals/client.js",
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "LIGHT_CLIENT", "class_name": "LightClient" }],
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["LightClient"] }],
+  "triggers": { "crons": ["* * * * *"] },
+  "observability": { "enabled": true },
+}

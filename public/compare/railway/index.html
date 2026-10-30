@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shipcel vs Railway: free tiers, pricing and features compared</title>
+<meta name="description" content="Shipcel vs Railway: free usage, compute and egress rates, sleeping, and spending limits compared with sources, and when Railway is the better choice.">
+<meta property="og:title" content="Shipcel vs Railway: free tiers, pricing and features compared">
+<meta property="og:description" content="Shipcel vs Railway: free usage, compute and egress rates, sleeping, and spending limits compared with sources, and when Railway is the better choice.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/" aria-current="page">Compare</a></li><li><a href="/docs/">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<section class="hero" aria-labelledby="vs-title">
+<h1 id="vs-title">Shipcel vs Railway</h1>
+<p class="lede">Railway deploys services and databases from Docker images or templates and bills the CPU, memory, egress and volumes they use. Shipcel deploys to Cloudflare Workers, which cost nothing while idle, with D1, R2 and KV in the same account. For Docker workloads, Cloudflare Containers run on Workers Paid.</p>
+</section>
+
+<section aria-labelledby="choose-title">
+<h2 id="choose-title">Which one fits</h2>
+
+<div class="grid two">
+<article class="card featured"><h3>Choose Shipcel if</h3><ul class="checks"><li>You want a real free plan: after Railway’s one-time $5 trial, its Free plan gives $1 of usage a month (one project, three services, no custom domains). Cloudflare’s free plan includes 100,000 requests a day and 5 GB of D1 storage.</li><li>Your traffic is low or spiky: Workers cost nothing between requests, while a Railway service bills memory ($10 per GB-month) and CPU while it runs, unless you enable its optional sleep mode.</li><li>You serve a lot of traffic: Railway charges $0.05 per GB of egress; Cloudflare doesn’t meter static files, Workers responses or R2 downloads.</li></ul></article>
+<article class="card"><h3>Choose Railway if</h3><ul class="checks"><li>You deploy existing Docker images or long-running servers in any language, with Postgres, MySQL, Redis or MongoDB from templates.</li><li>You need persistent volumes ($0.15 per GB-month) attached to services.</li><li>You want a hard spending limit: Railway can take workloads offline at an amount you set (minimum $10); Workers Paid has no hard cap.</li></ul></article>
+</div>
+</section>
+<section aria-labelledby="details-title">
+<h2 id="details-title">Side by side</h2>
+<div class="table-wrap" role="region" aria-labelledby="table-0" tabindex="0">
+<table>
+<caption id="table-0">Plans and rates</caption>
+<thead><tr><th scope="col"></th><th scope="col">Shipcel + Cloudflare</th><th scope="col">Railway</th></tr></thead>
+<tbody>
+<tr><th scope="row">Free</th><td>Cloudflare’s free plan: 100,000 requests a day, 5 GB of D1, 10 GB of R2</td><td>One-time $5 trial, then $1 of usage a month; one project, three services</td></tr>
+<tr><th scope="row">Entry plan</th><td>Workers Paid $5 a month per account</td><td>Hobby $5 a month including $5 of usage; Pro $20 including $20, unlimited seats</td></tr>
+<tr><th scope="row">Compute</th><td>30 million CPU-ms a month included, then $0.02 per million CPU-ms; nothing billed while idle</td><td>$20 per vCPU-month and $10 per GB-month of memory while running</td></tr>
+<tr><th scope="row">Egress</th><td>No per-gigabyte charge for Workers, static files or R2</td><td>$0.05 per GB</td></tr>
+<tr><th scope="row">Storage</th><td>D1 5 GB included, then $0.75 per GB-month; R2 $0.015 per GB-month</td><td>Volumes $0.15 per GB-month; object storage $0.015 per GB-month with free egress</td></tr>
+<tr><th scope="row">Spending control</th><td>No hard cap from Cloudflare. Shipcel’s budget guard alerts over a budget ($0 by default) and can pause the app; Cloudflare’s budget alerts email you</td><td>Alerts and an optional hard limit that takes workloads offline</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section aria-labelledby="bills-title">
+<h2 id="bills-title">Billing and surprise-bill protection</h2>
+<ul class="checks"><li>Railway’s hard limit stops all workloads when reached (minimum $10), with warnings at 75%, 90% and 100%.</li><li>Cloudflare’s free plan is never billed for Workers, D1 or KV: over a daily limit, requests and queries fail until midnight UTC. R2 file storage bills usage beyond its free tier (never egress).</li><li>Workers Paid ($5 a month per account) has no hard spending cap. Budget alerts email you when usage passes an amount ($10 by default) but don’t stop anything; per-Worker CPU and subrequest limits can stop runaway code. Shipcel’s budget guard alerts over each app’s budget ($0 by default) and can pause the app, minutes after the budget is crossed.</li></ul>
+</section>
+<section aria-labelledby="moving-title">
+<h2 id="moving-title">Moving from Railway</h2>
+<ul class="checks"><li>HTTP services often run as Workers with the <code>nodejs_compat</code> flag, or as Cloudflare Containers on Workers Paid when they need a full Linux environment.</li><li>Databases from templates need a replacement: D1 for SQL that fits SQLite, or keep your database and connect from Workers.</li></ul>
+</section>
+<section aria-labelledby="sources">
+<h2 id="sources">Sources</h2>
+<p class="small muted">Checked 8 October 2026. Prices change; confirm on each provider's page before you decide.</p>
+<ol class="sources"><li><a href="https://railway.com/pricing" rel="noreferrer">Railway pricing</a></li><li><a href="https://docs.railway.com/pricing/plans" rel="noreferrer">Railway plans</a></li><li><a href="https://docs.railway.com/pricing/free-trial" rel="noreferrer">Railway free trial</a></li><li><a href="https://docs.railway.com/pricing/cost-control" rel="noreferrer">Railway cost control</a></li><li><a href="https://developers.cloudflare.com/workers/platform/pricing/" rel="noreferrer">Cloudflare Workers pricing</a></li><li><a href="https://developers.cloudflare.com/workers/platform/limits/" rel="noreferrer">Cloudflare Workers limits</a></li><li><a href="https://developers.cloudflare.com/containers/pricing/" rel="noreferrer">Cloudflare Containers pricing</a></li><li><a href="https://developers.cloudflare.com/r2/pricing/" rel="noreferrer">Cloudflare R2 pricing</a></li><li><a href="https://developers.cloudflare.com/billing/manage/budget-alerts/" rel="noreferrer">Cloudflare budget alerts</a></li></ol>
+</section>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shipcel features: what is built and what is not yet</title>
+<meta name="description" content="Everything Shipcel does for apps in your own Cloudflare account: AI agents, Git, CLI and drag-and-drop deploys, pull request previews, one-click rollback, databases, sign-in, realtime, and what is not ready yet.">
+<meta property="og:title" content="Shipcel features: what is built and what is not yet">
+<meta property="og:description" content="Everything Shipcel does for apps in your own Cloudflare account: AI agents, Git, CLI and drag-and-drop deploys, pull request previews, one-click rollback, databases, sign-in, realtime, and what is not ready yet.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/" aria-current="page">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<section class="hero" aria-labelledby="features-hero">
+<h1 id="features-hero">What Shipcel does today</h1>
+<p class="lede">Built means implemented, tested and run on live Cloudflare accounts. Beta rests on a Cloudflare feature still in beta, or hasn’t run against a live account yet. Not yet means exactly that.</p>
+<ul class="jump small"><li><a href="#start">Start your way</a></li><li><a href="#previews">Previews and releases</a></li><li><a href="#data">Data</a></li><li><a href="#users">Sign-in and realtime</a></li><li><a href="#operate">Operate</a></li></ul>
+</section>
+<section aria-labelledby="start">
+<h2 id="start">Start your way</h2>
+<div class="grid"><article class="card"><span class="status built">Built</span><h3>Your own AI agent</h3><p>An MCP server for Claude Code, Codex, Cursor and other agents: create projects, deploy files, publish, roll back, set secrets. Agents sign in with an API token you can revoke.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Deploys from GitHub</h3><p>Every push builds with GitHub Actions and deploys to your account: the production branch to production, other branches as previews.</p></article>
+<article class="card"><span class="status built">Built</span><h3>The shipcel command</h3><p><code>shipcel</code> from a terminal or CI: signs in through the browser (or a token), recognises Vite, Create React App, Vue CLI, Astro, Gatsby, Docusaurus, VitePress, Eleventy, Hugo, Jekyll and more, builds on your computer and uploads only changed files. A new app’s first deploy goes to production; later ones are previews until you say otherwise.</p></article>
+<article class="card"><span class="status beta">Beta</span><h3>Apps with code, from your terminal</h3><p><code>shipcel</code> also deploys Next.js, SvelteKit, React Router, Nuxt, Angular, TanStack Start, Qwik City, Astro with server output and any Worker with a Wrangler configuration, with its bindings, adding the framework’s Cloudflare adapter when it has none. Run live for React Router, Next.js, SvelteKit and a Worker with D1, KV and a Durable Object; the others in Cloudflare’s local runtime.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Drag and drop</h3><p>Drop a built folder in the dashboard; a new app stays unpublished until you publish it.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Starter kits and imports</h3><p>Fourteen starter kits (React, Vue, Hono, a Postgres API on Hyperdrive, a static site, a JavaScript Worker, Astro, SvelteKit, Next.js, Python, a container app, Umami and n8n as services, and WordPress, experimental), and imports of existing repositories for the same frameworks and for Docker containers (containers need Workers Paid).</p></article>
+<article class="card"><span class="status built">Built</span><h3>Workers AI, Durable Objects and more</h3><p>Imports can use Workers AI, SQLite-backed Durable Objects, browser rendering, Images, variables, Smart Placement and cron schedules, all on the free plan.</p></article></div>
+</section>
+<section aria-labelledby="previews">
+<h2 id="previews">Previews and releases</h2>
+<div class="grid"><article class="card"><span class="status beta">Beta</span><h3>A preview for every branch and pull request</h3><p>Cloudflare Worker Previews, with the address commented on the pull request. Previews bind staging copies of your databases, namespaces and buckets, never production data.</p></article>
+<article class="card"><span class="status built">Built</span><h3>One-click rollback</h3><p>Send all traffic back to an earlier version from Manage, the CLI or your agent.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Traffic splitting</h3><p>Give a new version a share of traffic first; Shipcel checks that version before you send it everything.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Health checks and recovery</h3><p>A homepage check after every deploy, and interrupted steps checked against Cloudflare before anything is repeated.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Free addresses and custom domains</h3><p><code>your-app.your-name.workers.dev</code> for every app, and your own domains attached in a few clicks.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Protected previews</h3><p>Ask reviewers to sign in before they open preview addresses, with Cloudflare Access in your account. Zero Trust’s free plan covers 50 people; Cloudflare asks for a payment method when you set it up.</p></article></div>
+</section>
+<section aria-labelledby="data">
+<h2 id="data">Data</h2>
+<div class="grid"><article class="card"><span class="status built">Built</span><h3>SQL databases, files and key-value data</h3><p>D1, R2 and KV created in your account after you review them.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Migrations, exports and point-in-time restore</h3><p>Reviewed migrations with a restore point first, SQL exports, and restore to any moment in Time Travel’s window.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Scheduled backups</h3><p>Daily or weekly copies of a D1 database in an R2 bucket of your account, each downloadable.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Table browser and SQL console</h3><p>Page through your D1 tables and run SQL; queries that change data are confirmed, with a restore point recorded before each one.</p></article>
+<article class="card"><span class="status built">Built</span><h3>File and key-value browser</h3><p>Browse R2 folders and KV keys, open and edit text values, upload files up to 25 MB, download and delete. Changes are confirmed and recorded without their contents.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Data API and row-level security</h3><p>REST over the D1 tables you open, read and changed by everyone, signed-in users or each row’s owner, with each change on realtime.</p></article></div>
+</section>
+<section aria-labelledby="users">
+<h2 id="users">Sign-in and realtime</h2>
+<div class="grid"><article class="card"><span class="status built">Built</span><h3>Sign-in for your users</h3><p>Passkeys, GitHub, Google, email links and optional passwords, as standard OpenID Connect, in your account with no monthly user limit. Email and passwords need Workers Paid.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Realtime channels</h3><p>Broadcast and presence on Durable Objects, with listeners free and idle connections hibernating.</p></article>
+<article class="card"><span class="status not-yet">Not yet</span><h3>Phone sign-in</h3><p>Codes by text message need an SMS service, which Shipcel doesn’t set up.</p></article></div>
+</section>
+<section aria-labelledby="operate">
+<h2 id="operate">Operate</h2>
+<div class="grid"><article class="card"><span class="status built">Built</span><h3>Runtime secrets</h3><p>Set and remove secrets; values go only to Cloudflare and are never shown again.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Build variables</h3><p>Variables your build command reads, set separately for production and branch preview builds; secret values go only to Cloudflare.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Shared variables</h3><p>One secret set on several projects at once; the value goes only to Cloudflare.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Deploy notifications</h3><p>A webhook (Slack, Discord or any HTTPS endpoint), a Telegram chat through your own bot, or a confirmed email address, when a deploy goes live or fails or a health check fails.</p></article>
+<article class="card"><span class="status beta">Beta</span><h3>Firewall for your domains</h3><p>Cloudflare’s DDoS protection covers every app. For an app with a custom domain, Manage → Security and <code>shipcel security</code> turn on Cloudflare’s Free Managed Ruleset, Bot Fight Mode, AI crawler blocking and Under Attack mode, and add rules by country, IP or path and a rate limit, all free. Tested against a stand-in for Cloudflare, not yet a live zone.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Free-only mode</h3><p>On by default: Shipcel creates nothing in a project that Cloudflare can bill for.</p></article>
+<article class="card"><span class="status beta">Beta</span><h3>Budget guard</h3><p>Every five minutes Shipcel estimates each app’s cost beyond what Cloudflare includes, from Cloudflare’s analytics, and alerts at 50%, 80% and over its budget ($0 by default). An owner can have it pause an app over budget: production answers 503 and schedules stop, data kept, until resumed. Tested against a stand-in for Cloudflare, not yet a live account.</p></article>
+<article class="card"><span class="status built">Built</span><h3>API tokens</h3><p>For the CLI, agents and scripts; shown once, revocable, and unable to change billing or connections.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Cron schedules</h3><p>Run your Worker on a schedule: listed in your Wrangler configuration, or set in Manage → Schedules.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Analytics and logs</h3><p>Requests, errors and CPU time by hour, and recent log lines and errors from Workers Logs, in Manage.</p></article>
+<article class="card"><span class="status not-yet">Not yet</span><h3>Queues and Workflows in Shipcel</h3><p>Available in Cloudflare’s dashboard for your account; not yet in Shipcel’s imports or dashboard.</p></article>
+<article class="card"><span class="status built">Built</span><h3>Teams and roles</h3><p>Shared workspaces with owners, developers and viewers, joined by invitation links; no seat fees.</p></article>
+<article class="card"><span class="status not-yet">Not yet</span><h3>Forms and image optimization</h3><p>Not built in; use a form service or library, and Cloudflare Images separately.</p></article></div>
+</section>
+<section class="cta-band" aria-labelledby="features-cta">
+<h2 id="features-cta">Try it on Cloudflare's free plan</h2>
+<p>Shipcel is free, and your apps run in your own account.</p>
+<a class="button" href="/app/">Open the dashboard</a>
+</section>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,29 @@
+diff --git a/light-base/src/lib.rs b/light-base/src/lib.rs
+index f391c70..9053d12 100644
+--- a/light-base/src/lib.rs
++++ b/light-base/src/lib.rs
+@@ -499,6 +499,24 @@ impl<TPlat: platform::PlatformRef, TChain> Client<TPlat, TChain> {
+                 ) => (Some(checkpoint), false, known_nodes, runtime_code_hint),
+                 (_, Some(Ok(checkpoint)), None) => (Some(checkpoint), false, Vec::new(), None),
+ 
++                // Patch (Cloudcel's Bittensor light client): a chain whose checkpoint isn't a
++                // BABE-style `lightSyncState`, such as Subtensor's Aura chain (its spec carries a
++                // `grandpaWarpSyncCheckpoint` instead), starts from the chain information in a
++                // database whose genesis hash matches the chain specification (checked above).
++                // The database is trusted input, as documented for `databaseContent`.
++                (
++                    _,
++                    None,
++                    Some(database::DatabaseContent {
++                        chain_information: Some(db_ci),
++                        known_nodes,
++                        runtime_code_hint,
++                        ..
++                    }),
++                ) if db_ci.as_ref().finalized_block_header.number > 0 => {
++                    (Some(db_ci), true, known_nodes, runtime_code_hint)
++                }
++
+                 // If neither the genesis chain information nor the checkpoint chain information
+                 // is available, we could in principle use the database, but for API reasons we
+                 // don't want users to be able to rely on just a database (as we reserve the right

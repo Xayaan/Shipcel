@@ -1,0 +1,971 @@
+/* Front page (/) only, after site.css: the deploy demo, the diagrams and the free-plan
+   figures (site/home.ts). Nothing here needs a script. Kept as one file for the one page,
+   though past 800 lines: Prettier puts each property on a line of its own, and the demo's
+   keyframes are about a third of it. */
+
+.icon {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+main section h3 {
+  margin-top: 0;
+}
+
+/* Hero: the pitch beside the deploy demo. */
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 28px 48px;
+  align-items: center;
+}
+.home-hero h1 {
+  font-size: clamp(2.1rem, 4.2vw, 3.1rem);
+}
+.home-hero .lede {
+  font-size: 1.15rem;
+}
+.hero-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.9rem;
+}
+@media (max-width: 960px) {
+  .home-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  /* One column: the headline, its sentence and the two actions fit a phone's first screen,
+     and the demo starts on it too, right after them. */
+  .hero-copy {
+    display: contents;
+  }
+  .home-hero h1 {
+    order: 0;
+  }
+  .home-hero .lede {
+    order: 1;
+  }
+  .home-hero .actions {
+    order: 2;
+    margin: 0;
+  }
+  .home-hero .demo {
+    order: 3;
+  }
+  .home-hero .proof {
+    order: 4;
+  }
+  .hero-note {
+    order: 5;
+  }
+}
+
+/* The deploy demo. Every piece's resting style is the end of the story, so with the
+   animation off (reduced motion, or a screenshot) the whole picture shows. Things appear
+   with visibility and movement, never half-transparent text. One loop: 16 seconds. */
+.demo {
+  margin: 0;
+  min-width: 0;
+}
+.demo-stage {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: linear-gradient(150deg, #e2f0d8 0%, #f3f7f0 55%, #eaf2f6 100%);
+  overflow: hidden;
+}
+.demo-term {
+  border-radius: 12px;
+  background: #16231d;
+  color: #d3e0d8;
+  box-shadow: 0 18px 40px -24px rgb(20 58 46 / 0.6);
+  overflow: hidden;
+}
+.demo-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 9px 12px;
+  background: #213329;
+  color: #b3c4ba;
+  font:
+    600 0.72rem/1 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+}
+.demo-bar i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #3e564a;
+}
+.demo-bar span {
+  margin-left: 6px;
+}
+.demo-lines {
+  margin: 0;
+  padding: 12px 14px 16px;
+  font:
+    0.78rem/1.6 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.demo-lines > span {
+  display: block;
+}
+.demo-lines .ok {
+  color: #c9ee9e;
+  font-weight: 700;
+}
+.demo-lines .cmd {
+  display: inline-block;
+  width: 8ch;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+.demo-lines .caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.15em;
+  margin-left: 3px;
+  vertical-align: -0.2em;
+  background: #c9ee9e;
+  /* Only while the command is typed. */
+  visibility: hidden;
+}
+.demo-out {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 12px;
+}
+.demo-site,
+.demo-stats {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 14px 30px -26px rgb(20 58 46 / 0.7);
+  overflow: hidden;
+}
+.demo-url {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--soft);
+  color: var(--muted);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+.demo-url .icon {
+  width: 12px;
+  height: 12px;
+  color: var(--green);
+}
+.demo-url span:first-of-type {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.demo-live {
+  margin-left: auto;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--green-dark);
+  font-weight: 700;
+}
+.demo-page {
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+}
+.demo-page span {
+  display: block;
+  height: 7px;
+  border-radius: 4px;
+  background: #e3eae5;
+}
+.demo-page .title {
+  width: 45%;
+  height: 11px;
+  background: var(--green-dark);
+}
+.demo-page .banner {
+  height: 30px;
+  background: var(--accent);
+}
+.demo-page .tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  height: auto;
+  background: none;
+}
+.demo-page .tiles span {
+  height: 24px;
+}
+.demo-page .short {
+  width: 60%;
+}
+.demo-stats {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  padding: 10px 12px 12px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+.demo-stats p {
+  margin: 0;
+}
+.demo-stats strong {
+  color: var(--green-dark);
+  font:
+    800 1.3rem/1.1 'Manrope',
+    sans-serif;
+}
+.demo-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 46px;
+  margin: 4px 0;
+}
+.demo-bars i {
+  flex: 1;
+  border-radius: 2px 2px 0 0;
+  background: #8fc0a0;
+  transform-origin: bottom;
+  animation: demo-bar 16s infinite;
+}
+.demo-bars i:nth-child(1) {
+  height: 30%;
+}
+.demo-bars i:nth-child(2) {
+  height: 42%;
+  animation-delay: 0.04s;
+}
+.demo-bars i:nth-child(3) {
+  height: 38%;
+  animation-delay: 0.08s;
+}
+.demo-bars i:nth-child(4) {
+  height: 55%;
+  animation-delay: 0.12s;
+}
+.demo-bars i:nth-child(5) {
+  height: 48%;
+  animation-delay: 0.16s;
+}
+.demo-bars i:nth-child(6) {
+  height: 70%;
+  animation-delay: 0.2s;
+}
+.demo-bars i:nth-child(7) {
+  height: 62%;
+  animation-delay: 0.24s;
+}
+.demo-bars i:nth-child(8) {
+  height: 84%;
+  animation-delay: 0.28s;
+}
+.demo-bars i:nth-child(9) {
+  height: 76%;
+  animation-delay: 0.32s;
+}
+.demo-bars i:nth-child(10) {
+  height: 92%;
+  animation-delay: 0.36s;
+}
+.demo-bars i:nth-child(11) {
+  height: 80%;
+  animation-delay: 0.4s;
+}
+.demo-bars i:nth-child(12) {
+  height: 100%;
+  animation-delay: 0.44s;
+}
+.demo-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.demo-controls input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--green);
+}
+.demo-controls label {
+  padding: 3px 0;
+  cursor: pointer;
+}
+.demo figcaption {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* The story: type the command (0.5–1.4 s), print the output line by line (1.9–7 s), the
+   live app (8 s) and its traffic (9.3 s), then start again (15.2 s). */
+.demo-lines .cmd {
+  animation: demo-type 16s infinite;
+}
+.demo-lines .caret {
+  animation:
+    demo-blink 1s steps(1) infinite,
+    demo-caret 16s infinite;
+}
+.demo-lines > span:nth-child(2) {
+  animation: demo-line-2 16s infinite;
+}
+.demo-lines > span:nth-child(3) {
+  animation: demo-line-3 16s infinite;
+}
+.demo-lines > span:nth-child(4) {
+  animation: demo-line-4 16s infinite;
+}
+.demo-lines > span:nth-child(5) {
+  animation: demo-line-5 16s infinite;
+}
+.demo-lines > span:nth-child(6) {
+  animation: demo-line-6 16s infinite;
+}
+.demo-lines > span:nth-child(7) {
+  animation: demo-line-7 16s infinite;
+}
+.demo-site {
+  animation: demo-site 16s infinite;
+}
+.demo-stats {
+  animation: demo-stats 16s infinite;
+}
+@keyframes demo-type {
+  0%,
+  3% {
+    width: 0;
+    animation-timing-function: steps(8, end);
+  }
+  9%,
+  95% {
+    width: 8ch;
+  }
+  95.1%,
+  100% {
+    width: 0;
+  }
+}
+@keyframes demo-blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes demo-caret {
+  0%,
+  11.9%,
+  95.1%,
+  100% {
+    visibility: visible;
+  }
+  12%,
+  95% {
+    visibility: hidden;
+  }
+}
+@keyframes demo-line-2 {
+  0%,
+  11.9%,
+  95.1%,
+  100% {
+    visibility: hidden;
+  }
+  12%,
+  95% {
+    visibility: visible;
+  }
+}
+@keyframes demo-line-3 {
+  0%,
+  16.9%,
+  95.1%,
+  100% {
+    visibility: hidden;
+  }
+  17%,
+  95% {
+    visibility: visible;
+  }
+}
+@keyframes demo-line-4 {
+  0%,
+  22.9%,
+  95.1%,
+  100% {
+    visibility: hidden;
+  }
+  23%,
+  95% {
+    visibility: visible;
+  }
+}
+@keyframes demo-line-5 {
+  0%,
+  32.9%,
+  95.1%,
+  100% {
+    visibility: hidden;
+  }
+  33%,
+  95% {
+    visibility: visible;
+  }
+}
+@keyframes demo-line-6 {
+  0%,
+  38.9%,
+  95.1%,
+  100% {
+    visibility: hidden;
+  }
+  39%,
+  95% {
+    visibility: visible;
+  }
+}
+@keyframes demo-line-7 {
+  0%,
+  43.9%,
+  95.1%,
+  100% {
+    visibility: hidden;
+  }
+  44%,
+  95% {
+    visibility: visible;
+  }
+}
+@keyframes demo-site {
+  0%,
+  49.9%,
+  95.1%,
+  100% {
+    visibility: hidden;
+    transform: translateY(16px);
+  }
+  50% {
+    visibility: visible;
+    transform: translateY(16px);
+  }
+  54%,
+  95% {
+    visibility: visible;
+    transform: none;
+  }
+}
+@keyframes demo-stats {
+  0%,
+  57.9%,
+  95.1%,
+  100% {
+    visibility: hidden;
+    transform: translateY(16px);
+  }
+  58% {
+    visibility: visible;
+    transform: translateY(16px);
+  }
+  62%,
+  95% {
+    visibility: visible;
+    transform: none;
+  }
+}
+@keyframes demo-bar {
+  0%,
+  60% {
+    transform: scaleY(0.05);
+  }
+  72%,
+  100% {
+    transform: none;
+  }
+}
+.demo:has(#demo-pause:checked) .demo-stage * {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-stage * {
+    animation: none !important;
+  }
+  .demo-controls {
+    display: none;
+  }
+}
+
+/* How it works: four steps, left to right (top to bottom on a phone). */
+.flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.flow > li {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.flow > li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -27px;
+  width: 22px;
+  height: 22px;
+  transform: translateY(-50%);
+  background: center / contain no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231d5140' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h15M13 6l6 6-6 6'/%3E%3C/svg%3E");
+}
+.flow h3 {
+  margin: 0;
+}
+.flow p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.flow-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--soft);
+  color: var(--green);
+}
+.flow .account {
+  border-color: var(--green-dark);
+  background: var(--green-dark);
+  color: #fff;
+}
+.flow .account h3 {
+  color: #fff;
+}
+.flow .account .flow-icon {
+  background: rgb(255 255 255 / 0.12);
+  color: var(--accent);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 2px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.chips li {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.12);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.flow-note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 0;
+  font-weight: 600;
+  color: var(--green-dark);
+}
+.flow-note .icon {
+  color: var(--green);
+}
+.nocode {
+  margin-top: 30px;
+  padding: 22px;
+  border-radius: 14px;
+  background: var(--soft);
+}
+.nocode .checks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+  gap: 6px 28px;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .flow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+  .flow > li:not(:last-child)::after {
+    top: auto;
+    right: auto;
+    bottom: -27px;
+    left: 50%;
+    transform: translateX(-50%) rotate(90deg);
+  }
+}
+
+/* The ways in, each with a glimpse of what it looks like. */
+.ways,
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 18px;
+}
+.way,
+.feature {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.way h3,
+.feature h3,
+.way p,
+.feature p {
+  margin: 0;
+}
+.feature p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+@media (max-width: 640px) {
+  /* On a phone, each feature is a row: the icon beside its words. */
+  .feature {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 4px 14px;
+    padding: 16px;
+  }
+}
+.way-picture {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto !important;
+  padding-top: 8px;
+  font-size: 0.85rem;
+}
+.way-chat {
+  padding: 8px 12px;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--soft);
+  color: var(--green-dark);
+  font-style: italic;
+}
+.way-code {
+  padding: 4px 9px;
+  border-radius: 6px;
+  background: var(--soft);
+  color: var(--green-dark);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.way-code.dark {
+  background: #16231d;
+  color: #c9ee9e;
+}
+.way-arrow {
+  color: var(--green);
+  font-weight: 700;
+}
+.way-pill {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--green-dark);
+  font-weight: 700;
+}
+.way-drop {
+  flex: 1;
+  padding: 10px;
+  border: 2px dashed #9cbfab;
+  border-radius: 10px;
+  color: var(--green-dark);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-align: center;
+}
+
+/* The recorded tour. */
+.tour {
+  max-width: 960px;
+  margin: 22px auto 0;
+}
+.tour video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #16231d;
+}
+.tour-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 8px 18px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: tour;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.tour-steps li {
+  counter-increment: tour;
+}
+.tour-steps li::before {
+  content: counter(tour) '. ';
+  color: var(--green);
+  font-weight: 800;
+}
+
+/* No surprise bills: the budget, with its alerts along it. */
+.guard {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+.meter-figure {
+  margin: 0;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.meter {
+  position: relative;
+  height: 16px;
+  margin: 34px 0 22px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    #8fc0a0 0 40%,
+    #f2c46d 40% 64%,
+    #ef9d5f 64% 80%,
+    #d9534f 80% 100%
+  );
+}
+.meter-mark {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  color: var(--green-dark);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+.meter-mark::after {
+  content: '';
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 50%;
+  width: 2px;
+  height: 22px;
+  background: var(--green-dark);
+}
+.meter-mark.m50 {
+  left: 40%;
+}
+.meter-mark.m80 {
+  left: 64%;
+}
+.meter-mark.m100 {
+  left: 80%;
+}
+.meter-steps,
+.guard-points {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.meter-steps li,
+.guard-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.meter-steps .icon,
+.guard-points .icon {
+  margin-top: 2px;
+  color: var(--green);
+}
+.meter-figure figcaption {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+@media (max-width: 860px) {
+  .guard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* The free allowance in figures. */
+.figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+  gap: 12px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.figures li {
+  display: grid;
+  gap: 4px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.figures strong {
+  color: var(--green-dark);
+  font:
+    800 1.6rem/1.1 'Manrope',
+    sans-serif;
+}
+.figures span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.free-stop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0;
+  font-weight: 600;
+  color: var(--green-dark);
+}
+.free-stop .icon {
+  color: var(--green);
+}
+.free-more {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.free-more summary {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.free-more summary:focus-visible {
+  outline: 3px solid #4c8f6f;
+  outline-offset: 2px;
+}
+.free-more[open] summary {
+  margin-bottom: 16px;
+}
+
+/* Why it costs less: many plans and bills, or one account. */
+.bills {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 18px 24px;
+  align-items: center;
+  margin: 22px 0 24px;
+}
+.bills-label {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.bills-many ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bills-many li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  padding: 9px 14px;
+  border: 1px dashed #c3cec7;
+  border-radius: 10px;
+  background: var(--surface);
+  font-weight: 600;
+}
+.bills-many li span {
+  color: #8a5300;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.bills-arrow {
+  color: var(--green);
+  font-size: 2rem;
+  font-weight: 800;
+}
+.bills-account {
+  display: grid;
+  gap: 12px;
+  padding: 24px;
+  border-radius: 14px;
+  background: var(--green-dark);
+  color: #fff;
+}
+.bills-account strong {
+  font:
+    800 1.25rem/1.2 'Manrope',
+    sans-serif;
+}
+.bills-price {
+  color: var(--accent);
+  font-weight: 700;
+}
+.bills figcaption {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+@media (max-width: 760px) {
+  .bills {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bills-arrow {
+    justify-self: center;
+    transform: rotate(90deg);
+  }
+}

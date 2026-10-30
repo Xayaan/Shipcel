@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deploy without Git | Shipcel docs</title>
+<meta name="description" content="Deploy a site or an app straight from your computer to your Cloudflare account: run shipcel in its folder, drop a built folder on the dashboard, or ask your AI agent. There's no repository and no build on Cloudflare's side, so nothing needs setting up in Cloudflare first.">
+<meta property="og:title" content="Deploy without Git | Shipcel docs">
+<meta property="og:description" content="Deploy a site or an app straight from your computer to your Cloudflare account: run shipcel in its folder, drop a built folder on the dashboard, or ask your AI agent. There's no repository and no build on Cloudflare's side, so nothing needs setting up in Cloudflare first.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/" aria-current="page">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Deploy</span></nav>
+<h1>Deploy without Git</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#what-you-can-deploy">What you can deploy</a></li><li><a href="#from-the-dashboard">From the dashboard</a></li><li><a href="#from-the-terminal">From the terminal</a></li><li><a href="#published-or-unpublished-first">Published, or unpublished first</a></li><li><a href="#each-deploy-is-a-version">Each deploy is a version</a></li><li><a href="#moving-to-git-later">Moving to Git later</a></li></ul></nav>
+<p>Deploy a site or an app straight from your computer to your Cloudflare account: run <code>shipcel</code> in its folder, drop a built folder on the dashboard, or ask your AI agent. There's no repository and no build on Cloudflare's side, so nothing needs setting up in Cloudflare first.</p>
+<h2 id="what-you-can-deploy">What you can deploy</h2>
+<p>Two kinds of project deploy this way. <strong>An app with code and bindings</strong> (Next.js, SvelteKit, Astro with its adapter, or any Worker with a <code>wrangler.jsonc</code>, including D1, KV and R2) deploys from the terminal only: <code>shipcel</code> builds it and runs Wrangler for you, see <a href="/docs/cli/#apps-with-code-databases-and-bindings">The CLI</a>. <strong>A site</strong> is a folder such as <code>dist</code>, <code>build</code> or <code>out</code>, with:</p>
+<ul><li>static files, served by Workers Static Assets. Requests for them are free and run no code;</li><li>an optional <code>_worker.js</code>: an ES module that handles every request no file matches, for an API or server-side logic. It reaches the files as <code>env.ASSETS</code> and your secrets as <code>env.&lt;NAME&gt;</code>;</li><li>optional <code>_redirects</code> and <code>_headers</code> files, with the same rules as other static hosts;</li><li><code>404.html</code> for unknown paths. With a single <code>index.html</code> and no <code>404.html</code>, unknown paths go to <code>index.html</code>, for single-page apps.</li></ul>
+<p>Limits: 20,000 files, 24 MiB a file, 1 MiB for <code>_worker.js</code> and 64 KiB for <code>_redirects</code> or <code>_headers</code>. Hidden files and <code>node_modules</code> are left out. A folder of files can't replace an app that Wrangler deploys: that project keeps deploying with <code>shipcel</code> from its folder.</p>
+<h2 id="from-the-dashboard">From the dashboard</h2>
+<ol><li>Create a project with <strong>New project</strong> (a starter kit project works: its kit export is separate).</li><li>Open its <strong>Deployments</strong> tab and drop the folder on <strong>Or drag and drop a folder</strong>, or click <strong>Choose a folder</strong>.</li><li>Review the files. Leave <strong>Publish now</strong> off to keep the app unpublished at first, or tick it, then click <strong>Deploy</strong> and confirm.</li></ol>
+<h2 id="from-the-terminal">From the terminal</h2>
+<pre class="code" tabindex="0"><code>shipcel                        # builds this project and deploys it
+shipcel --prod                 # production, for every deploy after the first
+shipcel deploy ./dist --prod   # or a folder that is already built</code></pre>
+<p>In a project's folder the CLI recognises the framework (Vite, Create React App, Vue CLI, Astro, Gatsby, Docusaurus, VitePress, Eleventy, Hugo, Jekyll and others, or any <code>build</code> script once you name its output folder), runs the build on your computer and deploys what it wrote. The first deploy creates and links a project, and goes to production; later deploys are previews unless you pass <code>--prod</code>. See <a href="/docs/cli/">The CLI</a> for every option.</p>
+<h2 id="published-or-unpublished-first">Published, or unpublished first</h2>
+<p>From the CLI, a new app's first deploy goes to production and is published at its main address, as on Vercel. To check it before it gets its main address, deploy it as a preview first: <code>shipcel --target preview</code> creates the app <strong>unpublished</strong>. Its preview address, <code>https://&lt;version&gt;-&lt;app&gt;.&lt;subdomain&gt;.workers.dev</code>, works for anyone you share it with, but its main address doesn't answer yet. The dashboard's drag and drop starts unpublished too, unless you tick <strong>Publish now</strong>. Publish with <strong>Publish</strong> on the Deployments tab, <code>shipcel promote &lt;version&gt;</code> or <code>shipcel --prod</code>; <code>shipcel unpublish</code> turns the main address off again. Unpublished means unlisted, not private: to require a sign-in, see <a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a>.</p>
+<h2 id="each-deploy-is-a-version">Each deploy is a version</h2>
+<p>Shipcel uploads only the files Cloudflare doesn't already have, then creates a new version of the app's Worker:</p>
+<ul><li><strong>from the dashboard</strong>, the new version goes live straight away;</li><li><strong>from the CLI</strong>, a new app's first version goes live; after that a deploy without <code>--prod</code> is a preview: it gets its own address and production keeps serving the current version until you promote it.</li></ul>
+<p>Every version stays available for rollback. See <a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a>.</p>
+<h2 id="moving-to-git-later">Moving to Git later</h2>
+<p>A project deployed by upload stays an upload project: the Deployments tab offers uploads only. To deploy the same app from GitHub on every push, give its repository a project of its own: <code>shipcel git connect --name &lt;another-name&gt;</code> in its folder, or <strong>New project</strong> → <strong>GitHub repository</strong>.</p>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/other-git-hosts/"><span>Previous</span>Deploy from GitLab, Bitbucket or Gitea</a><a class="next" href="/docs/starter-kits/"><span>Next</span>Starter kits</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Environment variables | Shipcel docs</title>
+<meta name="description" content="Your app gets configuration two ways: secrets, which the running app reads, and build variables, which a GitHub project's build reads. Values go straight to Cloudflare; Shipcel never stores them.">
+<meta property="og:title" content="Environment variables | Shipcel docs">
+<meta property="og:description" content="Your app gets configuration two ways: secrets, which the running app reads, and build variables, which a GitHub project's build reads. Values go straight to Cloudflare; Shipcel never stores them.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/" aria-current="page">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Build your app</span></nav>
+<h1>Environment variables</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#secrets-the-running-app">Secrets (the running app)</a></li><li><a href="#build-variables-github-projects">Build variables (GitHub projects)</a></li><li><a href="#shared-variables-several-projects">Shared variables (several projects)</a></li><li><a href="#plain-variables-in-your-configuration">Plain variables in your configuration</a></li><li><a href="#local-development">Local development</a></li></ul></nav>
+<p>Your app gets configuration two ways: <strong>secrets</strong>, which the running app reads, and <strong>build variables</strong>, which a GitHub project's build reads. Values go straight to Cloudflare; Shipcel never stores them.</p>
+<h2 id="secrets-the-running-app">Secrets (the running app)</h2>
+<p>Secrets are your Worker's secrets. Your code reads them from <code>env</code>:</p>
+<pre class="code" tabindex="0"><code>export default {
+  async fetch(request, env) {
+    return new Response(`Key starts with ${env.API_KEY.slice(0, 4)}`);
+  },
+};</code></pre>
+<p>Set them in <strong>Manage → Secrets &amp; variables</strong>, or from the CLI:</p>
+<pre class="code" tabindex="0"><code>shipcel env add API_KEY                          # asks without showing what you type
+printf %s &quot;$API_KEY&quot; | shipcel env add API_KEY   # in scripts
+shipcel env ls
+shipcel env rm API_KEY</code></pre>
+<ul><li>Setting or removing a secret deploys it with the current code straight away, like <code>wrangler secret put</code>.</li><li>Cloudflare never returns a secret's value, so you can replace one but not read it back. There's no <code>env pull</code>: keep values for local development in <code>.dev.vars</code>, which Wrangler reads and which shouldn't be committed.</li><li>Secrets stay when you deploy new code, from GitHub or by upload.</li><li>Names use letters, digits and underscores, and don't start with a digit.</li></ul>
+<h2 id="build-variables-github-projects">Build variables (GitHub projects)</h2>
+<p>Build variables are environment variables for Cloudflare's build of a GitHub project, such as a public API address your framework inlines at build time. They apply from the next build.</p>
+<ul><li><strong>Manage → Secrets &amp; variables → Build variables</strong>: choose production builds, or branch previews' builds when previews are on.</li><li>Mark a value <strong>secret</strong> to hide it: Cloudflare stores it but never shows it again.</li><li>CLI: <code>shipcel env add NAME --build</code>, with <code>--preview</code> for previews' builds and <code>--plain</code> for a value that may be shown.</li></ul>
+<p>Apps deployed by upload have no build on Cloudflare's side, so they have no build variables.</p>
+<h2 id="shared-variables-several-projects">Shared variables (several projects)</h2>
+<p>A secret that several projects use, such as an API key, can be set on all of them at once: <strong>Shared variables</strong> in the dashboard's menu. Give the name, the value and the projects, and confirm; each project's Worker gets the value as a runtime secret, in place of a secret of that name if it had one, and each change is in that project's history.</p>
+<ul><li>Shipcel keeps the name and which projects have it, never the value, so changing the projects or the value asks for the value again. A project you leave out loses the secret.</li><li>A project that couldn't take a new value (not deployed yet, paused by the budget guard, or Cloudflare refused) keeps its old one and is shown as out of date until you set the value again.</li><li>One change reaches up to 20 projects. <strong>Remove</strong> takes the secret off every project that has it.</li><li>In a project's <strong>Secrets &amp; variables</strong>, a shared secret says so: changing it there lasts until the next shared change.</li></ul>
+<h2 id="plain-variables-in-your-configuration">Plain variables in your configuration</h2>
+<p>Values that aren't secret can live in the repository's Wrangler configuration under <code>vars</code>; they deploy with the code and appear in the dashboard's view of the Worker:</p>
+<pre class="code" tabindex="0"><code>{
+  &quot;vars&quot;: { &quot;MODE&quot;: &quot;production&quot; }
+}</code></pre>
+<h2 id="local-development">Local development</h2>
+<p>Wrangler reads <code>.dev.vars</code> (and <code>.env</code>) in the project folder for <code>wrangler dev</code>. Keep both out of Git: the starter kits' <code>.gitignore</code> already does.</p>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/previews-and-rollbacks/"><span>Previous</span>Previews and rollbacks</a><a class="next" href="/docs/domains/"><span>Next</span>Domains</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

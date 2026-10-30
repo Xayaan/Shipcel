@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logs and analytics | Shipcel docs</title>
+<meta name="description" content="See how your app is doing: requests, errors, response times and CPU time from Cloudflare's analytics, HTTP status codes and recent requests and exceptions from Workers Logs, and notifications when a deploy or a health check fails.">
+<meta property="og:title" content="Logs and analytics | Shipcel docs">
+<meta property="og:description" content="See how your app is doing: requests, errors, response times and CPU time from Cloudflare's analytics, HTTP status codes and recent requests and exceptions from Workers Logs, and notifications when a deploy or a health check fails.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/" aria-current="page">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Build your app</span></nav>
+<h1>Logs and analytics</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#analytics">Analytics</a></li><li><a href="#visitors">Visitors</a></li><li><a href="#logs">Logs</a></li><li><a href="#build-logs">Build logs</a></li><li><a href="#deploy-notifications">Deploy notifications</a></li><li><a href="#operations-history">Operations history</a></li></ul></nav>
+<p>See how your app is doing: requests, errors, response times and CPU time from Cloudflare's analytics, HTTP status codes and recent requests and exceptions from Workers Logs, and notifications when a deploy or a health check fails.</p>
+<h2 id="analytics">Analytics</h2>
+<p><strong>Manage → Analytics &amp; logs</strong> shows, for the last 24 hours, 7 days (by hour) or 30 days (by day):</p>
+<ul><li>requests and errors, as a chart and a table;</li><li>response time (from the request to the response, waiting on databases and other services included) and CPU time: an approximate median and the highest 99th percentile, in milliseconds, with a chart of response time over the period;</li><li>outcomes in plain words, such as exceptions or exceeded CPU limits;</li><li><strong>HTTP status codes</strong>: how many requests got each status, and 4xx and 5xx over time. These come from Workers Logs, so they cover at most the days it keeps (3 on Workers Free, 7 on Workers Paid) and only requests that ran the app's code.</li></ul>
+<p>The numbers come from Cloudflare's GraphQL Analytics for your app's Worker. Every chart has the same numbers in a table under it. <code>shipcel metrics --since 30d</code> prints the totals in the terminal.</p>
+<p>The project's <strong>Billing</strong> panel charts the month day by day: the estimated cost so far against the budget, and each kind of usage (requests, rows read and written…) against Workers Free's daily limits or Workers Paid's monthly allowance.</p>
+<h2 id="visitors">Visitors</h2>
+<p><strong>Manage → Visitors</strong> shows Cloudflare Web Analytics for the app: page views and visits over time, top pages, referrers, countries, devices and browsers, and Core Web Vitals (Largest Contentful Paint, Interaction to Next Paint and Cumulative Layout Shift at the 75th percentile, with how many page views were good, needed improvement or were poor). It is free and uses no cookies; Cloudflare samples the numbers and leaves out bots.</p>
+<p>Web Analytics counts visitors with a small script in your pages, so it needs two things once:</p>
+<ol><li><strong>A Web Analytics site in Cloudflare</strong> for the app's address (<code>&lt;app&gt;.&lt;subdomain&gt;.workers.dev</code>, or a custom domain). Shipcel can't add it for you (Cloudflare asks for a permission Shipcel doesn't request): open Web Analytics in Cloudflare's dashboard and add the site; the Visitors tab links there. Shipcel then finds it by the app's addresses. A site set up for a whole zone works too: only the app's addresses are counted.</li><li><strong>Cloudflare's script in the app's pages</strong>, just before <code>&lt;/body&gt;</code> (in a framework app, its root layout), then a deploy. Once the site exists, the Visitors tab shows the script to copy until page views arrive.</li></ol>
+<h2 id="logs">Logs</h2>
+<p>The same tab lists recent events from Workers Logs, with a period, an errors-only filter, and a search box (Workers Logs' full-text search: an error message, a path, a request ID). Turn on <strong>Live</strong> to add new events every five seconds while you watch; Workers Logs has an event a few seconds after it happens. From the terminal:</p>
+<pre class="code" tabindex="0"><code>shipcel logs                     # the last hour
+shipcel logs --since 1d --errors
+shipcel logs --follow            # new events every few seconds; Ctrl+C stops</code></pre>
+<p>Workers Logs records events while observability is on for the Worker:</p>
+<ul><li><strong>Apps deployed from a folder</strong> (the CLI, drag and drop or an AI agent): the first deploy turns Workers Logs on, as Cloudflare's dashboard does for every new Worker, and later deploys keep whatever the Worker is set to. Only <code>_worker.js</code> runs code, so a site without one has nothing to log.</li><li><strong>GitHub projects</strong>: add <code>&quot;observability&quot;: { &quot;enabled&quot;: true }</code> to the Wrangler configuration.</li></ul>
+<p>Workers Free includes 200,000 log events a day, kept for 3 days. Workers Paid includes 20 million a month, kept for 7 days, then charges $0.60 per million more (<a href="https://developers.cloudflare.com/workers/observability/logs/workers-logs/" rel="noreferrer">Cloudflare's Workers Logs pricing</a>). To turn logs off, turn off Workers Logs in the Worker's settings in Cloudflare's dashboard; later deploys keep it off.</p>
+<h2 id="build-logs">Build logs</h2>
+<p>For apps that deploy every push with GitHub Actions, each run is on GitHub (<strong>Runs on GitHub</strong> on the Deployments tab) and each deploy is in the project's history. For apps Cloudflare's own builds deploy, <strong>Manage → Builds &amp; versions</strong> lists those builds; <strong>Logs</strong> under a build shows its log from Cloudflare's Workers Builds, and while the build is still running, new lines appear every few seconds. Only the app's recent builds (its last 150) can be opened.</p>
+<h2 id="deploy-notifications">Deploy notifications</h2>
+<p><strong>Manage → Notifications</strong> sends a project's events to up to three places, each set up on its own:</p>
+<ul><li><strong>A webhook:</strong> Slack, Discord or any HTTPS endpoint. Each delivery is signed: check <code>X-Shipcel-Signature</code> (<code>sha256=</code> and the HMAC-SHA256 of <code>timestamp.body</code> with your signing secret, shown once) and <code>X-Shipcel-Timestamp</code>.</li><li><strong>Telegram:</strong> messages from your own bot. Create one with @BotFather and paste its token, then send the bot a message or add it to your group or channel: Shipcel finds the chat from the bot's latest update and says hello there before saving. If the bot has a webhook of its own, give the chat id instead (a number, or <code>@</code> and a channel's name). The token is stored encrypted.</li><li><strong>Email:</strong> to any address, once someone with that inbox opens the confirmation link and presses <strong>Confirm</strong>; until then nothing is sent to it. A workspace sends at most five confirmation emails an hour. Each email has a link that stops them. The emails come from the sender a hosted Shipcel sets up for Cloudflare's Email Service (<a href="/docs/self-hosting/#host-it">Self-hosting</a>).</li></ul>
+<p>The events:</p>
+<ul><li><code>deployment.ready</code> and <code>deployment.failed</code> for GitHub deployments and builds,</li><li><code>upload.deployed</code> for uploads and previews,</li><li><code>health.unhealthy</code> and <code>health.healthy</code> from the checks after deploys and promotions,</li><li><code>budget.alert</code>, <code>budget.paused</code> and <code>budget.resumed</code> from the <a href="/docs/free-only-and-billing/#the-budget-guard">budget guard</a>. These go to each place whatever events it was set to send.</li></ul>
+<p>Failed deliveries are retried twice. Notifications are set up in the dashboard only, because they send data out of Shipcel.</p>
+<h2 id="operations-history">Operations history</h2>
+<p>Every change Shipcel makes for a project (deploys, secrets, domains, rollbacks, migrations…) is recorded with its result under <strong>Manage</strong>. If one was interrupted, <strong>Check Cloudflare</strong> looks at your account and records what actually happened.</p>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/sign-in-and-realtime/"><span>Previous</span>Sign-in and realtime</a><a class="next" href="/docs/teams-and-tokens/"><span>Next</span>Teams and tokens</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

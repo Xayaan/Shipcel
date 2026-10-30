@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add a starter kit | Shipcel docs</title>
+<meta name="description" content="The App catalog is the kits/ folder in Shipcel's repository: one TypeScript file per starter kit. A new kit is a new file there, a line on each of the two lists in kits/index.ts, and the checks below. The same steps add a kit to a Shipcel you run yourself; it appears in your catalog after your next deploy.">
+<meta property="og:title" content="Add a starter kit | Shipcel docs">
+<meta property="og:description" content="The App catalog is the kits/ folder in Shipcel's repository: one TypeScript file per starter kit. A new kit is a new file there, a line on each of the two lists in kits/index.ts, and the checks below. The same steps add a kit to a Shipcel you run yourself; it appears in your catalog after your next deploy.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/" aria-current="page">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Run Shipcel</span></nav>
+<h1>Add a starter kit</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#what-a-kit-file-holds">What a kit file holds</a></li><li><a href="#write-yours">Write yours</a></li><li><a href="#guidelines">Guidelines</a></li><li><a href="#check-it">Check it</a></li></ul></nav>
+<p>The App catalog is the <code>kits/</code> folder in Shipcel's repository: one TypeScript file per starter kit. A new kit is a new file there, a line on each of the two lists in <code>kits/index.ts</code>, and the checks below. The same steps add a kit to a Shipcel you run yourself; it appears in your catalog after your next deploy.</p>
+<h2 id="what-a-kit-file-holds">What a kit file holds</h2>
+<p>A kit file exports two things. <code>meta</code> is what the App catalog shows. <code>kit</code> is what a project exported from it contains, beyond what every kit gets: <code>package.json</code> with the Wrangler that Shipcel runs, a configuration check that runs before each deploy and refuses placeholder IDs, the common <code>.gitignore</code> lines, a README with the steps every app shares, and example GitHub workflows.</p>
+<p>The Hono kit, <code>kits/hono.ts</code>, is the smallest:</p>
+<pre class="code" tabindex="0"><code>import { HONO, honoWorker, runWorker, workerScripts } from './common.ts';
+import type { Kit, KitMeta } from './types.ts';
+
+export const meta = {
+  id: 'hono',
+  name: 'Hono',
+  subtitle: 'Fast, lightweight API',
+  runtime: 'Workers',
+  family: 'JavaScript',
+  symbol: 'H',
+  color: 'orange',
+  description:
+    'A typed API on Workers. Add a D1 database and an R2 bucket without wiring bindings by hand.',
+  docs: 'https://developers.cloudflare.com/workers/framework-guides/web-apps/hono/',
+  bindings: true,
+} as const satisfies KitMeta;
+
+export const kit: Kit = {
+  scripts: workerScripts,
+  dependencies: { hono: HONO },
+  config: () =&gt; ({ main: 'src/worker.js' }),
+  files: (project) =&gt; ({ 'src/worker.js': honoWorker(project, false) }),
+  readme: { runLocally: runWorker },
+};</code></pre>
+<p><code>kits/types.ts</code> describes every field, with comments.</p>
+<h2 id="write-yours">Write yours</h2>
+<ol><li><strong>Name it.</strong> Copy <code>kits/hono.ts</code> to <code>kits/&lt;id&gt;.ts</code>. The id is lowercase letters and digits; it becomes the framework of every project made from the kit, so don't change it later.</li><li><strong>Fill in <code>meta</code>.</strong> <code>name</code>, <code>subtitle</code>, <code>description</code> and <code>docs</code> are what people read in the catalog: say what the app is and what it needs, such as Workers Paid. <code>symbol</code> (up to three characters) and <code>color</code> make its icon. Add <code>bindings: true</code> when the app can take a D1 database and R2 storage: the person ticks them when creating the project, and Shipcel adds them as draft bindings, <code>DB</code> and <code>FILES</code>, that Wrangler creates on the first deploy. Add <code>containers: true</code> when it runs a container: the project then can't be Free-only.</li><li><strong>Fill in <code>kit</code>.</strong> - <code>scripts</code>: <code>dev</code>, <code>build</code>, <code>predeploy</code> (always <code>predeploy</code> from <code>common.ts</code>) and <code>deploy</code>. - <code>dependencies</code> and <code>devDependencies</code>: exact versions only, the ones you verified. - <code>config(project, extras)</code>: what the Wrangler configuration needs beyond its name, compatibility date and <code>workers_dev</code>, such as <code>main</code>, <code>assets</code> or <code>compatibility_flags</code>. - <code>files(project)</code>: the app's own files, by path. <code>project.name</code>, <code>database</code>, <code>storage</code> and <code>freeOnly</code> are all a kit can vary on. - <code>readme.runLocally</code>: what <code>npm run dev</code> does. Add <code>notes</code> for what to know before production, especially anything that costs money or isn't proven yet.</li><li><strong>List it</strong> in <code>kits/index.ts</code>: import the file, then add its <code>meta</code> to <code>catalog</code>, where its place is its place in the dashboard, and its <code>kit</code> to <code>kits</code>. TypeScript refuses a kit that is on one list and not the other.</li></ol>
+<p><code>kits/common.ts</code> has what several kits share: the scripts and README lines for a plain Worker (<code>workerScripts</code>, <code>runWorker</code>) and a Vite frontend (<code>frontendScripts</code>, <code>runFrontend</code>, <code>frontendAssets</code>), a Hono API (<code>honoWorker</code>), the page a new app shows with its <code>/api/health</code> route, and the pieces of the container kits.</p>
+<h2 id="guidelines">Guidelines</h2>
+<ul><li><strong>It works out of the box.</strong> The exported project installs, builds and runs with no edits, and answers <code>/api/health</code> with <code>{ ok: true }</code>. A kit with no such route says what to open instead in <code>readme.verify</code>, as the static site does.</li><li><strong>No credentials, no account IDs.</strong> Resources are draft bindings that Wrangler creates, or a placeholder the configuration check refuses, as the Postgres kit's Hyperdrive ID is. Secrets are named in the README and set in Shipcel or with <code>wrangler secret put</code>.</li><li><strong>It says what it costs.</strong> Anything that can bill, such as R2, containers or Email Sending, is in the description or the notes, and a container kit has <code>containers: true</code>.</li><li><strong>One kit, one file.</strong> Put what only your kit uses in its own file; move a piece to <code>common.ts</code> once a second kit needs it.</li><li><strong>Declarations at the top level.</strong> The dashboard and the <code>shipcel</code> CLI import every kit's <code>meta</code>, so a kit's top level should only declare things. When a value has to be computed, such as a spread or a function call, give it a <code>const</code> of its own, as <code>kits/docker.ts</code> does with its scripts; then the kit's templates stay out of those bundles.</li><li><strong>Plain words.</strong> The catalog card and the README say what the app does and what to do, in the dashboard's names, without marketing.</li></ul>
+<h2 id="check-it">Check it</h2>
+<pre class="code" tabindex="0"><code>npm test       # names a kit that isn't listed, has an empty field or a loose version
+npm run check  # TypeScript, the two lists included
+npm run dev    # then, in a second terminal:
+npm run verify:kits -- &lt;id&gt;</code></pre>
+<p><code>verify:kits</code> exports the kit from the dashboard you just started, installs it, builds it, dry-runs the exact deploy command, then runs the app in Wrangler and requests <code>/</code> and <code>/api/health</code>. A Python kit needs pipx. Without Docker running, a container kit's local run, and the image build of one with a Dockerfile, are reported as &quot;needs Docker&quot; rather than checked. Then open the App catalog: your kit is there, and a project made from it downloads.</p>
+<p>A pull request with a kit includes its <code>verify:kits</code> output, and says what you ran on a real Cloudflare account and what you didn't.</p>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/self-hosting/"><span>Previous</span>Self-hosting</a><a class="next" href="/docs/troubleshooting/"><span>Next</span>Troubleshooting</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

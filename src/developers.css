@@ -1,0 +1,103 @@
+/* Hallmark · checked: 2026-10-28 · genre: modern-minimal (inferred) · scope: app · floor: see styles.css
+ * built: the project · redesign: polish · v2.0.0 */
+.developers {
+  display: grid;
+  gap: 20px;
+}
+.developers .operation-title h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.token-once {
+  border: 1px solid #c9dfcf;
+  background: #f3faf5;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 8px;
+  max-width: 780px;
+}
+.token-once p {
+  margin: 0 0 10px;
+  font-size: 13px;
+}
+.token-value {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.token-value code {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  flex: 1 1 260px;
+}
+.agents .operation-nav {
+  margin-bottom: 16px;
+}
+.agent-snippet {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 850px;
+  margin: 12px 0 18px;
+}
+.agent-snippet .snippet {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+.agent-snippet .button {
+  flex-shrink: 0;
+}
+.agent-examples {
+  margin: 0 0 14px;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+@media (max-width: 640px) {
+  .agent-snippet {
+    flex-direction: column;
+  }
+}
+/* Shipcel commands next to Vercel's. On a phone, each row stacks. */
+.command-table {
+  width: 100%;
+  max-width: 850px;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 6px;
+}
+.command-table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.command-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.command-table code {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .command-table thead {
+    display: none;
+  }
+  .command-table tr {
+    display: grid;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .command-table td {
+    border: 0;
+    padding: 2px 0;
+  }
+}

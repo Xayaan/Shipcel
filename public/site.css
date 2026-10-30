@@ -1,0 +1,722 @@
+/* Hallmark · checked: 2026-10-28 · genre: modern-minimal (inferred) · scope: page · floor: 0 FAIL (26a and 34 clear through the linked stylesheet) · fixed: 19, 48, 54, 63, 67, 26b · structural: 58 and 69 printed
+ * built: the project · redesign: polish · v2.0.0 */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+
+/* Public site (/, /pricing/, /why/, /compare/…). The dashboard at /app/ uses src/styles.css. */
+:root {
+  --ink: #1f2b26;
+  --green: #1d5140;
+  --green-dark: #143a2e;
+  --muted: #56625a;
+  --border: #e1e7e3;
+  --surface: #fff;
+  --page: #f8f9fb;
+  --soft: #f1f5ef;
+  --accent: #c9ee9e;
+  --warn-bg: #fff7e6;
+  --warn-border: #f0d9a8;
+  --warn-ink: #6b4a00;
+  --font-display: 'Manrope', sans-serif;
+  --focus: #4c8f6f;
+  --on-green: #e7f2ea;
+  --code-bg: #16231d;
+  --code-ink: #e7efe9;
+  color: var(--ink);
+  background: var(--page);
+  font-family:
+    'DM Sans',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  font-synthesis: none;
+  -webkit-text-size-adjust: 100%;
+}
+html,
+body {
+  overflow-x: clip;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  color: var(--green-dark);
+  line-height: 1.2;
+  margin: 0 0 0.5em;
+  letter-spacing: -0.02em;
+}
+h1 {
+  font-size: clamp(2.1rem, 5vw, 3.4rem);
+  font-weight: 800;
+}
+h2 {
+  font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+  font-weight: 800;
+}
+h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+p {
+  margin: 0 0 1em;
+}
+a {
+  color: var(--green);
+  text-underline-offset: 3px;
+}
+a:hover {
+  color: var(--green-dark);
+}
+a:focus-visible,
+.button:focus-visible,
+.table-wrap:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88em;
+  background: var(--soft);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  overflow-wrap: anywhere;
+}
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  background: var(--surface);
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 10;
+}
+.skip:focus {
+  left: 8px;
+}
+.wrap {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header and footer */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.site-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 24px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--green-dark);
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+.nav-links a[aria-current='page'] {
+  color: var(--green);
+  text-decoration: underline;
+}
+.nav-cta {
+  margin-left: auto;
+}
+.site-footer {
+  margin-top: 72px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding: 36px 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 24px;
+}
+.site-footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.site-footer li {
+  margin-bottom: 6px;
+}
+.site-footer h2 {
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+/* Buttons and badges */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--green-dark);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  line-height: 1.2;
+}
+.button.primary {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--surface);
+}
+.button.primary:hover {
+  background: var(--green-dark);
+  color: var(--surface);
+}
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--green-dark);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+/* On a phone the header's links stay on one row that scrolls, instead of wrapping to three. */
+@media (max-width: 640px) {
+  .nav-links {
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    padding-bottom: 2px;
+    gap: 12px;
+  }
+  .nav-links li {
+    flex: none;
+  }
+  .nav-links a {
+    white-space: nowrap;
+    font-size: 0.875rem;
+  }
+}
+.jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.jump.small {
+  font-size: 0.93rem;
+}
+.button:active {
+  transform: translateY(1px);
+}
+.button:disabled,
+.button[aria-disabled='true'] {
+  background: var(--soft);
+  border-color: var(--border);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+/* Layout blocks */
+main section {
+  padding-top: 56px;
+}
+.hero {
+  padding-top: 64px;
+}
+.hero .lede {
+  font-size: 1.2rem;
+  max-width: 760px;
+  color: var(--ink);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 24px 0;
+}
+.proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.proof li::before {
+  content: '✓ ';
+  color: var(--green);
+  font-weight: 700;
+}
+.section-intro {
+  max-width: 760px;
+  color: var(--muted);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+.grid.two {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  min-width: 0;
+}
+.card p:last-child,
+.card ul:last-child {
+  margin-bottom: 0;
+}
+.card.featured {
+  border: 2px solid var(--green);
+}
+/* The one Free card: Shipcel's side and Cloudflare's allowance as two columns. */
+.plan-card .plan-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 16px;
+  margin-bottom: 8px;
+}
+.plan-card .plan-head .price {
+  margin: 0;
+}
+.plan-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 12px 36px;
+}
+.plan-cols h3 {
+  margin: 8px 0 6px;
+  font-size: 1.05rem;
+}
+.price {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--green-dark);
+  line-height: 1;
+  margin: 6px 0 4px;
+}
+.price span {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.checks {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+}
+.checks li {
+  position: relative;
+  padding-left: 26px;
+  margin-bottom: 9px;
+}
+.checks li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-weight: 800;
+}
+.notice {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-top: 18px;
+  font-size: 0.95rem;
+}
+.notice p:last-child {
+  margin-bottom: 0;
+}
+.muted {
+  color: var(--muted);
+}
+.small {
+  font-size: 0.88rem;
+}
+
+/* Tables: scroll inside their own region on narrow screens. */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin: 18px 0;
+}
+table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 0.95rem;
+}
+thead th:first-child {
+  width: 24%;
+}
+.cost thead th:nth-child(2) {
+  width: 17%;
+}
+.hub thead th:first-child {
+  width: 15%;
+}
+.answer thead th:first-child {
+  width: 28%;
+}
+.answer td:first-of-type {
+  background: var(--soft);
+}
+caption {
+  text-align: left;
+  padding: 14px 16px 6px;
+  font-weight: 700;
+  color: var(--green-dark);
+}
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+  padding: 11px 16px;
+  border-top: 1px solid var(--border);
+}
+thead th {
+  background: var(--soft);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--green-dark);
+}
+tbody th {
+  font-weight: 600;
+}
+td.total,
+th.total {
+  font-weight: 800;
+  color: var(--green-dark);
+}
+
+/* Lists of sources and FAQs */
+.sources {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.sources li {
+  margin-bottom: 4px;
+  overflow-wrap: anywhere;
+}
+details {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+}
+summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--green-dark);
+}
+details p {
+  margin: 10px 0 0;
+}
+.cta-band {
+  margin-top: 64px;
+  background: var(--green-dark);
+  color: var(--surface);
+  border-radius: 16px;
+  padding: 36px 28px;
+}
+.cta-band h2 {
+  color: var(--surface);
+}
+.cta-band p {
+  color: var(--on-green);
+}
+.cta-band .button {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--green-dark);
+}
+
+@media (max-width: 780px) {
+  /* Brand and the dashboard button share the first row; links sit below. */
+  .nav-cta {
+    order: 2;
+    padding: 9px 14px;
+  }
+  .nav-links {
+    order: 3;
+    flex-basis: 100%;
+  }
+}
+@media (max-width: 640px) {
+  :root {
+    font-size: 16px;
+  }
+  main section {
+    padding-top: 44px;
+  }
+  .hero {
+    padding-top: 40px;
+  }
+}
+
+/* Feature status (features page) */
+.status {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid var(--border);
+}
+.status.built {
+  background: var(--soft);
+  color: var(--green-dark);
+}
+.status.beta {
+  background: var(--warn-bg);
+  border-color: var(--warn-border);
+  color: var(--warn-ink);
+}
+.status.not-yet {
+  background: var(--surface);
+  color: var(--muted);
+}
+
+/* Docs (/docs/): every guide alongside, the guide in a readable column. */
+.docs {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 48px;
+  padding: 40px 0 56px;
+  align-items: start;
+}
+.docs-nav {
+  position: sticky;
+  top: 16px;
+  font-size: 0.93rem;
+}
+.docs-section {
+  margin: 18px 0 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.docs-section:first-child {
+  margin-top: 0;
+}
+.docs-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.docs-nav a {
+  display: block;
+  padding: 5px 10px;
+  border-radius: 8px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.docs-nav a:hover {
+  background: var(--soft);
+}
+.docs-nav a[aria-current='page'] {
+  background: var(--soft);
+  color: var(--green-dark);
+  font-weight: 600;
+}
+.doc {
+  max-width: 780px;
+  min-width: 0;
+}
+/* Prose keeps a readable measure, about 70 characters of DM Sans (whose wide figures make
+   `ch` too generous); tables and code may use the column's full width. */
+.doc p,
+.doc li {
+  max-width: 34em;
+}
+.crumbs {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.crumbs a {
+  color: var(--green);
+}
+.doc h2 {
+  margin-top: 1.6em;
+  font-size: clamp(1.35rem, 2.6vw, 1.7rem);
+}
+.doc h3 {
+  margin-top: 1.4em;
+}
+.doc section h2 {
+  margin-top: 1.2em;
+}
+.doc ul,
+.doc ol {
+  padding-left: 1.3em;
+  margin: 0 0 1em;
+}
+.doc li {
+  margin-bottom: 0.35em;
+}
+.doc pre.code {
+  margin: 0 0 1.2em;
+  padding: 14px 16px;
+  overflow-x: auto;
+  background: var(--code-bg);
+  color: var(--code-ink);
+  border-radius: 10px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+.doc pre.code code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  overflow-wrap: normal;
+}
+.doc pre.code:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.doc .table-wrap table {
+  min-width: 480px;
+  table-layout: auto;
+}
+.doc .table-wrap th,
+.doc .table-wrap td {
+  text-align: left;
+  vertical-align: top;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.doc .table-wrap thead th:first-child {
+  width: auto;
+}
+.note {
+  margin: 0 0 1.2em;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  background: var(--soft);
+  border-radius: 10px;
+}
+.note p {
+  margin: 0;
+}
+.toc {
+  margin: 0 0 1.6em;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  font-size: 0.93rem;
+}
+.toc p {
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+.toc ul {
+  margin: 0;
+  padding-left: 1.1em;
+}
+.doc-card {
+  display: grid;
+  gap: 6px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.doc-card strong {
+  color: var(--green-dark);
+}
+.doc-card span {
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+.doc-card:hover {
+  border-color: var(--green);
+}
+.doc-pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.doc-pager a {
+  display: grid;
+  text-decoration: none;
+  font-weight: 600;
+}
+.doc-pager a span {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+.doc-pager .next {
+  text-align: right;
+  margin-left: auto;
+}
+@media (max-width: 900px) {
+  /* The guide first; every guide listed after it. */
+  .docs {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    padding-top: 28px;
+  }
+  .docs-nav {
+    position: static;
+    order: 2;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+}

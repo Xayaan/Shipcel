@@ -1,0 +1,23 @@
+diff --git a/light-base/src/database.rs b/light-base/src/database.rs
+index f198106..c343ae3 100644
+--- a/light-base/src/database.rs
++++ b/light-base/src/database.rs
+@@ -93,6 +93,18 @@ pub async fn encode_database<TPlat: platform::PlatformRef>(
+         .await
+         .unwrap_or((None, None, None));
+ 
++    // Patch (Shipcel's Bittensor light client): a runtime's code is several megabytes. When its
++    // base64 encoding alone exceeds `max_size`, the loop below would encode it and the whole
++    // database, then scrap it; it is left out at once instead, sparing that memory.
++    let code_fits = code_storage_value
++        .as_ref()
++        .map_or(true, |code| code.len().div_ceil(3) * 4 <= max_size);
++    let (code_storage_value, code_merkle_value) = if code_fits {
++        (code_storage_value, code_merkle_value)
++    } else {
++        (None, None)
++    };
++
+     // Craft the structure containing all the data that we would like to include.
+     let mut database_draft = SerdeDatabase {
+         genesis_hash: hex::encode(genesis_block_hash),

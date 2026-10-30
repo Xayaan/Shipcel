@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>hello-database</title>
+    <style>
+      body {
+        font:
+          16px/1.5 system-ui,
+          sans-serif;
+        max-width: 40rem;
+        margin: 3rem auto;
+        padding: 0 1rem;
+      }
+      pre {
+        background: #f4f4f5;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>hello-database</h1>
+    <p>
+      A Worker with a D1 database, a KV namespace, a Durable Object and a
+      schedule, deployed with <code>shipcel</code>. Each load of this page asks
+      <code>/api/check</code>, which uses all of them:
+    </p>
+    <pre id="result">Checking…</pre>
+    <script>
+      fetch('/api/check')
+        .then((response) => response.json())
+        .then((result) => {
+          document.getElementById('result').textContent = JSON.stringify(
+            result,
+            null,
+            2,
+          );
+        })
+        .catch((error) => {
+          document.getElementById('result').textContent = String(error);
+        });
+    </script>
+  </body>
+</html>

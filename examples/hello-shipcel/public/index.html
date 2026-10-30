@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello from Shipcel</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Deployed with the shipcel CLI</p>
+      <h1>Hello from your own Cloudflare account</h1>
+      <p>
+        These files are served by Workers Static Assets. The button calls
+        <code>/api/hello</code>, which no file matches, so the
+        <code>_worker.js</code> in this folder answers it.
+      </p>
+      <button id="call" type="button">Call the API</button>
+      <pre id="answer" aria-live="polite">Nothing yet.</pre>
+    </main>
+  </body>
+</html>

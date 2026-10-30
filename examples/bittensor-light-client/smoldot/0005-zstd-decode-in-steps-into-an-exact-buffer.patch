@@ -1,0 +1,120 @@
+diff --git a/lib/src/executor/host/zstd.rs b/lib/src/executor/host/zstd.rs
+index 25eb4df..45b2f60 100644
+--- a/lib/src/executor/host/zstd.rs
++++ b/lib/src/executor/host/zstd.rs
+@@ -47,24 +47,68 @@ pub(super) fn zstd_decode_if_necessary(
+ /// Decompresses the given blob of zstd-compressed data.
+ ///
+ /// The output data shall not be larger than `max_allowed`, to avoid potential zip bombs.
+-fn zstd_decode(mut data: &[u8], max_allowed: usize) -> Result<Vec<u8>, Error> {
++///
++/// Patch (Shipcel's Bittensor light client): runtimes don't record their decompressed size in
++/// their zstd frame. Decoding the frame in one go keeps every decoded byte in the decoder's
++/// buffer, which grows by doubling, and then copies them out: about 26 MiB at once for a 10 MiB
++/// runtime. Instead, the frame is decoded twice, each time a step at a time, the decoder keeping
++/// only its window between steps: once to count the bytes, then into an output allocated at its
++/// exact size.
++fn zstd_decode(data: &[u8], max_allowed: usize) -> Result<Vec<u8>, Error> {
++    let mut counter = Counter(0);
++    let len = zstd_decode_to(data, max_allowed, &mut counter)?;
++    let mut out = Vec::with_capacity(len);
++    zstd_decode_to(data, max_allowed, &mut out)?;
++    debug_assert_eq!(out.len(), len);
++    Ok(out)
++}
++
++/// Decompresses the given blob of zstd-compressed data into `out`, and returns the number of
++/// bytes written. Fails if that number would exceed `max_allowed`.
++fn zstd_decode_to(
++    mut data: &[u8],
++    max_allowed: usize,
++    out: &mut impl ruzstd::io::Write,
++) -> Result<usize, Error> {
++    // Bytes decoded between two drains of the decoder's buffer.
++    const STEP: usize = 1024 * 1024;
++
+     let mut decoder = ruzstd::decoding::FrameDecoder::new();
+     decoder.init(&mut data).map_err(|_| Error::InvalidZstd)?;
+ 
+-    match decoder.decode_blocks(
+-        &mut data,
+-        ruzstd::decoding::BlockDecodingStrategy::UptoBytes(max_allowed),
+-    ) {
+-        Ok(true) => {}
+-        Ok(false) => return Err(Error::TooLarge),
+-        Err(_) => return Err(Error::InvalidZstd),
++    let mut written = 0;
++    loop {
++        let finished = decoder
++            .decode_blocks(
++                &mut data,
++                ruzstd::decoding::BlockDecodingStrategy::UptoBytes(STEP),
++            )
++            .map_err(|_| Error::InvalidZstd)?;
++        if written + decoder.can_collect() > max_allowed {
++            return Err(Error::TooLarge);
++        }
++        written += decoder
++            .collect_to_writer(&mut *out)
++            .map_err(|_| Error::InvalidZstd)?;
++        if finished {
++            debug_assert!(decoder.is_finished());
++            return Ok(written);
++        }
+     }
+-    debug_assert!(decoder.is_finished());
++}
++
++/// Counts the bytes written to it.
++struct Counter(usize);
+ 
+-    // When the decoding is finished, `Some` is always guaranteed to be returned.
+-    let out_buf = decoder.collect().unwrap();
+-    debug_assert!(out_buf.len() <= max_allowed);
+-    Ok(out_buf)
++impl ruzstd::io::Write for Counter {
++    fn write(&mut self, buf: &[u8]) -> Result<usize, ruzstd::io::Error> {
++        self.0 += buf.len();
++        Ok(buf.len())
++    }
++
++    fn flush(&mut self) -> Result<(), ruzstd::io::Error> {
++        Ok(())
++    }
+ }
+ 
+ /// Error possibly returned when decoding a zstd-compressed Wasm blob.
+diff --git a/lib/src/executor/host/zstd/tests.rs b/lib/src/executor/host/zstd/tests.rs
+index fbbfcc5..b53c85b 100644
+--- a/lib/src/executor/host/zstd/tests.rs
++++ b/lib/src/executor/host/zstd/tests.rs
+@@ -55,3 +55,29 @@ fn basic_works_with_header() {
+     )
+     .unwrap();
+ }
++
++#[test]
++fn same_as_decoding_the_whole_frame_at_once() {
++    let compressed =
++        &include_bytes!("./polkadot-runtime-v9160.wasm.zstd")[super::ZSTD_PREFIX.len()..];
++    let mut source = compressed;
++    let mut decoder = ruzstd::decoding::FrameDecoder::new();
++    decoder.init(&mut source).unwrap();
++    assert!(
++        decoder
++            .decode_blocks(&mut source, ruzstd::decoding::BlockDecodingStrategy::All)
++            .unwrap()
++    );
++    let whole = decoder.collect().unwrap();
++
++    let streamed = super::zstd_decode(compressed, 50 * 1024 * 1024).unwrap();
++    assert_eq!(streamed, whole);
++    assert_eq!(streamed.capacity(), streamed.len());
++
++    // The limit is the output's size, inclusive.
++    assert_eq!(super::zstd_decode(compressed, whole.len()).unwrap(), whole);
++    assert!(matches!(
++        super::zstd_decode(compressed, whole.len() - 1),
++        Err(super::Error::TooLarge)
++    ));
++}

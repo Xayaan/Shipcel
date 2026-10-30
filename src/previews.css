@@ -1,0 +1,53 @@
+/* Hallmark · checked: 2026-10-28 · genre: modern-minimal (inferred) · scope: app · floor: see styles.css
+ * built: the project · redesign: polish · v2.0.0 */
+.preview-list {
+  display: grid;
+  gap: 10px;
+}
+.preview-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.preview-list h4,
+.preview-section h4 {
+  font-size: 13px;
+  margin: 0;
+}
+.preview-list ul[aria-label='Previews'] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.preview-list ul[aria-label='Previews'] > li {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+}
+.preview-list li > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.preview-list li .field-hint {
+  margin: 0;
+}
+.preview-list .button {
+  flex-shrink: 0;
+}
+.preview-issues {
+  margin: 0;
+  padding-left: 30px;
+}
+@media (max-width: 640px) {
+  .preview-list ul[aria-label='Previews'] > li {
+    flex-direction: column;
+  }
+}

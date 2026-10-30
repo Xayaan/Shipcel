@@ -1,0 +1,680 @@
+diff --git a/lib/src/executor/host.rs b/lib/src/executor/host.rs
+index 669521d..329e5b2 100644
+--- a/lib/src/executor/host.rs
++++ b/lib/src/executor/host.rs
+@@ -314,8 +314,45 @@ impl HostVmPrototype {
+         // all implementations.
+         // See <https://github.com/paritytech/substrate/blob/f9d10fabe04d598d68f8b097cc4905adbb1ad630/primitives/maybe-compressed-blob/src/lib.rs#L37>.
+         // Hopefully, this value doesn't get changed without the Substrate team informing everyone.
+-        let module_bytes = zstd::zstd_decode_if_necessary(config.module.as_ref(), 50 * 1024 * 1024)
+-            .map_err(NewErr::BadFormat)?;
++        let max_decompressed = 50 * 1024 * 1024;
++
++        // Patch (Shipcel's Bittensor light client): a compressed runtime that the interpreter
++        // compiles lazily is never decompressed whole. It is decompressed twice as a stream, a
++        // step at a time: once for the custom sections that hold its runtime version, then into
++        // the interpreter. Whole, a 10 MiB runtime was held at once beside the interpreter's
++        // copy of its code.
++        let streamed = match config.exec_hint {
++            vm::ExecHint::CompileWithNonDeterministicValidation
++            | vm::ExecHint::ExecuteOnceWithNonDeterministicValidation => {
++                zstd::zstd_frame(config.module.as_ref())
++            }
++            _ => None,
++        };
++        let module_bytes = match streamed {
++            Some(_) => None,
++            None => Some(
++                zstd::zstd_decode_if_necessary(config.module.as_ref(), max_decompressed)
++                    .map_err(NewErr::BadFormat)?,
++            ),
++        };
++        let runtime_version_sections = match streamed {
++            Some(frame) => {
++                let mut reader =
++                    zstd::ZstdReader::new(frame, max_decompressed).map_err(NewErr::BadFormat)?;
++                match runtime_version::embedded_runtime_version_sections(&mut reader) {
++                    Ok(sections) => sections,
++                    Err(err) => {
++                        return Err(match reader.failed {
++                            Some(zstd_error) => NewErr::BadFormat(zstd_error),
++                            None => NewErr::RuntimeVersion(
++                                FindEmbeddedRuntimeVersionError::FindSections(err),
++                            ),
++                        });
++                    }
++                }
++            }
++            None => Vec::new(),
++        };
+ 
+         // Try to find the runtime version as Wasm custom sections.
+         // An error is returned if the sections have a wrong format, in which case we fail the
+@@ -325,7 +362,11 @@ impl HostVmPrototype {
+         // In the case of `CustomSectionsPresenceMismatch`, indicating that one section is present
+         // but not the other, we must ignore the custom sections. This is necessary due to some
+         // historical accidents.
+-        let runtime_version = match runtime_version::find_embedded_runtime_version(&module_bytes) {
++        let runtime_version = match runtime_version::find_embedded_runtime_version(
++            module_bytes
++                .as_deref()
++                .unwrap_or(&runtime_version_sections[..]),
++        ) {
+             Ok(Some(r)) => Some(r),
+             Ok(None) => None,
+             Err(
+@@ -354,30 +395,38 @@ impl HostVmPrototype {
+         // array.
+         let (mut vm_proto, registered_functions) = {
+             let mut registered_functions = Vec::new();
+-            let vm_proto = vm::VirtualMachinePrototype::new(vm::Config {
+-                module_bytes: &module_bytes[..],
+-                exec_hint: config.exec_hint,
+-                // This closure is called back for each function that the runtime imports.
+-                symbols: &mut |mod_name, f_name, signature| {
+-                    if mod_name != "env" {
++            // This closure is called back for each function that the runtime imports.
++            let mut symbols = |mod_name: &str, f_name: &str, signature: &vm::Signature| {
++                if mod_name != "env" {
++                    return Err(());
++                }
++
++                let id = registered_functions.len();
++                registered_functions.push(match HostFunction::by_name(f_name) {
++                    Some(f) if f.signature() == *signature => FunctionImport::Resolved(f),
++                    Some(_) | None if !config.allow_unresolved_imports => {
++                        // TODO: return a better error if there is a signature mismatch
+                         return Err(());
+                     }
+-
+-                    let id = registered_functions.len();
+-                    registered_functions.push(match HostFunction::by_name(f_name) {
+-                        Some(f) if f.signature() == *signature => FunctionImport::Resolved(f),
+-                        Some(_) | None if !config.allow_unresolved_imports => {
+-                            // TODO: return a better error if there is a signature mismatch
+-                            return Err(());
+-                        }
+-                        Some(_) | None => FunctionImport::Unresolved {
+-                            name: f_name.to_owned(),
+-                            module: mod_name.to_owned(),
+-                        },
+-                    });
+-                    Ok(id)
+-                },
+-            })?;
++                    Some(_) | None => FunctionImport::Unresolved {
++                        name: f_name.to_owned(),
++                        module: mod_name.to_owned(),
++                    },
++                });
++                Ok(id)
++            };
++            let vm_proto = match (&module_bytes, streamed) {
++                (Some(module_bytes), _) => vm::VirtualMachinePrototype::new(vm::Config {
++                    module_bytes: &module_bytes[..],
++                    exec_hint: config.exec_hint,
++                    symbols: &mut symbols,
++                })?,
++                (None, Some(frame)) => vm::VirtualMachinePrototype::new_lazy_interpreter_streaming(
++                    zstd::ZstdReader::new(frame, max_decompressed).map_err(NewErr::BadFormat)?,
++                    &mut symbols,
++                )?,
++                (None, None) => unreachable!(),
++            };
+             (vm_proto, registered_functions.into())
+         };
+ 
+@@ -460,6 +509,18 @@ impl HostVmPrototype {
+         Ok(host_vm_prototype)
+     }
+ 
++    /// Patch (Shipcel's Bittensor light client): the functions the runtime imports that the host
++    /// doesn't provide, as `(module, name)`: none unless built with `allow_unresolved_imports`.
++    pub fn unresolved_imports(&self) -> impl Iterator<Item = (&str, &str)> {
++        self.common
++            .registered_functions
++            .iter()
++            .filter_map(|f| match f {
++                FunctionImport::Unresolved { module, name } => Some((&module[..], &name[..])),
++                FunctionImport::Resolved(_) => None,
++            })
++    }
++
+     /// Returns the number of heap pages that were passed to [`HostVmPrototype::new`].
+     pub fn heap_pages(&self) -> HeapPages {
+         self.common.heap_pages
+diff --git a/lib/src/executor/host/runtime_version.rs b/lib/src/executor/host/runtime_version.rs
+index 38a0e1b..7f5918c 100644
+--- a/lib/src/executor/host/runtime_version.rs
++++ b/lib/src/executor/host/runtime_version.rs
+@@ -61,6 +61,120 @@ pub fn find_embedded_runtime_version(
+     )))
+ }
+ 
++/// Patch (Shipcel's Bittensor light client): reads a Wasm module from `module` to its end and
++/// returns a module made of only its `runtime_version` and `runtime_apis` custom sections, for
++/// [`find_embedded_runtime_version`], without ever holding the whole module. Fails if `module`
++/// isn't a sequence of Wasm sections, or keeps one of those sections over 1 MiB.
++pub fn embedded_runtime_version_sections(
++    module: &mut impl wasmi::Read,
++) -> Result<Vec<u8>, FindEncodedEmbeddedRuntimeVersionApisError> {
++    const HEADER: &[u8; 8] = b"\0asm\x01\x00\x00\x00";
++    const MAX_KEPT: usize = 1024 * 1024;
++    let failed = FindEncodedEmbeddedRuntimeVersionApisError::FailedToParse;
++
++    // Reads into the whole of `buf`, or returns `Ok(false)` at the end of the stream before any
++    // byte was read.
++    fn fill(module: &mut impl wasmi::Read, buf: &mut [u8]) -> Result<bool, ()> {
++        let mut filled = 0;
++        while filled < buf.len() {
++            match module.read(&mut buf[filled..]) {
++                Ok(0) | Err(wasmi::errors::ReadError::EndOfStream) if filled == 0 => {
++                    return Ok(false);
++                }
++                Ok(0) | Err(_) => return Err(()),
++                Ok(n) => filled += n,
++            }
++        }
++        Ok(true)
++    }
++    // An unsigned LEB128 number, and how many bytes it took.
++    fn leb128(module: &mut impl wasmi::Read) -> Result<(usize, usize), ()> {
++        let mut value = 0usize;
++        for i in 0..5 {
++            let mut byte = [0u8];
++            if !fill(module, &mut byte)? {
++                return Err(());
++            }
++            value |= usize::from(byte[0] & 0x7f) << (7 * i);
++            if byte[0] & 0x80 == 0 {
++                return Ok((value, i + 1));
++            }
++        }
++        Err(())
++    }
++    fn skip(module: &mut impl wasmi::Read, mut len: usize) -> Result<(), ()> {
++        let mut scratch = [0u8; 4096];
++        while len > 0 {
++            let step = core::cmp::min(len, scratch.len());
++            if !fill(module, &mut scratch[..step])? {
++                return Err(());
++            }
++            len -= step;
++        }
++        Ok(())
++    }
++
++    let mut header = [0u8; 8];
++    if fill(module, &mut header) != Ok(true) || header != *HEADER {
++        return Err(failed);
++    }
++    let mut out = HEADER.to_vec();
++    loop {
++        let mut id = [0u8];
++        match fill(module, &mut id) {
++            Ok(true) => {}
++            Ok(false) => return Ok(out),
++            Err(()) => return Err(failed),
++        }
++        let (size, _) = leb128(module).map_err(|()| failed.clone())?;
++        if id[0] != 0 {
++            skip(module, size).map_err(|()| failed.clone())?;
++            continue;
++        }
++        let (name_len, name_len_bytes) = leb128(module).map_err(|()| failed.clone())?;
++        let rest = size
++            .checked_sub(name_len_bytes)
++            .and_then(|r| r.checked_sub(name_len))
++            .ok_or(failed.clone())?;
++        let mut name = [0u8; 15];
++        let wanted = if name_len <= name.len() {
++            if fill(module, &mut name[..name_len]) != Ok(true) {
++                return Err(failed);
++            }
++            matches!(&name[..name_len], b"runtime_version" | b"runtime_apis")
++        } else {
++            skip(module, name_len).map_err(|()| failed.clone())?;
++            false
++        };
++        if !wanted {
++            skip(module, rest).map_err(|()| failed.clone())?;
++            continue;
++        }
++        if size > MAX_KEPT {
++            return Err(failed);
++        }
++        let mut section = Vec::with_capacity(1 + 5 + size);
++        section.push(0);
++        let mut v = size;
++        loop {
++            let byte = (v & 0x7f) as u8;
++            v >>= 7;
++            section.push(if v == 0 { byte } else { byte | 0x80 });
++            if v == 0 {
++                break;
++            }
++        }
++        section.push(u8::try_from(name_len).unwrap_or_else(|_| unreachable!()));
++        section.extend_from_slice(&name[..name_len]);
++        let start = section.len();
++        section.resize(start + rest, 0);
++        if fill(module, &mut section[start..]) != Ok(true) {
++            return Err(failed);
++        }
++        out.extend_from_slice(&section);
++    }
++}
++
+ /// Error returned by [`find_embedded_runtime_version`].
+ #[derive(Debug, derive_more::Display, derive_more::Error, Clone)]
+ pub enum FindEmbeddedRuntimeVersionError {
+diff --git a/lib/src/executor/host/tests/initialization.rs b/lib/src/executor/host/tests/initialization.rs
+index 7b9747c..c93312c 100644
+--- a/lib/src/executor/host/tests/initialization.rs
++++ b/lib/src/executor/host/tests/initialization.rs
+@@ -230,3 +230,149 @@ fn rococo_genesis_works() {
+ }
+ 
+ // TODO: add tests for the runtime version gathering after clarifying the errors in host.rs
++
++// Patch (Shipcel's Bittensor light client): a compressed runtime that the interpreter compiles
++// lazily is read as a stream, never decompressed whole. These hints take that path.
++const STREAMED: [ExecHint; 2] = [
++    ExecHint::CompileWithNonDeterministicValidation,
++    ExecHint::ExecuteOnceWithNonDeterministicValidation,
++];
++
++#[test]
++fn streamed_invalid_zstd() {
++    let module_bytes = &[82, 188, 83, 118, 70, 219, 142, 5, 6, 7, 8, 9, 10];
++    for exec_hint in STREAMED {
++        match HostVmPrototype::new(Config {
++            allow_unresolved_imports: false,
++            exec_hint,
++            heap_pages: HeapPages::new(1024),
++            module: &module_bytes,
++        }) {
++            Err(NewErr::BadFormat(ModuleFormatError::InvalidZstd)) => {}
++            _ => panic!(),
++        }
++    }
++}
++
++#[test]
++fn streamed_compressed_runtime_is_the_same_runtime() {
++    // Polkadot's runtime, zstd-compressed with the Substrate prefix, carries its version in
++    // custom sections.
++    let module = &include_bytes!("../zstd/polkadot-runtime-v9160.wasm.zstd")[..];
++    let build = |exec_hint| {
++        HostVmPrototype::new(Config {
++            allow_unresolved_imports: true,
++            exec_hint,
++            heap_pages: HeapPages::new(2048),
++            module,
++        })
++        .unwrap()
++    };
++    // The same interpreter, compiling lazily too, from the module decompressed whole.
++    let whole = build(ExecHint::ForceWasmi {
++        lazy_validation: true,
++    });
++    for exec_hint in STREAMED {
++        let streamed = build(exec_hint);
++        assert_eq!(
++            streamed.runtime_version().as_ref(),
++            whole.runtime_version().as_ref()
++        );
++        // And it runs the same: `Core_version` and the metadata, byte for byte.
++        for function in ["Core_version", "Metadata_metadata"] {
++            assert_eq!(
++                run(streamed.clone(), function),
++                run(whole.clone(), function)
++            );
++        }
++    }
++}
++
++// Runs `function` without parameters and returns its output.
++fn run(prototype: HostVmPrototype, function: &str) -> Vec<u8> {
++    let mut vm: super::super::HostVm = prototype
++        .run_no_param(
++            function,
++            super::super::StorageProofSizeBehavior::proof_recording_disabled(),
++        )
++        .unwrap()
++        .into();
++    loop {
++        match vm {
++            super::super::HostVm::ReadyToRun(r) => vm = r.run(),
++            super::super::HostVm::Finished(finished) => return finished.value().as_ref().to_vec(),
++            super::super::HostVm::GetMaxLogLevel(resume) => vm = resume.resume(0),
++            super::super::HostVm::LogEmit(log) => vm = log.resume(),
++            _ => panic!(),
++        }
++    }
++}
++
++#[test]
++fn custom_sections_read_from_a_stream() {
++    use super::super::runtime_version::{
++        embedded_runtime_version_sections, find_embedded_runtime_version,
++    };
++    use super::super::zstd;
++    // Westend's runtime, zstd-compressed with the Substrate prefix.
++    let compressed = &include_bytes!("../westend-runtime-v9300.wasm")[..];
++    let full = zstd::zstd_decode_if_necessary(compressed, 50 * 1024 * 1024).unwrap();
++    let mut stream =
++        zstd::ZstdReader::new(zstd::zstd_frame(compressed).unwrap(), full.len()).unwrap();
++    let sections = embedded_runtime_version_sections(&mut stream).unwrap();
++    // Only the two sections, the same read from the stream or from the bytes.
++    assert!(sections.len() < 4096);
++    assert_eq!(
++        sections,
++        embedded_runtime_version_sections(&mut &full[..]).unwrap()
++    );
++    let expected = find_embedded_runtime_version(&full).unwrap().unwrap();
++    let found = find_embedded_runtime_version(&sections).unwrap().unwrap();
++    assert_eq!(found.as_ref(), expected.as_ref());
++
++    // A module without them gives a module without them.
++    let bare = wat::parse_str("(module)").unwrap();
++    let sections = embedded_runtime_version_sections(&mut &bare[..]).unwrap();
++    assert!(find_embedded_runtime_version(&sections).unwrap().is_none());
++
++    // A module cut short, or not a module, is refused.
++    assert!(embedded_runtime_version_sections(&mut &full[..full.len() - 1]).is_err());
++    assert!(embedded_runtime_version_sections(&mut &compressed[..]).is_err());
++    assert!(embedded_runtime_version_sections(&mut &[1, 2, 3][..]).is_err());
++}
++
++#[test]
++fn unresolved_imports_are_listed() {
++    let module_bytes = with_core_version_custom_sections(
++        wat::parse_str(
++            r#"
++    (module
++        (import "env" "memory" (memory 0))
++        (import "env" "ext_allocator_malloc_version_1" (func (param i32) (result i32)))
++        (import "env" "thishostfunctiondoesntexist" (func (param i64) (result i64)))
++        (import "env" "ext_allocator_free_version_1" (func (param i64)))
++        (global (export "__heap_base") i32 (i32.const 0))
++    )
++    "#,
++        )
++        .unwrap(),
++    );
++
++    for exec_hint in ExecHint::available_engines() {
++        let vm = HostVmPrototype::new(Config {
++            allow_unresolved_imports: true,
++            exec_hint,
++            heap_pages: HeapPages::new(1024),
++            module: &module_bytes,
++        })
++        .unwrap();
++        // A missing function and one with the wrong signature, in import order.
++        assert_eq!(
++            vm.unresolved_imports().collect::<Vec<_>>(),
++            [
++                ("env", "thishostfunctiondoesntexist"),
++                ("env", "ext_allocator_free_version_1")
++            ]
++        );
++    }
++}
+diff --git a/lib/src/executor/host/zstd.rs b/lib/src/executor/host/zstd.rs
+index 45b2f60..b4e059d 100644
+--- a/lib/src/executor/host/zstd.rs
++++ b/lib/src/executor/host/zstd.rs
+@@ -44,6 +44,54 @@ pub(super) fn zstd_decode_if_necessary(
+     }
+ }
+ 
++/// Patch (Shipcel's Bittensor light client): if the given blob starts with [`ZSTD_PREFIX`],
++/// returns the zstd frame that follows it.
++pub(super) fn zstd_frame(data: &[u8]) -> Option<&[u8]> {
++    data.strip_prefix(&ZSTD_PREFIX[..])
++}
++
++/// Patch (Shipcel's Bittensor light client): the decompressed bytes of a zstd frame, read a step
++/// at a time, the decoder keeping only its window. Reading fails past `max_allowed` bytes, as
++/// [`zstd_decode`] does, or on invalid data, and [`ZstdReader::failed`] then says which.
++pub(super) struct ZstdReader<'a> {
++    decoder: ruzstd::decoding::StreamingDecoder<&'a [u8], ruzstd::decoding::FrameDecoder>,
++    allowed: usize,
++    /// Why reading failed, if it did.
++    pub(super) failed: Option<Error>,
++}
++
++impl<'a> ZstdReader<'a> {
++    pub(super) fn new(frame: &'a [u8], max_allowed: usize) -> Result<Self, Error> {
++        Ok(ZstdReader {
++            decoder: ruzstd::decoding::StreamingDecoder::new(frame)
++                .map_err(|_| Error::InvalidZstd)?,
++            allowed: max_allowed,
++            failed: None,
++        })
++    }
++}
++
++impl wasmi::Read for ZstdReader<'_> {
++    fn read(&mut self, buf: &mut [u8]) -> Result<usize, wasmi::errors::ReadError> {
++        // One byte more than allowed is asked for, to tell a frame that ends exactly at the limit
++        // from one that goes past it.
++        let len = core::cmp::min(buf.len(), self.allowed.saturating_add(1));
++        let read = match ruzstd::io::Read::read(&mut self.decoder, &mut buf[..len]) {
++            Ok(read) => read,
++            Err(_) => {
++                self.failed = Some(Error::InvalidZstd);
++                return Err(wasmi::errors::ReadError::UnknownError);
++            }
++        };
++        if read > self.allowed {
++            self.failed = Some(Error::TooLarge);
++            return Err(wasmi::errors::ReadError::UnknownError);
++        }
++        self.allowed -= read;
++        Ok(read)
++    }
++}
++
+ /// Decompresses the given blob of zstd-compressed data.
+ ///
+ /// The output data shall not be larger than `max_allowed`, to avoid potential zip bombs.
+diff --git a/lib/src/executor/host/zstd/tests.rs b/lib/src/executor/host/zstd/tests.rs
+index b53c85b..a42aead 100644
+--- a/lib/src/executor/host/zstd/tests.rs
++++ b/lib/src/executor/host/zstd/tests.rs
+@@ -81,3 +81,31 @@ fn same_as_decoding_the_whole_frame_at_once() {
+         Err(super::Error::TooLarge)
+     ));
+ }
++
++#[test]
++fn reader_streams_the_same_bytes() {
++    use wasmi::Read as _;
++    let frame = &include_bytes!("./polkadot-runtime-v9160.wasm.zstd")[super::ZSTD_PREFIX.len()..];
++    let whole = super::zstd_decode(frame, 50 * 1024 * 1024).unwrap();
++    let read_all = |max_allowed| {
++        let mut reader = super::ZstdReader::new(frame, max_allowed).unwrap();
++        let mut out = Vec::new();
++        let mut buf = [0u8; 7000];
++        loop {
++            match reader.read(&mut buf) {
++                Ok(0) => return Ok(out),
++                Ok(n) => out.extend_from_slice(&buf[..n]),
++                Err(_) => return Err(reader.failed.clone().unwrap()),
++            }
++        }
++    };
++    assert_eq!(read_all(whole.len()).unwrap(), whole);
++    assert!(matches!(
++        read_all(whole.len() - 1),
++        Err(super::Error::TooLarge)
++    ));
++    assert!(matches!(
++        super::ZstdReader::new(&[0xff; 64], 1024),
++        Err(super::Error::InvalidZstd)
++    ));
++}
+diff --git a/lib/src/executor/vm.rs b/lib/src/executor/vm.rs
+index ca85d62..05ced4c 100644
+--- a/lib/src/executor/vm.rs
++++ b/lib/src/executor/vm.rs
+@@ -237,6 +237,25 @@ impl VirtualMachinePrototype {
+         })
+     }
+ 
++    /// Patch (Shipcel's Bittensor light client): what [`VirtualMachinePrototype::new`] builds with
++    /// [`ExecHint::CompileWithNonDeterministicValidation`] or
++    /// [`ExecHint::ExecuteOnceWithNonDeterministicValidation`], the interpreter compiling lazily,
++    /// reading the module from `stream`, which is never held whole.
++    pub fn new_lazy_interpreter_streaming(
++        stream: impl wasmi::Read,
++        symbols: &mut dyn FnMut(&str, &str, &Signature) -> Result<usize, ()>,
++    ) -> Result<Self, NewErr> {
++        Ok(VirtualMachinePrototype {
++            inner: VirtualMachinePrototypeInner::Interpreter(
++                interpreter::InterpreterPrototype::new_streaming(
++                    stream,
++                    interpreter::CompilationMode::Lazy,
++                    symbols,
++                )?,
++            ),
++        })
++    }
++
+     /// Returns the value of a global that the module exports.
+     ///
+     /// The global variable must be a `i32`, otherwise an error is returned. Negative values are
+diff --git a/lib/src/executor/vm/interpreter.rs b/lib/src/executor/vm/interpreter.rs
+index 8e4634b..124368e 100644
+--- a/lib/src/executor/vm/interpreter.rs
++++ b/lib/src/executor/vm/interpreter.rs
+@@ -55,6 +55,32 @@ impl InterpreterPrototype {
+         module_bytes: &[u8],
+         compilation_mode: CompilationMode,
+         symbols: &mut dyn FnMut(&str, &str, &Signature) -> Result<usize, ()>,
++    ) -> Result<Self, NewErr> {
++        Self::new_from(
++            |engine| wasmi::Module::new(engine, module_bytes),
++            compilation_mode,
++            symbols,
++        )
++    }
++
++    /// Patch (Shipcel's Bittensor light client): like [`InterpreterPrototype::new`], reading the
++    /// module from `stream`, which is never held whole.
++    pub fn new_streaming(
++        stream: impl wasmi::Read,
++        compilation_mode: CompilationMode,
++        symbols: &mut dyn FnMut(&str, &str, &Signature) -> Result<usize, ()>,
++    ) -> Result<Self, NewErr> {
++        Self::new_from(
++            |engine| wasmi::Module::new_streaming(engine, stream),
++            compilation_mode,
++            symbols,
++        )
++    }
++
++    fn new_from(
++        module: impl FnOnce(&wasmi::Engine) -> Result<wasmi::Module, wasmi::Error>,
++        compilation_mode: CompilationMode,
++        symbols: &mut dyn FnMut(&str, &str, &Signature) -> Result<usize, ()>,
+     ) -> Result<Self, NewErr> {
+         let engine = {
+             let mut config = wasmi::Config::default();
+@@ -70,12 +96,14 @@ impl InterpreterPrototype {
+             config.wasm_tail_call(false);
+             config.wasm_multi_memory(false);
+             config.compilation_mode(compilation_mode);
++            // Patch (Shipcel's Bittensor light client): smoldot reads the custom sections it needs
++            // itself; kept, they would include a runtime's debug names, about 1 MiB.
++            config.ignore_custom_sections(true);
+ 
+             wasmi::Engine::new(&config)
+         };
+ 
+-        let module = wasmi::Module::new(&engine, module_bytes)
+-            .map_err(|err| NewErr::InvalidWasm(err.to_string()))?;
++        let module = module(&engine).map_err(|err| NewErr::InvalidWasm(err.to_string()))?;
+ 
+         let mut linker_builder = wasmi::Linker::<()>::build();
+ 
+diff --git a/light-base/src/runtime_service.rs b/light-base/src/runtime_service.rs
+index fc7dff3..be61f8e 100644
+--- a/light-base/src/runtime_service.rs
++++ b/light-base/src/runtime_service.rs
+@@ -3141,8 +3141,9 @@ fn compile_runtime<TPlat: PlatformRef>(
+         .map_err(RuntimeError::InvalidHeapPages)?;
+     let exec_hint = executor::vm::ExecHint::CompileWithNonDeterministicValidation;
+ 
+-    // We try once with `allow_unresolved_imports: false`. If this fails due to unresolved
+-    // import, we try again but with `allowed_unresolved_imports: true`.
++    // Patch (Shipcel's Bittensor light client): built once, unresolved imports allowed, then
++    // warned about. Building first without them to find one, then again with them, built a
++    // runtime that imports a function smoldot lacks, such as Finney's, twice.
+     // Having unresolved imports might cause errors later on, for example when validating
+     // transactions or getting the parachain heads, but for now we continue the execution
+     // and print a warning.
+@@ -3150,45 +3151,23 @@ fn compile_runtime<TPlat: PlatformRef>(
+         module,
+         heap_pages,
+         exec_hint,
+-        allow_unresolved_imports: false,
++        allow_unresolved_imports: true,
+     }) {
+-        Ok(vm) => Ok(vm),
+-        Err(executor::host::NewErr::VirtualMachine(
+-            executor::vm::NewErr::UnresolvedFunctionImport {
+-                function,
+-                module_name,
+-            },
+-        )) => {
+-            match executor::host::HostVmPrototype::new(executor::host::Config {
+-                module,
+-                heap_pages,
+-                exec_hint,
+-                allow_unresolved_imports: true,
+-            }) {
+-                Ok(vm) => {
+-                    log!(
+-                        platform,
+-                        Warn,
+-                        log_target,
+-                        format!(
+-                            "Unresolved host function in runtime: `{}`:`{}`. Smoldot might \
+-                            encounter errors later on. Please report this issue in \
+-                            https://github.com/paritytech/smoldot",
+-                            module_name, function
+-                        )
+-                    );
+-
+-                    Ok(vm)
+-                }
+-                Err(executor::host::NewErr::VirtualMachine(
+-                    executor::vm::NewErr::UnresolvedFunctionImport { .. },
+-                )) => unreachable!(),
+-                Err(error) => {
+-                    // It's still possible that errors other than an unresolved host
+-                    // function happen.
+-                    Err(RuntimeError::Build(error))
+-                }
++        Ok(vm) => {
++            if let Some((module_name, function)) = vm.unresolved_imports().next() {
++                log!(
++                    platform,
++                    Warn,
++                    log_target,
++                    format!(
++                        "Unresolved host function in runtime: `{}`:`{}`. Smoldot might \
++                        encounter errors later on. Please report this issue in \
++                        https://github.com/paritytech/smoldot",
++                        module_name, function
++                    )
++                );
+             }
++            Ok(vm)
+         }
+         Err(error) => Err(RuntimeError::Build(error)),
+     }

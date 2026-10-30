@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Starter kits | Shipcel docs</title>
+<meta name="description" content="A starter kit is a complete new app, generated for your project, in exactly the shape Shipcel's GitHub deployments expect. Run it locally, push it to GitHub, and deploy it, or deploy the static kit straight from the CLI.">
+<meta property="og:title" content="Starter kits | Shipcel docs">
+<meta property="og:description" content="A starter kit is a complete new app, generated for your project, in exactly the shape Shipcel's GitHub deployments expect. Run it locally, push it to GitHub, and deploy it, or deploy the static kit straight from the CLI.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/" aria-current="page">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Deploy</span></nav>
+<h1>Starter kits</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#the-kits">The kits</a></li><li><a href="#databases-and-file-storage">Databases and file storage</a></li><li><a href="#create-a-kit-project">Create a kit project</a></li><li><a href="#run-it-locally">Run it locally</a></li><li><a href="#deploy-it">Deploy it</a></li><li><a href="#docker-and-wordpress">Docker and WordPress</a></li><li><a href="#your-own-kit">Your own kit</a></li></ul></nav>
+<p>A starter kit is a complete new app, generated for your project, in exactly the shape Shipcel's GitHub deployments expect. Run it locally, push it to GitHub, and deploy it, or deploy the static kit straight from the CLI.</p>
+<h2 id="the-kits">The kits</h2>
+<div class="table-wrap" role="region" aria-label="The kits" tabindex="0"><table><thead><tr><th scope="col">Kit</th><th scope="col">What you get</th><th scope="col">Runs on</th></tr></thead><tbody><tr><td>React</td><td>a Vite frontend and a Hono API</td><td>Workers + Assets</td></tr><tr><td>Vue</td><td>a Vite frontend and a Hono API</td><td>Workers + Assets</td></tr><tr><td>Hono</td><td>a typed API</td><td>Workers</td></tr><tr><td>Postgres API</td><td>a Hono API on a Postgres database, through Hyperdrive</td><td>Workers + Hyperdrive</td></tr><tr><td>Astro</td><td>server rendering with <code>@astrojs/cloudflare</code></td><td>Workers + Assets</td></tr><tr><td>SvelteKit</td><td><code>@sveltejs/adapter-cloudflare</code></td><td>Workers + Assets</td></tr><tr><td>Next.js</td><td>the OpenNext Cloudflare adapter</td><td>Workers + framework adapter</td></tr><tr><td>Python</td><td>a Python Worker, run and deployed with pywrangler (needs uv)</td><td>Python Workers</td></tr><tr><td>Container app</td><td>a Worker in front of a container built from a Dockerfile</td><td>Containers (Workers Paid)</td></tr><tr><td>Umami</td><td>web analytics, from its published image</td><td>Containers + Postgres</td></tr><tr><td>n8n</td><td>workflow automation, from its published image</td><td>Containers + Postgres</td></tr><tr><td>WordPress</td><td>experimental: WordPress 7.1 in a container</td><td>Containers + MySQL + R2</td></tr><tr><td>Static site</td><td>HTML, CSS and JavaScript</td><td>Workers Assets</td></tr><tr><td>JavaScript Worker</td><td>a minimal Worker on web-standard APIs</td><td>Workers</td></tr></tbody></table></div>
+<p>Every kit has a home page, a <code>/api/health</code> route, a README with its own steps, a check that refuses placeholder resource IDs before deploying, and example GitHub Actions workflows. Package versions are pinned to the versions Shipcel verified the kit with.</p>
+<h2 id="databases-and-file-storage">Databases and file storage</h2>
+<p>When you create a kit project you can add:</p>
+<ul><li><strong>an SQL database</strong>: Cloudflare D1, bound as <code>DB</code>;</li><li><strong>file storage</strong>: Cloudflare R2, bound as <code>FILES</code>. R2 can bill beyond its free tier, so it needs Free-only off.</li></ul>
+<p>The kit declares them as draft bindings without IDs. Nothing is created until you deploy: then Wrangler creates them in your account, after you consent on the Deployments tab.</p>
+<p><strong>Container kits</strong> need Cloudflare's Workers Paid plan ($5 a month), so their projects can't be Free-only (the CLI asks before turning it off: <code>shipcel init umami --yes</code>). They deploy from GitHub with Cloudflare's builds, which <code>shipcel git connect</code> chooses for containers. The <strong>Container app</strong> kit builds its image from its Dockerfile (any language that listens on port 8080). <strong>Umami</strong> and <strong>n8n</strong> are services: Cloudflare pulls their published images from Docker Hub, and their data lives in a Postgres database you host elsewhere (Neon's free plan is enough), whose connection string you set as the <code>DATABASE_URL</code> secret with one more secret each; until both are set the app answers 503 and starts no container. Each runs one <code>basic</code> container (1 GiB) that sleeps when no one uses it; awake all month it costs about $6.50 beyond what Workers Paid includes, plus CPU, which the budget guard counts. After the first deploy, change Umami's <code>admin</code> password, or create n8n's owner account, at once: until then anyone with the address can. Plausible isn't offered (it needs ClickHouse), nor Ghost (it needs MySQL 8 and somewhere to keep uploads).</p>
+<p>The <strong>Next.js</strong> kit comes with OpenNext's cache, so pages that revalidate (ISR) and Next.js's data cache keep their entries. With Free-only off, the entries live in an R2 bucket bound as <code>NEXT_INC_CACHE_R2_BUCKET</code>, with a Durable Object queue for revalidation and sharded Durable Objects for tags (<code>open-next.config.ts</code>); after each production deploy from the terminal or GitHub Actions, Shipcel fills the bucket with the pages Next.js prerendered, so their first visitors are served from the cache. In a Free-only project the kit keeps the cache in the app's own files instead: nothing that can bill, but those pages can't change between deploys. See <a href="https://opennext.js.org/cloudflare/caching" rel="noreferrer">OpenNext's caching guide</a>.</p>
+<p>The <strong>Postgres API</strong> kit is different: its <code>DB</code> binding is a Hyperdrive configuration for a Postgres database you host elsewhere (Neon, Supabase, PlanetScale, your own server). Add the database to the project first (<strong>Manage → Database</strong>, or <code>shipcel hyperdrive add DB</code>), and the exported kit carries its id; exported before that, it carries the placeholder <code>HYPERDRIVE_ID</code>, which the kit's deploy check refuses until you replace it. See <a href="/docs/databases-and-storage/#postgres-and-mysql-through-hyperdrive">Databases and storage</a>.</p>
+<h2 id="create-a-kit-project">Create a kit project</h2>
+<ul><li><strong>Dashboard:</strong> <strong>New project</strong> → <strong>Starter kit</strong>, choose the kit and the resources, <strong>Create project</strong>. The project's <strong>Configuration</strong> tab shows its Wrangler configuration, and <strong>Export starter kit</strong> downloads the files as a zip.</li><li><strong>CLI:</strong> <code>shipcel init &lt;kit&gt; [folder]</code> creates the project and writes the files into a new folder, linked to the project. <code>shipcel init</code> lists the kits.</li></ul>
+<pre class="code" tabindex="0"><code>shipcel init react my-app --database
+cd my-app &amp;&amp; npm install &amp;&amp; npm run dev</code></pre>
+<h2 id="run-it-locally">Run it locally</h2>
+<p>Each kit's README has the exact commands. Most kits run with <code>npm install</code> and <code>npm run dev</code>; local D1 and R2 data stay on your computer. The Python kit uses uv and pywrangler; its README covers the one-time <code>uv lock</code>.</p>
+<h2 id="deploy-it">Deploy it</h2>
+<ul><li><strong>From GitHub</strong> (every kit): push the folder to a new repository, then open the project's <strong>Deployments</strong> tab and choose that repository. The kit is already in the shape the import adapter expects. See <a href="/docs/deploy-from-github/">Deploy from GitHub</a>.</li><li><strong>From the CLI</strong> (the static kit): <code>shipcel deploy public --prod</code> from the kit's folder.</li><li><strong>With Wrangler directly</strong>: every README also shows <code>npm run deploy</code>, using your own Wrangler login, if you'd rather not use Shipcel to deploy.</li></ul>
+<p>A kit is yours: Shipcel doesn't keep a copy or track changes. Exporting again generates the kit afresh for the project's current settings.</p>
+<h2 id="docker-and-wordpress">Docker and WordPress</h2>
+<p>The <strong>Container app</strong> kit is the starting point for anything with a Dockerfile; Container Workers can also be imported from a repository (see <a href="/docs/deploy-from-github/">Deploy from GitHub</a>).</p>
+<p>WordPress is PHP with a MySQL database: Workers run JavaScript, WebAssembly and Python, and D1 is SQLite, not MySQL. What you can do:</p>
+<ol><li><strong>Deploy a static copy (works today, on the free plan).</strong> Export the site to files with a static-export plugin such as Simply Static or WP2Static, from a WordPress running anywhere (your computer, any host), then <code>shipcel deploy ./the-export-folder</code>, or drag the folder into the dashboard. Pages, posts, images and the theme are served as files, which Cloudflare serves free. Anything that needs PHP when a visitor arrives doesn't come along: comments, forms, search, logins and shops. Use a service for those (a form backend, a search widget), or the next option.</li><li><strong>Run WordPress headless (works today).</strong> WordPress stays where it is hosted, as the place where you write and edit, and a front end built with Astro, Next.js or SvelteKit reads its content through the REST API (<code>/wp-json/wp/v2/posts</code>) or WPGraphQL. Shipcel deploys the front end; editors keep WordPress, visitors get a Cloudflare site.</li><li><strong>WordPress itself on Cloudflare (experimental kit, not yet run end to end).</strong> The <strong>WordPress</strong> kit runs the official image (WordPress 7.1.4, PHP 8.4, Apache) in one container on Cloudflare Containers, with its database in a MySQL you host elsewhere, its uploads in an R2 bucket and its email through Cloudflare's Email Service. The container's disk doesn't last, so themes and plugins are built into the image, and a must-use plugin sends every upload to the Worker in front of WordPress, which keeps it in R2 and serves it from there; mail goes the same way. Nothing needs a storage or mail credential. It needs Workers Paid and bills for the time the container runs. Until it has passed its proof checklist (uploads surviving a restart, plugins, updates, cron, mail, a restored backup), use the first two routes for a site that matters.</li></ol>
+<h2 id="your-own-kit">Your own kit</h2>
+<p>The catalog is one file per kit in Shipcel's repository. <a href="/docs/add-a-starter-kit/">Add a starter kit</a> shows how to write one, and how to add it to a Shipcel you run yourself.</p>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/deploy-without-git/"><span>Previous</span>Deploy without Git</a><a class="next" href="/docs/previews-and-rollbacks/"><span>Next</span>Previews and rollbacks</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

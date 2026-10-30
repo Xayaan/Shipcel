@@ -1,0 +1,192 @@
+{
+  "verifiedAt": "2026-10-08T06:17:35.974Z",
+  "liveDeploymentTested": false,
+  "note": "Builds, deploy dry runs, and local runs in Wrangler (pywrangler for Python) that request / and /api/health. No Cloudflare resources were created.",
+  "results": [
+    {
+      "framework": "react",
+      "adapter": "configured-worker",
+      "buildCommand": "npm run build",
+      "draftResources": [
+        {
+          "type": "d1",
+          "binding": "DB"
+        },
+        {
+          "type": "r2",
+          "binding": "FILES"
+        }
+      ],
+      "install": "passed",
+      "build": "passed",
+      "nativePlan": "passed",
+      "nativeDeployDryRun": "passed",
+      "localRun": "passed",
+      "placeholderGuard": "passed"
+    },
+    {
+      "framework": "vue",
+      "adapter": "configured-worker",
+      "buildCommand": "npm run build",
+      "draftResources": [
+        {
+          "type": "d1",
+          "binding": "DB"
+        },
+        {
+          "type": "r2",
+          "binding": "FILES"
+        }
+      ],
+      "install": "passed",
+      "build": "passed",
+      "nativePlan": "passed",
+      "nativeDeployDryRun": "passed",
+      "localRun": "passed",
+      "placeholderGuard": "passed"
+    },
+    {
+      "framework": "hono",
+      "adapter": "configured-worker",
+      "buildCommand": "npm run build",
+      "draftResources": [
+        {
+          "type": "d1",
+          "binding": "DB"
+        },
+        {
+          "type": "r2",
+          "binding": "FILES"
+        }
+      ],
+      "install": "passed",
+      "build": "passed",
+      "nativePlan": "passed",
+      "nativeDeployDryRun": "passed",
+      "localRun": "passed",
+      "placeholderGuard": "passed"
+    },
+    {
+      "framework": "static",
+      "adapter": "configured-worker",
+      "buildCommand": "npm run build",
+      "draftResources": [],
+      "install": "passed",
+      "build": "passed",
+      "nativePlan": "passed",
+      "nativeDeployDryRun": "passed",
+      "localRun": "passed",
+      "placeholderGuard": "not applicable"
+    },
+    {
+      "framework": "worker",
+      "adapter": "configured-worker",
+      "buildCommand": "npm run build",
+      "draftResources": [
+        {
+          "type": "d1",
+          "binding": "DB"
+        },
+        {
+          "type": "r2",
+          "binding": "FILES"
+        }
+      ],
+      "install": "passed",
+      "build": "passed",
+      "nativePlan": "passed",
+      "nativeDeployDryRun": "passed",
+      "localRun": "passed",
+      "placeholderGuard": "passed"
+    },
+    {
+      "framework": "astro",
+      "adapter": "astro",
+      "buildCommand": "npm run build",
+      "draftResources": [
+        {
+          "type": "d1",
+          "binding": "DB"
+        },
+        {
+          "type": "r2",
+          "binding": "FILES"
+        },
+        {
+          "type": "kv",
+          "binding": "SESSION",
+          "source": "adapter"
+        }
+      ],
+      "install": "passed",
+      "build": "passed",
+      "nativePlan": "passed",
+      "nativeDeployDryRun": "passed",
+      "localRun": "passed",
+      "placeholderGuard": "passed"
+    },
+    {
+      "framework": "sveltekit",
+      "adapter": "sveltekit",
+      "buildCommand": "npm run build",
+      "draftResources": [
+        {
+          "type": "d1",
+          "binding": "DB"
+        },
+        {
+          "type": "r2",
+          "binding": "FILES"
+        }
+      ],
+      "install": "passed",
+      "build": "passed",
+      "nativePlan": "passed",
+      "nativeDeployDryRun": "passed",
+      "localRun": "passed",
+      "placeholderGuard": "passed"
+    },
+    {
+      "framework": "nextjs",
+      "adapter": "nextjs",
+      "buildCommand": "npx opennextjs-cloudflare build",
+      "draftResources": [
+        {
+          "type": "d1",
+          "binding": "DB"
+        },
+        {
+          "type": "r2",
+          "binding": "FILES"
+        }
+      ],
+      "install": "passed",
+      "build": "passed",
+      "nativePlan": "passed",
+      "nativeDeployDryRun": "passed",
+      "localRun": "passed",
+      "placeholderGuard": "passed"
+    },
+    {
+      "framework": "python",
+      "adapter": "python-packages",
+      "buildCommand": "",
+      "draftResources": [
+        {
+          "type": "d1",
+          "binding": "DB"
+        },
+        {
+          "type": "r2",
+          "binding": "FILES"
+        }
+      ],
+      "install": "passed",
+      "build": "not needed",
+      "nativePlan": "passed",
+      "nativeDeployDryRun": "passed",
+      "localRun": "passed",
+      "placeholderGuard": "passed"
+    }
+  ]
+}

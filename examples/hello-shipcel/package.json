@@ -1,0 +1,10 @@
+{
+  "name": "hello-shipcel",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A small JavaScript app deployed with the shipcel CLI: static files plus an API in _worker.js.",
+  "scripts": {
+    "preview": "shipcel deploy public",
+    "deploy": "shipcel deploy public --prod"
+  }
+}

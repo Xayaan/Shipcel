@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shipcel: the no-code platform for your own Cloudflare</title>
+<meta name="description" content="Shipcel sets up and manages the Cloudflare side of your apps with no infrastructure code: git deploys, previews, domains, databases, storage and backups. Free, with Cloudflare’s own prices and no markup.">
+<meta property="og:title" content="Shipcel: the no-code platform for your own Cloudflare">
+<meta property="og:description" content="Shipcel sets up and manages the Cloudflare side of your apps with no infrastructure code: git deploys, previews, domains, databases, storage and backups. Free, with Cloudflare’s own prices and no markup.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/home.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<section class="hero home-hero" aria-labelledby="hero-title">
+<div class="hero-copy">
+<h1 id="hero-title">From side project to enterprise, on your own Cloudflare</h1>
+<p class="lede">Your websites and apps on Cloudflare, in your own account, with no infrastructure code.</p>
+<div class="actions"><a class="button primary" href="/app/">Start free</a><a class="button" href="#tour">Watch the tour</a></div>
+<ul class="proof"><li>Free, as a launch offer: your only bill is Cloudflare’s, $0 on its free plan or $5 a month on its paid plan, Workers Paid</li><li>Your account, your data, no lock-in</li><li>No bandwidth fees for static files</li></ul>
+</div>
+<figure class="demo">
+<div class="demo-stage" aria-hidden="true">
+<div class="demo-term">
+<p class="demo-bar"><i></i><i></i><i></i><span>~/shop</span></p>
+<pre class="demo-lines"><span><span class="ok">$</span> <span class="cmd">shipcel</span><span class="caret"></span></span><span>Set up and deploy “~/shop”? [Y/n] y</span><span>Detected Vite (Build Command: npm run build, Output Directory: dist)</span><span>Building: npm run build</span><span>Uploading 12 of 12 new files…</span><span>Deployed 12 files (12 new) to shop.</span><span class="ok">Production: https://shop.ada.workers.dev/</span></pre>
+</div>
+<div class="demo-out">
+<div class="demo-site">
+<p class="demo-url"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5v-3a4 4 0 0 1 8 0v3"/></svg><span>shop.ada.workers.dev</span><span class="demo-live">Live</span></p>
+<div class="demo-page"><span class="title"></span><span class="banner"></span><span class="tiles"><span></span><span></span><span></span></span><span></span><span class="short"></span></div>
+</div>
+<div class="demo-stats">
+<p>Requests, last 24 hours</p>
+<strong>1,284</strong>
+<span class="demo-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+<p>Errors: 0</p>
+</div>
+</div>
+</div>
+<div class="demo-controls"><input type="checkbox" id="demo-pause"><label for="demo-pause">Pause the animation</label></div>
+<figcaption>One command, <code>shipcel</code>, builds the app on your computer, deploys it to your Cloudflare account and prints its address.</figcaption>
+</figure>
+<p class="hero-note small muted"><strong>Alpha:</strong> everything here is built and tested; deploys from GitHub, the terminal and drag-and-drop have gone to real Cloudflare accounts; a few parts rest on Cloudflare betas. <a href="/why/#not-yet">What isn't ready yet</a>.</p>
+</section>
+<section aria-labelledby="how-title">
+<h2 id="how-title">How it works</h2>
+<p class="section-intro">Shipcel is the control panel. Everything it sets up runs in your own Cloudflare account.</p>
+<ol class="flow">
+<li><span class="flow-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><h3>You</h3><p>Push to GitHub, run <code>shipcel</code>, drop a folder or ask your AI agent.</p></li>
+<li><span class="flow-icon"><img src="/favicon.svg" alt="" width="24" height="24"></span><h3>Shipcel</h3><p>Builds your app, sets up what it needs and checks every deploy.</p></li>
+<li class="account"><span class="flow-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 19h10.5a4.5 4.5 0 0 0 .7-8.95A6.5 6.5 0 0 0 5.6 9.4 4.8 4.8 0 0 0 7 19z"/></svg></span><h3>Your Cloudflare account</h3><ul class="chips"><li>Your app</li><li>Database</li><li>File storage</li><li>Key-value data</li><li>Sign-in</li><li>Realtime</li></ul></li>
+<li><span class="flow-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"/></svg></span><h3>Your visitors</h3><p>Served from Cloudflare’s network around the world.</p></li>
+</ol>
+<p class="flow-note"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M8 12.3l2.7 2.7L16 9.6"/></svg><span>Stop using Shipcel and your apps keep running: they’re in your account.</span></p>
+<div class="nocode">
+<h3>No infrastructure code</h3>
+<ul class="checks"><li><strong>Set up for you:</strong> Workers, builds, databases, storage, domains, secrets, sign-in and realtime, created and connected in your account. You never configure Cloudflare by hand.</li><li><strong>Reviewed first:</strong> every change is shown before it happens, and recorded afterwards.</li><li><strong>Daily work in the dashboard:</strong> secrets, domains, rollbacks, migrations, backups and previews.</li><li><strong>Ready to deploy:</strong> starter kits deploy as they are, and the CLI recognises your framework.</li></ul>
+</div>
+</section>
+<section aria-labelledby="start-title">
+<h2 id="start-title">Start your way</h2>
+<p class="section-intro">Four ways in, to the same project. Roll back any deploy in one click.</p>
+<div class="ways"><article class="way"><h3>Build with your AI agent</h3><p>Connect Claude Code, Codex, Cursor or another agent to Shipcel’s MCP server. Describe what you want; it builds, deploys and shows you the preview. Shipcel runs no model, so there is nothing extra to pay. Agents start at <a href="/llms.txt">llms.txt</a>.</p><p class="way-picture" aria-hidden="true"><span class="way-chat">“Add a newsletter sign-up, then deploy a preview.”</span></p></article>
+<article class="way"><h3>Deploy from Git</h3><p>Connect a GitHub repository: every push deploys, and every pull request gets its own preview address, commented on the pull request.</p><p class="way-picture" aria-hidden="true"><span class="way-code">git push</span><span class="way-arrow">→</span><span class="way-pill">Preview address</span></p></article>
+<article class="way"><h3>Deploy from your terminal</h3><p>Run <code>shipcel</code> in your project: it builds on your computer and deploys, a static site or an app with server code and a database. It works in CI with a token, too.</p><p class="way-picture" aria-hidden="true"><span class="way-code dark">$ shipcel --prod</span></p></article>
+<article class="way"><h3>Drag and drop</h3><p>Drop a built folder in the dashboard. A new app stays unpublished, with only its preview address working, until you choose to publish.</p><p class="way-picture" aria-hidden="true"><span class="way-drop">dist/</span></p></article></div>
+</section>
+<section id="tour" aria-labelledby="tour-title">
+<h2 id="tour-title">See it in action</h2>
+<p class="section-intro">One minute in the dashboard, recorded with sample data.</p>
+<figure class="tour">
+<video controls preload="none" playsinline width="1280" height="800" poster="https://media.shipcel.com/tour.webp" aria-describedby="tour-steps"><source src="https://media.shipcel.com/tour.webm" type="video/webm"><a href="https://media.shipcel.com/tour.webm" rel="noreferrer">Download the tour</a></video>
+<figcaption><ol class="tour-steps" id="tour-steps"><li>Builds with a live log, and versions to roll back to</li><li>Requests, errors, response times and logs</li><li>Visitors, top pages and Core Web Vitals</li><li>The budget guard: what the app costs this month, day by day</li></ol></figcaption>
+</figure>
+</section>
+<section aria-labelledby="features-title">
+<h2 id="features-title">What every app gets</h2>
+<div class="features"><article class="feature"><h3>Deploy with a git push</h3><p>Every push to your production branch deploys. Every pull request gets its own preview address, on staging copies of your data.</p></article>
+<article class="feature"><h3>Free address, custom domains</h3><p>Every app gets <code>your-app.your-name.workers.dev</code> for free, and your own domain takes a few clicks.</p></article>
+<article class="feature"><h3>Databases, files and key-value data</h3><p>D1 SQL, R2 files and KV, created after you review them, with migrations, exports and restore; Postgres or MySQL through Hyperdrive.</p></article>
+<article class="feature"><h3>Sign-in and realtime</h3><p>Passkey, GitHub, Google and email sign-in, and realtime channels with presence, in your account. Standard OpenID Connect, so any library works.</p></article>
+<article class="feature"><h3>Analytics and logs</h3><p>Requests, errors and response times, visitors and Core Web Vitals, build logs and live logs, from Cloudflare’s own data.</p></article>
+<article class="feature"><h3>Changes you can check and undo</h3><p>A health check after every deploy, one-click rollback, and a share of traffic for a new version before it gets it all.</p></article>
+<article class="feature"><h3>Your framework, your language</h3><p>Next.js, Astro, SvelteKit, React, Vue, Hono and static sites, plus Python Workers and Docker containers.</p></article>
+<article class="feature"><h3>Built for teams</h3><p>Owner, developer and viewer roles, API tokens for CI, and a record of every change.</p></article></div>
+<p><a href="/features/">Every feature, and what isn't ready yet</a></p>
+</section>
+<section aria-labelledby="guard-title">
+<h2 id="guard-title">No surprise bills</h2>
+<p class="section-intro">Shipcel watches what every app costs, so a bug that loops can’t become a bill.</p>
+<div class="guard">
+<figure class="meter-figure">
+<div class="meter" aria-hidden="true"><span class="meter-mark m50">50%</span><span class="meter-mark m80">80%</span><span class="meter-mark m100">100%</span></div>
+<ol class="meter-steps">
+<li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span><strong>50% and 80% of the budget:</strong> an alert</span></li>
+<li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span><strong>On track to go over by the end of the month:</strong> an alert</span></li>
+<li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg><span><strong>Over the budget:</strong> an alert, and a pause if you chose it</span></li>
+</ol>
+<figcaption>Every five minutes, Shipcel estimates what each app costs this month beyond what Cloudflare includes, and compares it with the app’s budget.</figcaption>
+</figure>
+<ul class="guard-points"><li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l7.5 3v5.5c0 4.6-3.1 8.3-7.5 9.5-4.4-1.2-7.5-4.9-7.5-9.5V6z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.4"/></svg><span><strong>Free-only mode, on by default.</strong> Nothing a project can be billed for, such as file storage or containers, is created.</span></li><li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span><strong>A budget for every app.</strong> $0 beyond what Cloudflare includes, unless you change it. Alerts in the dashboard, Slack, Discord or any webhook.</span></li><li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg><span><strong>Alert only, or pause.</strong> An app that goes over can be paused: visitors see that, its schedules stop and its data stays, until you resume it.</span></li><li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.2 3h7.6L21 8.2v7.6L15.8 21H8.2L3 15.8V8.2z"/><path d="M8.5 12h7"/></svg><span><strong>The free plan stops instead of billing.</strong> Workers, D1 and KV stop at their daily limits until midnight UTC.</span></li></ul>
+</div>
+</section>
+<section aria-labelledby="free-title">
+<h2 id="free-title">What the free plan includes</h2>
+<p class="section-intro">Shipcel's free plan sets everything up; Cloudflare's runs it in your account.</p>
+<ul class="figures"><li><strong>100,000</strong><span>requests a day to your server code</span></li><li><strong>Unlimited</strong><span>requests for static files</span></li><li><strong>5 GB</strong><span>of SQL databases</span></li><li><strong>1 GB</strong><span>of key-value data</span></li><li><strong>3,000</strong><span>build minutes a month</span></li><li><strong>100</strong><span>projects in Shipcel</span></li></ul>
+<p class="free-stop"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.2 3h7.6L21 8.2v7.6L15.8 21H8.2L3 15.8V8.2z"/><path d="M8.5 12h7"/></svg><span>Workers, D1 and KV stop at their daily limits until midnight UTC instead of billing you.</span></p>
+<details class="free-more">
+<summary>Everything in both free plans</summary>
+<article class="card featured plan-card">
+<div class="plan-head"><span class="badge">Free</span><p class="price">$0 <span>a month, no card</span></p></div>
+<div class="plan-cols">
+<div>
+<h3>From Shipcel</h3>
+<ul class="checks"><li><strong>Up to 100 projects</strong>, as many Workers as Cloudflare’s free plan allows in one account</li><li><strong>Free-only mode, on by default:</strong> nothing a project can be billed for, such as R2 storage or containers, is created</li><li><strong>A budget guard for every app:</strong> alerts at 50%, 80% and over a budget you set ($0 beyond what Cloudflare includes, by default), and an optional pause</li><li>Deploys from GitHub on every push, and a preview address for every branch and pull request, on staging copies of your data</li><li>Deploys without Git: <code>shipcel</code> from your terminal, drag and drop, or your own AI agent through MCP</li><li>A free address for every app, <code>your-app.your-name.workers.dev</code>, and custom domains when you want them</li><li>D1 SQL databases, R2 file storage and KV, created in your account after you review them</li><li>Sign-in for your users (passkeys, GitHub, Google, email) and realtime channels, in your account</li><li>Database migrations, exports and point-in-time restore</li><li>Health checks after every deploy, one-click rollback, traffic splitting, and recovery of interrupted steps</li><li>Fourteen starter kits, including Next.js, Python, containers, Umami, n8n and WordPress (experimental), and imports of existing repositories (containers need Workers Paid, Cloudflare’s $5-a-month plan)</li><li>No monthly limit on deployments; one setup runs at a time, like Cloudflare’s single free build</li></ul>
+</div>
+<div>
+<h3>In your Cloudflare account</h3>
+<p>Shipcel adds no limits of its own below these. Your apps get Cloudflare's full free allowance:</p>
+<ul class="checks"><li><strong>Server code (Workers):</strong> 100,000 requests a day, 10 ms CPU time per request</li><li><strong>Static files:</strong> Free and unlimited requests</li><li><strong>D1 SQL databases:</strong> 5 GB in total, up to 10 databases of 500 MB; 5 million rows read and 100,000 rows written a day; 7 days of point-in-time restore</li><li><strong>Postgres and MySQL through Hyperdrive:</strong> 100,000 queries a day to a database hosted elsewhere, which bills you itself</li><li><strong>KV key-value data:</strong> 100,000 reads and 1,000 writes a day; 1 GB stored</li><li><strong>R2 file storage:</strong> 10 GB stored, 1 million writes and 10 million reads a month; no egress fees. R2 bills usage beyond this even on the free plan</li><li><strong>Durable Objects (realtime):</strong> 100,000 requests and 13,000 GB-seconds a day; idle WebSocket connections hibernate at no cost</li><li><strong>Builds:</strong> 3,000 build minutes a month, one build at a time</li><li><strong>Email sending:</strong> Not offered</li><li><strong>Containers:</strong> Not available</li></ul>
+<p class="small muted">Workers, D1 and KV stop at their daily limits until midnight UTC instead of billing you. R2 is pay-as-you-go beyond its free tier.</p>
+</div>
+</div>
+</article>
+</details>
+<p><a href="/pricing/">Full limits, what happens when you reach them, and Workers Paid</a></p>
+</section>
+<section aria-labelledby="costs-title">
+<h2 id="costs-title">What it costs</h2>
+<p class="section-intro">Shipcel stays free, as a launch offer. Every price here is Cloudflare's, charged by Cloudflare at its list prices: no markup, no platform fee, no per-seat pricing.</p>
+<div class="grid tiers"><article class="card featured">
+<span class="badge">Hobby</span>
+<p class="price">$0 <span>on Cloudflare’s free plan</span></p>
+<ul class="checks"><li>100,000 requests a day and unlimited static file traffic</li><li>5 GB of SQL storage and 10 GB of files</li><li>Sign-in and realtime for your users</li><li>Up to 100 projects, and nothing sleeps</li></ul>
+</article>
+<article class="card">
+<span class="badge">Growth</span>
+<p class="price">$5 <span>a month to Cloudflare (Workers Paid), per account, plus usage</span></p>
+<ul class="checks"><li>10 million requests and 30 million CPU-milliseconds a month included</li><li>No daily caps; extra usage at Cloudflare’s published rates</li><li>Containers, 10 GB databases and up to 5 minutes of CPU per request</li></ul>
+</article>
+<article class="card">
+<span class="badge">Enterprise</span>
+<p class="price">Your contract <span>with Cloudflare</span></p>
+<ul class="checks"><li>Apps run in your own Cloudflare account, so your agreement with Cloudflare covers them</li><li>Your data stays in your account; Shipcel never holds it</li><li>Teams with owner, developer and viewer roles; single sign-on and support plans to come</li></ul>
+</article></div>
+<figure class="bills">
+<div class="bills-many">
+<p class="bills-label">A typical stack</p>
+<ul><li>Hosting<span>its own plan and bill</span></li><li>Database<span>its own plan and bill</span></li><li>File storage<span>its own plan and bill</span></li><li>Sign-in<span>its own plan and bill</span></li><li>Realtime<span>its own plan and bill</span></li></ul>
+</div>
+<span class="bills-arrow" aria-hidden="true">→</span>
+<div class="bills-one">
+<p class="bills-label">With Shipcel</p>
+<div class="bills-account"><strong>Your Cloudflare account</strong><ul class="chips"><li>Hosting</li><li>Database</li><li>File storage</li><li>Sign-in</li><li>Realtime</li></ul><span class="bills-price">One bill: $0, or from $5 a month</span></div>
+</div>
+<figcaption>Frontend, server code, databases, files, sign-in and realtime in one account, on one bill.</figcaption>
+</figure>
+<ul class="jump"><li><a href="/pricing/">Full pricing and worked examples</a></li><li><a href="/why/">Why it costs less</a></li><li><a href="/compare/">Compared with other platforms</a></li></ul>
+</section>
+<section class="cta-band" aria-labelledby="cta-title">
+<h2 id="cta-title">Start on Cloudflare's free plan</h2>
+<p>Connect GitHub and Cloudflare, and deploy. Free, with your apps in your own account.</p>
+<a class="button" href="/app/">Open the dashboard</a>
+</section>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

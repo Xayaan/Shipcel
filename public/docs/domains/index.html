@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domains | Shipcel docs</title>
+<meta name="description" content="Every app has a free address on Cloudflare's workers.dev, and you can add your own domain with a certificate in a few minutes.">
+<meta property="og:title" content="Domains | Shipcel docs">
+<meta property="og:description" content="Every app has a free address on Cloudflare's workers.dev, and you can add your own domain with a certificate in a few minutes.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/" aria-current="page">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Build your app</span></nav>
+<h1>Domains</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#the-free-address">The free address</a></li><li><a href="#add-your-own-domain">Add your own domain</a></li><li><a href="#preview-addresses">Preview addresses</a></li><li><a href="#turning-the-free-address-off">Turning the free address off</a></li></ul></nav>
+<p>Every app has a free address on Cloudflare's <code>workers.dev</code>, and you can add your own domain with a certificate in a few minutes.</p>
+<h2 id="the-free-address">The free address</h2>
+<p>An app's free address is <code>https://&lt;app&gt;.&lt;subdomain&gt;.workers.dev</code>, where the subdomain belongs to your Cloudflare account. If the account has none yet, the first deploy asks you to claim one on the Deployments tab; Cloudflare registers it for the whole account, so every app's address uses it. Changing it later (in Cloudflare) moves every app's address, so Shipcel never changes an existing one.</p>
+<p>You choose the app's name on its first deploy. Next.js and container apps keep the name in their Wrangler configuration.</p>
+<p>Cloudflare treats <code>workers.dev</code> addresses as free sites for personal and hobby projects; use your own domain for business-critical apps.</p>
+<h2 id="add-your-own-domain">Add your own domain</h2>
+<p>Your domain must be a zone in the same Cloudflare account, active and using Cloudflare's nameservers. Then:</p>
+<ul><li><strong>Dashboard:</strong> Manage → Domains → choose the zone, type the hostname (the zone itself, like <code>example.com</code>, or a subdomain, like <code>app.example.com</code>) and add it.</li><li><strong>CLI:</strong> <code>shipcel domains add app.example.com</code>. Shipcel picks the most specific zone that covers the hostname.</li></ul>
+<p>Cloudflare creates the DNS record and issues the certificate; it usually takes a few minutes. Shipcel refuses a hostname that's already attached to a Worker or that already has DNS records, so it never takes over something you set up yourself.</p>
+<pre class="code" tabindex="0"><code>shipcel domains ls
+shipcel domains rm app.example.com</code></pre>
+<p>Removing a domain detaches it from the app; the zone stays in your account.</p>
+<h2 id="preview-addresses">Preview addresses</h2>
+<p>Preview addresses are on <code>workers.dev</code>. To limit who can open them, see <a href="/docs/previews-and-rollbacks/#who-can-open-previews">Previews and rollbacks</a>.</p>
+<h2 id="turning-the-free-address-off">Turning the free address off</h2>
+<p>For an app deployed by upload, <strong>Unpublish</strong> (or <code>shipcel unpublish</code>) turns its <code>workers.dev</code> address off while preview addresses keep working. Custom domains are separate and stay attached.</p>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/environment-variables/"><span>Previous</span>Environment variables</a><a class="next" href="/docs/databases-and-storage/"><span>Next</span>Databases and storage</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,477 @@
+{
+  "verifiedAt": "2026-10-30T21:38:31.731Z",
+  "liveDeploymentTested": false,
+  "note": "Dry runs prove configuration, bundling and binding declarations only. No Cloudflare resources were created.",
+  "results": [
+    {
+      "check": "astro",
+      "framework": "astro",
+      "kind": "adapter",
+      "wrangler": "4.156.0",
+      "plan": {
+        "adapter": "astro",
+        "buildCommand": "npm run build",
+        "resources": [
+          {
+            "type": "d1",
+            "binding": "DB"
+          },
+          {
+            "type": "kv",
+            "binding": "SESSION",
+            "source": "adapter"
+          }
+        ],
+        "containers": [],
+        "warnings": [
+          "Astro sessions use a KV namespace bound as SESSION by default. Wrangler creates it during deployment unless the repository disables or replaces Astro sessions.",
+          "The Astro Cloudflare adapter binds Cloudflare Images as IMAGES for image optimization by default. Image transformations beyond the free allowance may be billed; set imageService in astro.config to change this.",
+          "Wrangler creates and binds these resources during deployment using your build token. Future deploys reuse Worker bindings. Database migrations are not applied automatically.",
+          "Only deploy trusted repositories. Future production-branch changes run with your Cloudflare build token and may change configuration or incur charges."
+        ],
+        "issues": [],
+        "previewBindings": {}
+      },
+      "localRun": {
+        "route": "/api/health",
+        "answer": {
+          "framework": "astro",
+          "ok": true
+        }
+      },
+      "result": "passed",
+      "resolved": {
+        "@astrojs/cloudflare": "14.4.3",
+        "astro": "7.4.4",
+        "wrangler": "4.156.0"
+      },
+      "buildCommand": "npm run build",
+      "deployCommand": "npx wrangler@4.156.0 deploy --no-autoconfig --x-provision --x-auto-create --name cc-check-astro-0123456789ab",
+      "dryRunBindings": [
+        {
+          "name": "SESSION",
+          "resource": "KV Namespace"
+        },
+        {
+          "name": "DB",
+          "resource": "D1 Database"
+        },
+        {
+          "name": "IMAGES",
+          "resource": "Images"
+        },
+        {
+          "name": "ASSETS",
+          "resource": "Assets"
+        }
+      ]
+    },
+    {
+      "check": "container",
+      "framework": "docker",
+      "kind": "adapter",
+      "wrangler": "4.156.0",
+      "plan": {
+        "adapter": "container",
+        "buildCommand": "",
+        "resources": [
+          {
+            "type": "d1",
+            "binding": "DB"
+          }
+        ],
+        "containers": [
+          {
+            "className": "Site",
+            "policy": "default",
+            "images": [
+              "./Dockerfile"
+            ],
+            "instanceType": "lite",
+            "maxInstances": 2
+          }
+        ],
+        "warnings": [
+          "Containers need the Workers Paid plan. Cloudflare bills container vCPU, memory, disk and egress beyond the included amounts to your account; max_instances limits how many instances run at once.",
+          "Each production deploy builds the Dockerfile images in Workers Builds and pushes them to your account's container registry. Your build token must be allowed to manage Containers; if the first build fails with an authorization error, add that permission to the token in Cloudflare.",
+          "Wrangler applies Durable Object migrations on every deploy. Deleting a class permanently deletes its stored data.",
+          "A first container deployment can take several minutes while Cloudflare provisions the image. Shipcel checks the homepage for up to 15 minutes before asking you to review it.",
+          "Wrangler creates and binds these resources during deployment using your build token. Future deploys reuse Worker bindings. Database migrations are not applied automatically.",
+          "Only deploy trusted repositories. Future production-branch changes run with your Cloudflare build token and may change configuration or incur charges.",
+          "Containers deploy under the Worker name in the Wrangler configuration (shipcel-check-container), which Wrangler also uses to name the container applications. That name must not already exist in the selected account."
+        ],
+        "issues": [],
+        "workerName": "shipcel-check-container",
+        "previewBindings": {}
+      },
+      "containers": [
+        {
+          "name": "shipcel-check-container-site",
+          "source": "Dockerfile"
+        }
+      ],
+      "builtImages": [
+        "shipcel-check-container-site"
+      ],
+      "docker": "29.8.2",
+      "result": "passed",
+      "resolved": {
+        "@cloudflare/containers": "0.3.7",
+        "wrangler": "4.156.0"
+      },
+      "buildCommand": "",
+      "deployCommand": "npx wrangler@4.156.0 deploy --no-autoconfig --x-provision --x-auto-create --name shipcel-check-container",
+      "dryRunBindings": [
+        {
+          "name": "SITE",
+          "resource": "Durable Object",
+          "target": "Site"
+        },
+        {
+          "name": "DB",
+          "resource": "D1 Database"
+        }
+      ]
+    },
+    {
+      "check": "container-managed",
+      "framework": "docker",
+      "kind": "adapter",
+      "wrangler": "4.156.0",
+      "plan": {
+        "adapter": "container",
+        "buildCommand": "",
+        "resources": [],
+        "containers": [
+          {
+            "className": "Site",
+            "policy": "durable_object",
+            "images": [
+              "./Dockerfile"
+            ],
+            "instanceType": null,
+            "maxInstances": null
+          }
+        ],
+        "warnings": [
+          "Containers need the Workers Paid plan. Cloudflare bills container vCPU, memory, disk and egress beyond the included amounts to your account; max_instances limits how many instances run at once.",
+          "Each production deploy builds the Dockerfile images in Workers Builds and pushes them to your account's container registry. Your build token must be allowed to manage Containers; if the first build fails with an authorization error, add that permission to the token in Cloudflare.",
+          "Durable Object-managed containers (scheduling_policy durable_object) are a Cloudflare beta. Your Durable Object code starts each container and chooses its instance type.",
+          "Wrangler applies Durable Object migrations on every deploy. Deleting a class permanently deletes its stored data.",
+          "A first container deployment can take several minutes while Cloudflare provisions the image. Shipcel checks the homepage for up to 15 minutes before asking you to review it.",
+          "Only deploy trusted repositories. Future production-branch changes run with your Cloudflare build token and may change configuration or incur charges.",
+          "Containers deploy under the Worker name in the Wrangler configuration (shipcel-check-container-managed), which Wrangler also uses to name the container applications. That name must not already exist in the selected account."
+        ],
+        "issues": [],
+        "workerName": "shipcel-check-container-managed",
+        "previewBindings": {}
+      },
+      "containers": [
+        {
+          "name": "Site",
+          "source": "durable_object"
+        }
+      ],
+      "builtImages": [
+        "shipcel-check-container-managed-site-base"
+      ],
+      "docker": "29.8.2",
+      "result": "passed",
+      "resolved": {
+        "wrangler": "4.156.0"
+      },
+      "buildCommand": "",
+      "deployCommand": "npx wrangler@4.156.0 deploy --no-autoconfig --x-provision --x-auto-create --name shipcel-check-container-managed",
+      "dryRunBindings": [
+        {
+          "name": "SITE",
+          "resource": "Durable Object",
+          "target": "Site"
+        }
+      ]
+    },
+    {
+      "check": "html",
+      "framework": "static",
+      "kind": "adapter",
+      "wrangler": "4.156.0",
+      "plan": {
+        "adapter": "static-assets",
+        "buildCommand": "",
+        "resources": [],
+        "containers": [],
+        "warnings": [
+          "No Wrangler configuration needed: Shipcel deploys the repository’s files as a static site (HTML), with a configuration it writes during the build. Commit a wrangler.jsonc to change how the site is served.",
+          "Every file in the repository is published except .git, .github, node_modules and Wrangler’s own files.",
+          "Only deploy trusted repositories. Future production-branch changes run with your Cloudflare build token and may change configuration or incur charges."
+        ],
+        "issues": [],
+        "previewBindings": {},
+        "site": {
+          "preset": "HTML",
+          "directory": ".",
+          "spa": false
+        }
+      },
+      "localRun": {
+        "route": "/about",
+        "answer": {
+          "route": "/about",
+          "status": 200,
+          "page": "Shipcel HTML fixture: about",
+          "hidden": [
+            "/.git/config",
+            "/wrangler.jsonc"
+          ]
+        }
+      },
+      "result": "passed",
+      "resolved": {},
+      "buildCommand": "",
+      "deployCommand": "printf '%s' '{\"name\":\"cc-check-html-0123456789ab\",\"compatibility_date\":\"2026-10-07\",\"assets\":{\"directory\":\".\",\"not_found_handling\":\"404-page\"},\"preview_urls\":true,\"previews\":{}}' > wrangler.jsonc && printf '%s\\n' .git .github node_modules .wrangler wrangler.jsonc .assetsignore >> .assetsignore && npx wrangler@4.156.0 deploy --no-autoconfig --name cc-check-html-0123456789ab",
+      "dryRunBindings": []
+    },
+    {
+      "check": "nextjs",
+      "framework": "nextjs",
+      "kind": "adapter",
+      "wrangler": "4.156.0",
+      "plan": {
+        "adapter": "nextjs",
+        "buildCommand": "npx opennextjs-cloudflare build",
+        "resources": [],
+        "containers": [],
+        "warnings": [
+          "Next.js deploys under the Worker name in the Wrangler configuration (shipcel-check-nextjs), so WORKER_SELF_REFERENCE reaches the same Worker. That name must not already exist in the selected account.",
+          "The OpenNext adapter binds Cloudflare Images as IMAGES for image optimization. Image transformations beyond the free allowance may be billed. OpenNext's incremental cache is not configured, so ISR and data cache entries are not persisted.",
+          "Only deploy trusted repositories. Future production-branch changes run with your Cloudflare build token and may change configuration or incur charges."
+        ],
+        "issues": [],
+        "workerName": "shipcel-check-nextjs",
+        "previewBindings": {
+          "images": {
+            "binding": "IMAGES"
+          }
+        }
+      },
+      "localRun": {
+        "route": "/api/health",
+        "answer": {
+          "framework": "nextjs",
+          "ok": true
+        }
+      },
+      "result": "passed",
+      "resolved": {
+        "@opennextjs/cloudflare": "1.20.15",
+        "next": "16.4.3",
+        "react": "19.3.1",
+        "react-dom": "19.3.1",
+        "wrangler": "4.156.0"
+      },
+      "buildCommand": "npx opennextjs-cloudflare build",
+      "deployCommand": "npx wrangler@4.156.0 deploy --no-autoconfig --x-provision --x-auto-create --name shipcel-check-nextjs",
+      "dryRunBindings": [
+        {
+          "name": "WORKER_SELF_REFERENCE",
+          "resource": "Worker",
+          "target": "shipcel-check-nextjs"
+        },
+        {
+          "name": "IMAGES",
+          "resource": "Images"
+        },
+        {
+          "name": "ASSETS",
+          "resource": "Assets"
+        }
+      ]
+    },
+    {
+      "check": "python",
+      "framework": "python",
+      "kind": "adapter",
+      "wrangler": "4.156.0",
+      "plan": {
+        "adapter": "python",
+        "buildCommand": "",
+        "resources": [
+          {
+            "type": "d1",
+            "binding": "DB"
+          }
+        ],
+        "containers": [],
+        "warnings": [
+          "Wrangler creates and binds these resources during deployment using your build token. Future deploys reuse Worker bindings. Database migrations are not applied automatically.",
+          "Only deploy trusted repositories. Future production-branch changes run with your Cloudflare build token and may change configuration or incur charges."
+        ],
+        "issues": [],
+        "previewBindings": {}
+      },
+      "localRun": {
+        "route": "/",
+        "answer": {
+          "runtime": "python",
+          "ok": true
+        }
+      },
+      "result": "passed",
+      "resolved": {},
+      "buildCommand": "",
+      "deployCommand": "npx wrangler@4.156.0 deploy --no-autoconfig --x-provision --x-auto-create --name cc-check-python-0123456789ab",
+      "dryRunBindings": [
+        {
+          "name": "DB",
+          "resource": "D1 Database"
+        }
+      ]
+    },
+    {
+      "check": "python-fastapi",
+      "framework": "python",
+      "kind": "adapter",
+      "wrangler": "4.156.0",
+      "plan": {
+        "adapter": "python-packages",
+        "buildCommand": "",
+        "resources": [
+          {
+            "type": "d1",
+            "binding": "DB"
+          }
+        ],
+        "containers": [],
+        "warnings": [
+          "Shipcel verified Python packages with Wrangler 4.154.0; other versions are untested.",
+          "Only pure-Python and Pyodide-compatible packages work on Python Workers; others fail during the build.",
+          "Wrangler creates and binds these resources during deployment using your build token. Future deploys reuse Worker bindings. Database migrations are not applied automatically.",
+          "Only deploy trusted repositories. Future production-branch changes run with your Cloudflare build token and may change configuration or incur charges."
+        ],
+        "issues": [],
+        "previewBindings": {}
+      },
+      "localRun": {
+        "route": "/",
+        "answer": {
+          "runtime": "python",
+          "framework": "fastapi",
+          "ok": true
+        }
+      },
+      "result": "passed",
+      "resolved": {
+        "wrangler": "4.156.0"
+      },
+      "buildCommand": "",
+      "deployCommand": "pipx run --spec uv==0.13.6 uv run pywrangler deploy --no-autoconfig --x-provision --x-auto-create --name cc-check-python-fastapi-0123456789ab",
+      "dryRunBindings": [
+        {
+          "name": "DB",
+          "resource": "D1 Database"
+        }
+      ]
+    },
+    {
+      "check": "sveltekit",
+      "framework": "sveltekit",
+      "kind": "adapter",
+      "wrangler": "4.156.0",
+      "plan": {
+        "adapter": "sveltekit",
+        "buildCommand": "npm run build",
+        "resources": [
+          {
+            "type": "d1",
+            "binding": "DB"
+          }
+        ],
+        "containers": [],
+        "warnings": [
+          "Wrangler creates and binds these resources during deployment using your build token. Future deploys reuse Worker bindings. Database migrations are not applied automatically.",
+          "Only deploy trusted repositories. Future production-branch changes run with your Cloudflare build token and may change configuration or incur charges."
+        ],
+        "issues": [],
+        "previewBindings": {}
+      },
+      "localRun": {
+        "route": "/api/health",
+        "answer": {
+          "framework": "sveltekit",
+          "ok": true
+        }
+      },
+      "result": "passed",
+      "resolved": {
+        "@sveltejs/kit": "3.1.1",
+        "@sveltejs/vite-plugin-svelte": "7.3.1",
+        "svelte": "5.57.3",
+        "vite": "8.3.5",
+        "@sveltejs/adapter-cloudflare": "8.0.2",
+        "wrangler": "4.156.0"
+      },
+      "buildCommand": "npm run build",
+      "deployCommand": "npx wrangler@4.156.0 deploy --no-autoconfig --x-provision --x-auto-create --name cc-check-sveltekit-0123456789ab",
+      "dryRunBindings": [
+        {
+          "name": "DB",
+          "resource": "D1 Database"
+        },
+        {
+          "name": "ASSETS",
+          "resource": "Assets"
+        }
+      ]
+    },
+    {
+      "check": "sveltekit-autoconfig",
+      "framework": "sveltekit",
+      "kind": "probe",
+      "wrangler": "4.156.0",
+      "result": "failed",
+      "error": "Command failed: /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js deploy --dry-run --outdir .bundle-check --name cc-check-sveltekit-autoconfig"
+    },
+    {
+      "check": "vite-react",
+      "framework": "react",
+      "kind": "adapter",
+      "wrangler": "4.156.0",
+      "plan": {
+        "adapter": "static-assets",
+        "buildCommand": "npm run build",
+        "resources": [],
+        "containers": [],
+        "warnings": [
+          "No Wrangler configuration needed: Shipcel deploys dist/ as a single-page app (Vite), with a configuration it writes during the build. Commit a wrangler.jsonc to change how the site is served.",
+          "Only deploy trusted repositories. Future production-branch changes run with your Cloudflare build token and may change configuration or incur charges."
+        ],
+        "issues": [],
+        "previewBindings": {},
+        "site": {
+          "preset": "Vite",
+          "directory": "dist",
+          "spa": true
+        }
+      },
+      "localRun": {
+        "route": "/dashboard/settings",
+        "answer": {
+          "route": "/dashboard/settings",
+          "status": 200,
+          "page": "Shipcel Vite fixture",
+          "hidden": []
+        }
+      },
+      "result": "passed",
+      "resolved": {
+        "react": "19.3.1",
+        "react-dom": "19.3.1",
+        "vite": "8.3.5",
+        "@vitejs/plugin-react": "6.1.2"
+      },
+      "buildCommand": "npm run build",
+      "deployCommand": "printf '%s' '{\"name\":\"cc-check-vite-react-0123456789ab\",\"compatibility_date\":\"2026-10-07\",\"assets\":{\"directory\":\"dist\",\"not_found_handling\":\"single-page-application\"},\"preview_urls\":true,\"previews\":{}}' > wrangler.jsonc && npx wrangler@4.156.0 deploy --no-autoconfig --name cc-check-vite-react-0123456789ab",
+      "dryRunBindings": []
+    }
+  ]
+}

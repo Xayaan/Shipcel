@@ -1,0 +1,15 @@
+diff --git a/light-base/src/runtime_service.rs b/light-base/src/runtime_service.rs
+index 831b656..fc7dff3 100644
+--- a/light-base/src/runtime_service.rs
++++ b/light-base/src/runtime_service.rs
+@@ -1404,6 +1404,10 @@ async fn run_background<TPlat: PlatformRef>(
+                                 .closest_ancestor_excluding,
+                             runtime: Ok(finalized_block_runtime.virtual_machine),
+                         });
++                        // Patch (Shipcel's Bittensor light client): registered like every other
++                        // runtime, so that a request to compile identical code (such as a JSON-RPC
++                        // runtime call) reuses this one instead of compiling a second copy.
++                        background.runtimes.insert(Arc::downgrade(&runtime));
+ 
+                         match &runtime.runtime {
+                             Ok(runtime) => {

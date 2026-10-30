@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shipcel vs Vercel: free tiers, pricing and features compared</title>
+<meta name="description" content="Shipcel vs Vercel: free plans, commercial use, per-seat pricing, bandwidth, databases and spend controls compared, with sources, and where Vercel is the better choice.">
+<meta property="og:title" content="Shipcel vs Vercel: free tiers, pricing and features compared">
+<meta property="og:description" content="Shipcel vs Vercel: free plans, commercial use, per-seat pricing, bandwidth, databases and spend controls compared, with sources, and where Vercel is the better choice.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/" aria-current="page">Compare</a></li><li><a href="/docs/">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<section class="hero" aria-labelledby="vs-title">
+<h1 id="vs-title">Shipcel vs Vercel</h1>
+<p class="lede">A small commercial site costs $0 a month on Shipcel + Cloudflare and $20 on Vercel; a busy app about $5.60 against about $40. A free Vercel site pauses for 30 days once it passes 100 GB of transfer in a month; Cloudflare serves files without limit, and its daily limits reset every night.</p>
+</section>
+<section aria-labelledby="answer-title">
+<h2 id="answer-title">The short answer</h2>
+<div class="table-wrap answer" role="region" aria-labelledby="answer-0" tabindex="0">
+<table>
+<caption id="answer-0">What you pay a month</caption>
+<thead><tr><th scope="col"></th><th scope="col">Shipcel + Cloudflare</th><th scope="col">Vercel</th></tr></thead>
+<tbody>
+<tr><th scope="row">A personal site: 20,000 page views a month, no server code</th><td><strong>$0.</strong> Static files are free and unlimited, with no transfer charge.</td><td><strong>$0</strong> on Hobby, for personal projects only: 40 GB of transfer, inside the 100 GB included.</td></tr>
+<tr><th scope="row">A small business site: 50,000 page views and 150,000 API calls a month</th><td><strong>$0.</strong> Files are free; 150,000 Worker requests are 5,000 a day, inside the free 100,000.</td><td><strong>$20.</strong> Hobby doesn’t allow commercial use, so Pro: $20 for one developer, with 100 GB of transfer and 500,000 requests inside the included 1 TB and 1 million, and the API calls inside the $20 credit.</td></tr>
+<tr><th scope="row">A busy app: 1 million page views, 8 million requests for pages and files, 2 TB of transfer, 3 million API calls</th><td><strong>$5.60.</strong> Workers Paid $5 (10 million requests and 30 million CPU-milliseconds included) plus 30 million more CPU-milliseconds at $0.02 a million; no charge for transfer.</td><td><strong>About $40.</strong> $20 for one developer, plus the $20 Flat Rate CDN tier (10 million requests, 50 TB) once the included 1 million requests and 1 TB are passed; about $6 of function usage is covered by the $20 credit.</td></tr>
+<tr><th scope="row">Add a 2 GB SQL database to any of these</th><td><strong>+$0 to $5.</strong> Workers Paid, if you don’t pay it already: D1 is included, with 5 GB and 25 billion rows read a month.</td><td><strong>+$25.</strong> Vercel has no database of its own: a Marketplace one, for example Supabase Pro at $25, billed by that company.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrap answer" role="region" aria-labelledby="answer-1" tabindex="0">
+<table>
+<caption id="answer-1">How far the free plan goes</caption>
+<thead><tr><th scope="col"></th><th scope="col">Shipcel + Cloudflare free plans</th><th scope="col">Vercel Hobby</th></tr></thead>
+<tbody>
+<tr><th scope="row">Page views a month, at 2 MB a page</th><td><strong>No limit:</strong> static files are free and unlimited</td><td><strong>About 50,000:</strong> 100 GB of Fast Data Transfer</td></tr>
+<tr><th scope="row">Server and API requests</th><td><strong>100,000 a day</strong>, about 3 million a month</td><td><strong>1 million a month</strong>, and 4 hours of CPU</td></tr>
+<tr><th scope="row">Commercial use</th><td>Allowed by Shipcel; Cloudflare positions its free plans for personal projects</td><td>Not allowed: personal, non-commercial use only</td></tr>
+<tr><th scope="row">When you go over</th><td>Server requests fail until midnight UTC; files keep serving; nothing is billed</td><td>The project is paused, usually for 30 days; extra usage can’t be bought</td></tr>
+</tbody>
+</table>
+</div>
+<p class="small muted">Assumptions: 2 MB a page view (the page, scripts, styles and images), about 10 requests a view, 20 ms of CPU per API call, Vercel in its US regions, US dollars before tax. Vercel’s Hobby, Pro, Flat Rate CDN and Fluid compute pages and Cloudflare’s Workers pricing page were read on 28 October 2026.</p>
+</section>
+<section aria-labelledby="choose-title">
+<h2 id="choose-title">Which one fits</h2>
+<p class="section-intro">Vercel builds and serves web apps on its own platform and is the reference host for Next.js. Shipcel uses Cloudflare’s build system and network inside your own account, adds databases and file storage from the same account, and charges nothing itself. The main differences are commercial use on the free plan, per-seat pricing, and where your database lives.</p>
+<div class="grid two">
+<article class="card featured"><h3>Choose Shipcel if</h3><ul class="checks"><li>You run a commercial app and want to start free: Vercel’s Hobby plan is for personal, non-commercial use, so a paying product needs Pro at $20 per deploying seat.</li><li>You want your database and files in the same account and bill: Vercel’s databases are Marketplace services from other companies, billed separately and outside Vercel’s spend management.</li><li>You want a free plan that keeps serving: a Hobby project that exceeds its included usage is paused, usually for 30 days, while Cloudflare’s daily limits reset every night.</li><li>You want to own the infrastructure: your apps, databases and files stay in your Cloudflare account if you stop using Shipcel.</li></ul></article>
+<article class="card"><h3>Choose Vercel if</h3><ul class="checks"><li>You build with Next.js and want every feature supported natively. Shipcel runs Next.js through the OpenNext adapter, with ISR through its cache in R2.</li><li>You want mature built-in tooling: observability, analytics, firewall rules and enterprise features such as single sign-on.</li><li>You want previews for Next.js apps or for pull requests from forks. Shipcel’s previews (Cloudflare Worker Previews, in beta) cover branches and pull requests in your own repository, not Next.js yet.</li><li>You want login-protected previews without setting up another product: Vercel Authentication is free on every plan. Shipcel uses Cloudflare Access, which you set up once in Cloudflare’s Zero Trust dashboard: free for 50 people, but Cloudflare asks for a payment method.</li><li>You need a proven service today. Shipcel is in alpha.</li></ul></article>
+</div>
+</section>
+<section aria-labelledby="details-title">
+<h2 id="details-title">Side by side</h2>
+<div class="table-wrap" role="region" aria-labelledby="table-0" tabindex="0">
+<table>
+<caption id="table-0">Free plans</caption>
+<thead><tr><th scope="col"></th><th scope="col">Shipcel + Cloudflare free plans</th><th scope="col">Vercel Hobby</th></tr></thead>
+<tbody>
+<tr><th scope="row">Price</th><td>$0</td><td>$0</td></tr>
+<tr><th scope="row">Commercial use</th><td>Shipcel allows it. Cloudflare has no general ban but positions its free plans for personal and hobby projects, and its terms forbid collecting card details on sites using Free services</td><td>Not allowed: personal, non-commercial use only</td></tr>
+<tr><th scope="row">Requests</th><td>100,000 Worker requests a day; static files unlimited</td><td>1 million CDN requests and 1 million function invocations a month</td></tr>
+<tr><th scope="row">Compute</th><td>10 ms of CPU per request</td><td>4 CPU-hours and 360 GB-hours of memory a month</td></tr>
+<tr><th scope="row">Transfer</th><td>No per-gigabyte charge; static files free and unlimited</td><td>100 GB of Fast Data Transfer a month</td></tr>
+<tr><th scope="row">SQL database</th><td>D1 included: 5 GB, 5 million rows read a day</td><td>Not included: Marketplace providers with their own plans</td></tr>
+<tr><th scope="row">File storage</th><td>R2: 10 GB free (R2 is added through a checkout that needs a payment method)</td><td>Blob: 1 GB</td></tr>
+<tr><th scope="row">When you exceed it</th><td>Requests fail until midnight UTC; nothing is billed</td><td>The project is paused, usually for 30 days; extra usage can’t be bought</td></tr>
+<tr><th scope="row">Organization repositories</th><td>Supported</td><td>Can’t connect repositories owned by a GitHub organization</td></tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrap" role="region" aria-labelledby="table-1" tabindex="0">
+<table>
+<caption id="table-1">Paid plans</caption>
+<thead><tr><th scope="col"></th><th scope="col">Shipcel + Cloudflare Workers Paid</th><th scope="col">Vercel Pro</th></tr></thead>
+<tbody>
+<tr><th scope="row">Price</th><td>$5 a month per Cloudflare account; Shipcel $0</td><td>$20 a month per deploying seat, including $20 of usage credit</td></tr>
+<tr><th scope="row">Transfer</th><td>No per-gigabyte charge for Workers responses; static files and R2 egress free</td><td>Flat Rate CDN: 1 TB and 1 million CDN requests included; 50 TB tiers from $20 a month, excluding bulk downloads and media-heavy sites. On demand: $0.15 to $0.35 per GB</td></tr>
+<tr><th scope="row">Requests</th><td>10 million a month included, then $0.30 per million</td><td>Function invocations $0.60 per million; CDN requests $2.00 to $3.20 per million on demand</td></tr>
+<tr><th scope="row">Compute</th><td>30 million CPU-ms a month included, then $0.02 per million CPU-ms</td><td>Active CPU $0.128 to $0.221 an hour; memory $0.0106 to $0.0183 per GB-hour</td></tr>
+<tr><th scope="row">SQL database</th><td>D1 included: 25 billion rows read, 50 million written and 5 GB a month</td><td>A separate Marketplace bill (for example Neon or Supabase)</td></tr>
+<tr><th scope="row">Spending control</th><td>No hard cap from Cloudflare. Shipcel’s budget guard alerts over a budget ($0 by default) and can pause the app; Cloudflare’s budget alerts email you</td><td>Spend management on by default with a $200 alert; pausing production is optional and can lag by minutes</td></tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrap" role="region" aria-labelledby="table-2" tabindex="0">
+<table>
+<caption id="table-2">Features</caption>
+<thead><tr><th scope="col"></th><th scope="col">Shipcel</th><th scope="col">Vercel</th></tr></thead>
+<tbody>
+<tr><th scope="row">Deploy from GitHub</th><td>Yes, with GitHub Actions in your repository</td><td>Yes</td></tr>
+<tr><th scope="row">Preview URLs</th><td>Every branch and pull request in your repository, with the address commented on the pull request (Cloudflare Worker Previews, beta); not yet for Next.js or containers</td><td>Every push and pull request</td></tr>
+<tr><th scope="row">Deploy without Git</th><td>Drag and drop, the shipcel CLI, or your own AI agent through MCP</td><td>The vercel CLI</td></tr>
+<tr><th scope="row">AI building</th><td>Your own AI agent (Claude Code, Codex, Cursor and others) through Shipcel’s MCP server; Shipcel runs no model and charges nothing for it</td><td>v0: 7 messages a day on Free</td></tr>
+<tr><th scope="row">Rollback</th><td>One click to any earlier version, or a share of traffic on a new version first</td><td>Instant Rollback; Hobby can only roll back to the previous deployment</td></tr>
+<tr><th scope="row">Teams</th><td>Shared workspaces with owner, developer and viewer roles, free</td><td>Hobby is for one person; Pro charges $20 per deploying seat, and Viewer seats are free</td></tr>
+<tr><th scope="row">Environment variables</th><td>Runtime secrets, and build variables for production and for branch previews</td><td>Production, Preview and Development values, with per-branch Preview values</td></tr>
+<tr><th scope="row">Protected previews</th><td>Sign-in through Cloudflare Access, in your account; Zero Trust’s free plan covers 50 people, and Cloudflare asks for a payment method to set it up</td><td>Vercel Authentication, free on every plan since September 2026</td></tr>
+<tr><th scope="row">Cron jobs</th><td>Cloudflare Cron Triggers, set in your Wrangler configuration or in Manage → Schedules; 5 per account on the free plan</td><td>100 per project; on Hobby each runs at most once a day</td></tr>
+<tr><th scope="row">Next.js</th><td>Through OpenNext, with ISR through its cache in R2</td><td>Native, including ISR, image optimization and middleware</td></tr>
+<tr><th scope="row">Python</th><td>Python Workers (Pyodide-compatible packages)</td><td>Python 3.12 to 3.14 functions</td></tr>
+<tr><th scope="row">Containers</th><td>Cloudflare Containers on Workers Paid</td><td>Container images in beta, run as functions</td></tr>
+<tr><th scope="row">SQL database</th><td>D1 (SQLite) in your account</td><td>Marketplace partners</td></tr>
+<tr><th scope="row">Sign-in for your users</th><td>Built in: passkeys, GitHub, Google and email, as standard OpenID Connect</td><td>Third-party Marketplace providers such as Clerk and Auth0</td></tr>
+<tr><th scope="row">Realtime</th><td>Channels with presence and broadcast on Durable Objects</td><td>WebSocket connections served by Vercel Functions</td></tr>
+<tr><th scope="row">Logs and analytics</th><td>Request analytics and Workers Logs in Manage; the free plan keeps 200,000 log events a day for 3 days</td><td>Built in</td></tr>
+<tr><th scope="row">Where it runs</th><td>Your Cloudflare account</td><td>Vercel’s platform</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section aria-labelledby="cost-title">
+<h2 id="cost-title">What it costs</h2>
+<div class="grid two"><article class="card" id="small-commercial-app">
+<h3>A small commercial app</h3>
+<p>One developer runs a paid product: a web frontend and API, a 2 GB database and 20 GB of user files, with about 300,000 page views a month.</p>
+<div class="table-wrap cost" role="region" aria-labelledby="small-commercial-app-table" tabindex="0">
+<table>
+<caption id="small-commercial-app-table">Monthly cost</caption>
+<thead><tr><th scope="col">Setup</th><th scope="col">Per month</th><th scope="col">How it adds up</th></tr></thead>
+<tbody>
+<tr><th scope="row">Vercel Pro + Supabase Pro</th><td>$45</td><td>Vercel Pro: $20 for one developer, with $20 of usage, enough here; Hobby can’t be used commercially. Supabase Pro: $25, including one Micro database (8 GB disk, 100 GB of files).</td></tr>
+<tr><th scope="row">Shipcel + Cloudflare</th><td>$5.15</td><td>Shipcel: $0. Workers Paid: $5, needed because the 2 GB database is over D1’s 500 MB free limit per database; it includes 10 million requests and 5 GB of D1 storage. R2: 10 GB free, then 10 GB × $0.015 = $0.15.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="small muted">Assumptions: About 300,000 page views a month is roughly 10,000 a day, well inside the included requests. Usage stays inside Vercel Pro’s $20 credit and Supabase Pro’s quotas. US dollars before tax.</p>
+<p><strong>About $5 a month instead of $45, roughly a ninth, mostly because there is no per-seat fee and the database comes with the same account.</strong></p>
+</article></div>
+</section>
+<section aria-labelledby="bills-title">
+<h2 id="bills-title">Billing and surprise-bill protection</h2>
+<ul class="checks"><li>Vercel Hobby is never billed: projects pause when they exceed the included usage.</li><li>Vercel Pro turns on spend management by default with a $200 on-demand budget that sends alerts. Pausing production at the budget is a separate, optional switch that can lag by several minutes; without it, on-demand usage is uncapped. Seats, add-ons and Marketplace databases aren’t counted.</li><li>Cloudflare’s free plan is never billed for Workers, D1 or KV: over a daily limit, requests and queries fail until midnight UTC. R2 file storage bills usage beyond its free tier (never egress).</li><li>Workers Paid ($5 a month per account) has no hard spending cap. Budget alerts email you when usage passes an amount ($10 by default) but don’t stop anything; per-Worker CPU and subrequest limits can stop runaway code. Shipcel’s budget guard alerts over each app’s budget ($0 by default) and can pause the app, minutes after the budget is crossed.</li></ul>
+</section>
+<section aria-labelledby="moving-title">
+<h2 id="moving-title">Moving from Vercel</h2>
+<ul class="checks"><li>Commit a Wrangler configuration and import the repository; Shipcel checks it and lists anything missing.</li><li>Next.js apps need the OpenNext adapter, added once with <code>npx wrangler setup</code>. ISR needs OpenNext’s cache: the Next.js starter kit sets it up in R2, and Shipcel fills it at each production deploy.</li><li>Environment variables become Worker secrets in Manage → Runtime secrets.</li><li>Move your domain’s DNS to Cloudflare, then attach it in Manage → Domains.</li></ul>
+</section>
+<section aria-labelledby="sources">
+<h2 id="sources">Sources</h2>
+<p class="small muted">Checked 8 October 2026. Prices change; confirm on each provider's page before you decide.</p>
+<ol class="sources"><li><a href="https://vercel.com/pricing" rel="noreferrer">Vercel pricing</a></li><li><a href="https://vercel.com/docs/plans/hobby" rel="noreferrer">Vercel Hobby plan</a></li><li><a href="https://vercel.com/docs/limits/fair-use-guidelines#commercial-usage" rel="noreferrer">Vercel fair use guidelines: commercial usage</a></li><li><a href="https://vercel.com/docs/plans/pro-plan" rel="noreferrer">Vercel Pro plan</a></li><li><a href="https://vercel.com/docs/pricing/flat-rate-cdn" rel="noreferrer">Vercel Flat Rate CDN</a></li><li><a href="https://vercel.com/docs/pricing/regional-pricing" rel="noreferrer">Vercel regional pricing</a></li><li><a href="https://vercel.com/docs/functions/usage-and-pricing" rel="noreferrer">Vercel functions usage and pricing</a></li><li><a href="https://vercel.com/docs/spend-management" rel="noreferrer">Vercel spend management</a></li><li><a href="https://vercel.com/docs/marketplace-storage" rel="noreferrer">Vercel Marketplace storage</a></li><li><a href="https://vercel.com/docs/limits" rel="noreferrer">Vercel limits</a></li><li><a href="https://vercel.com/marketplace/category/authentication" rel="noreferrer">Vercel Marketplace: authentication</a></li><li><a href="https://vercel.com/kb/guide/do-vercel-serverless-functions-support-websocket-connections" rel="noreferrer">Vercel: WebSocket connections in Functions</a></li><li><a href="https://vercel.com/docs/instant-rollback" rel="noreferrer">Vercel Instant Rollback</a></li><li><a href="https://vercel.com/changelog/protect-production-deployments-for-free-on-every-plan" rel="noreferrer">Vercel: protect production deployments for free on every plan</a></li><li><a href="https://developers.cloudflare.com/workers/configuration/cloudflare-access/" rel="noreferrer">Cloudflare Access for Workers</a></li><li><a href="https://www.cloudflare.com/plans/sase-zero-trust/" rel="noreferrer">Cloudflare Zero Trust plans</a></li><li><a href="https://developers.cloudflare.com/cloudflare-one/setup/" rel="noreferrer">Cloudflare Zero Trust: get started</a></li><li><a href="https://vercel.com/docs/cron-jobs/usage-and-pricing" rel="noreferrer">Vercel cron jobs usage and pricing</a></li><li><a href="https://vercel.com/docs/cli" rel="noreferrer">Vercel CLI</a></li><li><a href="https://v0.app/docs/pricing" rel="noreferrer">v0 pricing</a></li><li><a href="https://vercel.com/docs/environment-variables" rel="noreferrer">Vercel environment variables</a></li><li><a href="https://vercel.com/docs/rbac/access-roles" rel="noreferrer">Vercel access roles</a></li><li><a href="https://supabase.com/pricing" rel="noreferrer">Supabase pricing</a></li><li><a href="https://developers.cloudflare.com/workers/observability/logs/workers-logs/" rel="noreferrer">Cloudflare Workers Logs</a></li><li><a href="https://developers.cloudflare.com/workers/platform/pricing/" rel="noreferrer">Cloudflare Workers pricing</a></li><li><a href="https://developers.cloudflare.com/durable-objects/platform/pricing/" rel="noreferrer">Cloudflare Durable Objects pricing</a></li><li><a href="https://developers.cloudflare.com/workers/platform/limits/" rel="noreferrer">Cloudflare Workers limits</a></li><li><a href="https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/" rel="noreferrer">Cloudflare static assets billing and limitations</a></li><li><a href="https://developers.cloudflare.com/d1/platform/pricing/" rel="noreferrer">Cloudflare D1 pricing</a></li><li><a href="https://developers.cloudflare.com/r2/pricing/" rel="noreferrer">Cloudflare R2 pricing</a></li><li><a href="https://developers.cloudflare.com/billing/manage/budget-alerts/" rel="noreferrer">Cloudflare budget alerts</a></li><li><a href="https://www.cloudflare.com/plans/" rel="noreferrer">Cloudflare plans</a></li><li><a href="https://www.cloudflare.com/terms/" rel="noreferrer">Cloudflare Self-Serve Subscription Agreement</a></li></ol>
+</section>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

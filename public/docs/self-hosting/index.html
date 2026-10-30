@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Self-hosting | Shipcel docs</title>
+<meta name="description" content="Shipcel is a Cloudflare Worker with a D1 database. You can run it on your own computer to try it, or host it in a Cloudflare account of its own for your team. This guide covers both; the repository's docs/provider-setup.md has the detailed checklist for a hosted instance.">
+<meta property="og:title" content="Self-hosting | Shipcel docs">
+<meta property="og:description" content="Shipcel is a Cloudflare Worker with a D1 database. You can run it on your own computer to try it, or host it in a Cloudflare account of its own for your team. This guide covers both; the repository's docs/provider-setup.md has the detailed checklist for a hosted instance.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/" aria-current="page">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Run Shipcel</span></nav>
+<h1>Self-hosting</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#run-it-on-your-computer">Run it on your computer</a></li><li><a href="#set-up-sign-in-from-connections">Set up sign-in from Connections</a></li><li><a href="#turn-deployments-on">Turn deployments on</a></li><li><a href="#host-it">Host it</a></li><li><a href="#updating">Updating</a></li></ul></nav>
+<p>Shipcel is a Cloudflare Worker with a D1 database. You can run it on your own computer to try it, or host it in a Cloudflare account of its own for your team. This guide covers both; the repository's <code>docs/provider-setup.md</code> has the detailed checklist for a hosted instance.</p>
+<h2 id="run-it-on-your-computer">Run it on your computer</h2>
+<p>You need Node.js 22 and npm.</p>
+<pre class="code" tabindex="0"><code>npm install
+npm run db:migrate      # creates the local database
+npm run dev             # http://127.0.0.1:5173/app/</code></pre>
+<p>The first <code>npm run dev</code> creates <code>.dev.vars</code> (never commit it) with a random encryption key for the secrets Shipcel stores. On <code>127.0.0.1</code> Shipcel runs in local mode: you're signed in to a local workspace straight away, without GitHub.</p>
+<h2 id="set-up-sign-in-from-connections">Set up sign-in from Connections</h2>
+<p>A local Shipcel creates its own GitHub App and Cloudflare OAuth client from the <strong>Connections</strong> page, with nothing to copy:</p>
+<ol><li><strong>GitHub:</strong> <strong>Create GitHub App on GitHub</strong> opens GitHub with a private app filled in (for your account or an organization). Check it, click <strong>Create GitHub App</strong>, and you come back to Shipcel. Then <strong>Connect GitHub</strong> signs you in to your GitHub workspace.</li><li><strong>Cloudflare:</strong> create a temporary API token in Cloudflare with one permission, <strong>Account · OAuth Client · Edit</strong>, and paste it. Shipcel creates a private OAuth client in your account with the right address and permissions, and doesn't keep the token: delete it in Cloudflare afterwards. You can also create the client by hand and enter its details.</li><li><strong>Connect Cloudflare</strong> (signed in with GitHub, as the workspace owner) and select the account.</li></ol>
+<p>Secrets from this setup are stored encrypted with the key in <code>.dev.vars</code>. Values in <code>.dev.vars</code> take precedence when set.</p>
+<p>Shipcel asks Cloudflare for <em>Workers Scripts Write</em> (<code>workers-scripts.write</code>), which creates Workers, not <em>Workers Editor</em>, which only updates them. A client set up before this fix shows <strong>Update Cloudflare sign-in</strong> on Connections: paste another temporary token, then connect Cloudflare again.</p>
+<h2 id="turn-deployments-on">Turn deployments on</h2>
+<p>Deployments that create resources in Cloudflare are off until you turn them on, so a new instance can't create anything by accident:</p>
+<pre class="code" tabindex="0"><code># in .dev.vars
+NATIVE_BUILDS_ENABLED=true</code></pre>
+<p>Restart <code>npm run dev</code> afterwards.</p>
+<h2 id="host-it">Host it</h2>
+<p>A hosted Shipcel needs:</p>
+<div class="table-wrap" role="region" aria-label="Host it" tabindex="0"><table><thead><tr><th scope="col">Setting</th><th scope="col">Value</th></tr></thead><tbody><tr><td><code>AUTH_MODE</code></td><td><code>github</code></td></tr><tr><td><code>APP_ORIGIN</code></td><td>its exact <code>https://</code> address</td></tr><tr><td><code>TOKEN_ENCRYPTION_KEY</code></td><td>64 hexadecimal characters (a Worker secret)</td></tr><tr><td><code>GITHUB_CLIENT_ID</code>, <code>GITHUB_CLIENT_SECRET</code>, <code>GITHUB_APP_SLUG</code></td><td>its GitHub App</td></tr><tr><td><code>CLOUDFLARE_CLIENT_ID</code>, <code>CLOUDFLARE_CLIENT_SECRET</code>, <code>CLOUDFLARE_OAUTH_SCOPES</code></td><td>its Cloudflare OAuth client; the scopes include <code>workers-scripts.write</code></td></tr><tr><td><code>NATIVE_BUILDS_ENABLED</code></td><td><code>true</code> once a test account passes the checklist</td></tr><tr><td><code>POSTHOG_KEY</code>, <code>POSTHOG_REGION</code></td><td>optional: your PostHog project's key and region (<code>us</code> or <code>eu</code>), for visitor analytics</td></tr><tr><td><code>NOTIFY_EMAIL</code>, <code>NOTIFY_FROM</code></td><td>optional: the Email Service binding and sender address for email notifications</td></tr></tbody></table></div>
+<p><code>wrangler.jsonc</code> has a <code>production</code> environment for this: set its <code>name</code>, its custom domain (<code>routes</code>) and <code>APP_ORIGIN</code> to your address. Its <code>POSTHOG_KEY</code> is shipcel.com's own: remove it, or put your PostHog project's key there, or your visitors are counted in shipcel.com's analytics. Then one command does the rest, from your terminal, in the Cloudflare account Wrangler signs in to:</p>
+<pre class="code" tabindex="0"><code>npm run production:setup</code></pre>
+<p>It signs Wrangler in (in your browser), creates the D1 database and writes its ID into <code>wrangler.jsonc</code>, applies the migrations, builds with <code>CLOUDFLARE_ENV=production</code> and deploys. Then it makes the secrets and sends them straight to Cloudflare (<code>wrangler secret bulk</code>), without showing them or writing them down:</p>
+<ul><li><strong>The encryption key.</strong> Keep nothing: if it's lost, set up sign-in and connect accounts again.</li><li><strong>A private GitHub App</strong>, created on GitHub's own page, which your browser opens: check it and click <em>Create GitHub App</em>.</li><li><strong>A private Cloudflare OAuth client</strong>, created with a temporary API token you paste: one permission, <em>Account · OAuth Client · Edit</em> (Cloudflare also calls it <em>OAuth Clients Write</em>), with your account included under <em>Account Resources</em>. Delete the token afterwards.</li></ul>
+<p>The app asks for read and write access to Contents and Workflows, so Shipcel can add its deploy workflow to the repositories people connect. An app made before 23 Oct 2026 asked for Contents read only: open its settings on GitHub → <strong>Permissions &amp; events</strong>, set Contents and Workflows to read and write, save, and accept the change on each installation.</p>
+<p>Each secret is saved as soon as it's made. If a run stops after GitHub created the app, run it again with the app's name, as in its address (<code>github.com/apps/&lt;name&gt;</code>): <code>npm run production:setup -- --github-app &lt;name&gt;</code>. It asks for the app's Client ID and a new client secret, which you generate on the app's settings page.</p>
+<p>The address must be a custom domain on a zone in that Cloudflare account, with no other DNS record for it. Private apps and clients sign in only you and your account's members; making them public is a step for when you open sign-ups. Use a Cloudflare account dedicated to Shipcel's own data if you can, and set budget alerts.</p>
+<p>To set it up by hand instead, put the client secrets and the key in Worker secrets with <code>wrangler secret put --env production</code>, set the D1 database ID, apply the migrations to it (<code>wrangler d1 migrations apply &lt;database&gt; --remote --env production</code>), then build with <code>CLOUDFLARE_ENV=production npm run build</code> and run <code>wrangler deploy</code>. <code>npm run setup:check</code> reports what a local Shipcel is missing.</p>
+<p>For email notifications, onboard the sender's domain in the Cloudflare dashboard (<strong>Compute → Email Service → Email Sending → Onboard Domain</strong>, a Workers Paid feature), then add <code>&quot;send_email&quot;: [{ &quot;name&quot;: &quot;NOTIFY_EMAIL&quot; }]</code> and a <code>NOTIFY_FROM</code> variable with the sender address to the <code>production</code> environment, and deploy. Without them, the dashboard offers webhooks and Telegram only.</p>
+<p>The dashboard is served at <code>/app/</code>, the public site at <code>/</code>, the CLI at <code>/cli/shipcel.tgz</code> and the MCP server at <code>/mcp</code>. A cron trigger advances deployments every minute while nobody has the dashboard open.</p>
+<h2 id="updating">Updating</h2>
+<p>Pull the new version, run <code>npm install</code>, apply new migrations (<code>npm run db:migrate</code> locally), and deploy: for a hosted Shipcel, <code>npm run production:setup</code> again applies its new migrations and deploys, asking nothing it already has. Migrations are never rewritten, only added.</p>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/free-only-and-billing/"><span>Previous</span>Free-only and billing</a><a class="next" href="/docs/add-a-starter-kit/"><span>Next</span>Add a starter kit</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free-only and billing | Shipcel docs</title>
+<meta name="description" content="Shipcel's Free plan costs nothing, and your apps use Cloudflare's free allowance in your own account. Free-only, on by default for every project, makes sure Shipcel never creates anything Cloudflare can bill for. The budget guard watches what every deployed app costs, alerts, and can pause an app that goes over its budget.">
+<meta property="og:title" content="Free-only and billing | Shipcel docs">
+<meta property="og:description" content="Shipcel's Free plan costs nothing, and your apps use Cloudflare's free allowance in your own account. Free-only, on by default for every project, makes sure Shipcel never creates anything Cloudflare can bill for. The budget guard watches what every deployed app costs, alerts, and can pause an app that goes over its budget.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/" aria-current="page">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Workspace</span></nav>
+<h1>Free-only and billing</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#who-bills-what">Who bills what</a></li><li><a href="#free-only">Free-only</a></li><li><a href="#cloudflare-s-free-allowance">Cloudflare's free allowance</a></li><li><a href="#workers-paid">Workers Paid</a></li><li><a href="#the-budget-guard">The budget guard</a></li></ul></nav>
+<p>Shipcel's Free plan costs nothing, and your apps use Cloudflare's free allowance in your own account. Free-only, on by default for every project, makes sure Shipcel never creates anything Cloudflare can bill for. The budget guard watches what every deployed app costs, alerts, and can pause an app that goes over its budget.</p>
+<h2 id="who-bills-what">Who bills what</h2>
+<ul><li><strong>Shipcel Free</strong> is $0 a month, with no card.</li><li><strong>Cloudflare</strong> bills your account directly for usage beyond its free allowance, at its own prices. Shipcel adds no markup.</li></ul>
+<p>On Workers Free, Workers, D1 and KV stop at their daily limits until midnight UTC instead of billing you, so an app can't run up a bill there. Some products always can: R2 storage beyond its free tier, and containers, which need the Workers Paid plan.</p>
+<p>R2 does have a free allowance every month (on 14 October 2026: 10 GB-month of Standard storage, 1 million Class A and 10 million Class B operations, and no egress charge). It works differently from the Workers Free plan, though: R2 is a subscription of its own, added through a checkout in Cloudflare's dashboard, and Cloudflare bills usage beyond the allowance every month instead of stopping the bucket. That is why a Free-only project, which promises nothing can bill, leaves R2 out, while D1 and KV, which stop at their limits, are allowed.</p>
+<h2 id="free-only">Free-only</h2>
+<p>While a project's Free-only is on, Shipcel refuses anything that can bill:</p>
+<ul><li>R2 file storage, when you create the project, review a repository, deploy or turn on previews;</li><li>containers: a Docker project can't be created Free-only.</li></ul>
+<p>Everything else works and stops at Cloudflare's free limits while your account stays on Workers Free.</p>
+<p>Turning Free-only off is an owner's decision, made in the dashboard: the project's <strong>Billing</strong> panel asks you to confirm that Cloudflare may bill for R2 and containers. API tokens, the CLI and AI agents can't turn it off. You can turn it back on while the project uses nothing billable. To use R2, your Cloudflare account also needs its R2 subscription.</p>
+<h2 id="cloudflare-s-free-allowance">Cloudflare's free allowance</h2>
+<p>Cloudflare's current limits are on its pricing pages and on Shipcel's pricing page, with the date they were checked. Roughly: 100,000 Worker requests a day with 10 ms of CPU time each, unlimited static file requests, 5 million D1 rows read and 100,000 written a day with 5 GB stored, 100,000 KV reads and 1,000 writes a day, 3,000 build minutes a month, and 10 GB of R2 storage. Prices and limits change; check Cloudflare's own pages before you rely on them.</p>
+<h2 id="workers-paid">Workers Paid</h2>
+<p>If you upgrade your Cloudflare account to Workers Paid ($5 a month), Cloudflare's limits rise and usage beyond them is billed. Free-only still keeps R2 and containers out of a project until you turn it off.</p>
+<p>Cloudflare has no spending cap on Workers Paid. A bug such as a Durable Object alarm that sets itself again can make millions of requests and row writes an hour, and Cloudflare bills every one. That is what the budget guard is for.</p>
+<h2 id="the-budget-guard">The budget guard</h2>
+<p>Every five minutes, for each deployed project, Shipcel reads Cloudflare's own analytics for the month so far and estimates what the project costs beyond what Cloudflare includes. The project's <strong>Billing</strong> panel shows the estimate, meter by meter, with its budget.</p>
+<ul><li><strong>What it counts.</strong> Worker requests; Durable Object requests and alarms, rows read and written, and running time; D1 rows read and written; KV reads, writes, deletes and lists; R2 operations; containers' CPU time, memory and disk, from the usage Cloudflare bills them by. It prices what the whole account used beyond what Workers Paid includes, at Cloudflare's prices (checked 14 October 2026; containers 29 October 2026), and gives each project its share by use. Cloudflare's container analytics don't say which app a container belongs to, so every project that deploys containers counts all of the account's: with two such apps, each is alerted early, never late. The $5 Workers Paid subscription isn't counted. Not in the estimate: stored data, Workers CPU time, containers' network egress, and the storage operations of Durable Objects that use key-value storage rather than SQLite. When Cloudflare doesn't report a product, the panel says so: the estimate may be low.</li><li><strong>The budget.</strong> $0 a month beyond what Cloudflare includes, until an owner sets another in the Billing panel.</li><li><strong>Alerts.</strong> At half the budget, four fifths of it, and over it; and when the rate of the last few minutes would take the month over it (at most every six hours). Alerts show in the Billing panel and as a badge on the project, and go to the project's webhook (Manage → Notifications) whatever events it was set to send: Slack, Discord or any HTTPS endpoint. The guard also says when it can't read a project's usage for an hour, at most once a day, since it can't alert or pause then.</li><li><strong>Over the budget: alert only, or pause.</strong> Alert only is the default: the app keeps running. With <strong>Pause the app</strong>, Shipcel switches production to a stand-in version that answers 503, keeps every Durable Object class and so its data, lets an alarm that fires end there (it isn't set again), puts off queue messages, and keeps the app's secrets; the cron schedules are removed. While the app is paused, production deploys, rollbacks, secrets and schedules wait. If a new version goes live some other way (a push build, Wrangler), the guard pauses it again at its next reading while the month's estimate stays over a budget that pauses.</li><li><strong>Resuming.</strong> In the Billing panel, once the budget allows it: raise the budget, or switch to alerts only. Production goes back to the versions it served before the pause and the schedules come back. If the bug is still there it will cost money again, so deploy the fix right after.</li><li><strong>Pause now.</strong> An owner can pause an app at once from the Billing panel, whatever the estimate.</li><li><strong>Who decides.</strong> Budgets, pausing and resuming belong to a workspace owner in the dashboard. API tokens, the CLI and AI agents can read the guard's reading and ask for a new one (<code>shipcel budget</code>, <code>shipcel budget check</code>), not change it, so an agent can't raise a budget to get past it.</li><li><strong>Your plan.</strong> On Workers Free, Workers, Durable Objects, D1 and KV stop at their daily limits, so only R2 can cost anything. Shipcel reads the plan with Cloudflare's Billing Read permission when Cloudflare offers it to Shipcel's sign-in; without it, the guard estimates as if the account were on Workers Paid, which still shows $0 on Workers Free unless R2 is used. A day far past a free limit shows the account is on Workers Paid.</li></ul>
+<p>What the guard can't do:</p>
+<ul><li>It is an estimate from Cloudflare's analytics, which are sampled and arrive a few minutes late. Cloudflare's invoice is what counts.</li><li>It reads every five minutes, so a pause comes minutes after the budget is crossed, not at once. A loop running for those minutes still costs something; a $0 budget keeps that small.</li><li>It runs where Shipcel runs. A hosted Shipcel checks around the clock. A Shipcel on your computer checks while <code>npm run dev</code> runs, and not while the computer sleeps.</li><li>It watches projects deployed through Shipcel. The Billing panel's <strong>Whole account</strong> figure includes other Workers in the account, but the guard doesn't alert on or pause them.</li></ul>
+<p>The surest way not to be billed is still a Free-only project on an account that stays on Workers Free: then nothing Shipcel deploys can cost money.</p>
+<p>On Workers Paid, also turn on Cloudflare's own budget alert, which works whether or not Shipcel is running: in Cloudflare's dashboard, <strong>Manage Account → Billing → Billable Usage → Create budget alert</strong> (pay-as-you-go accounts). It emails you once when the account's usage-based spend for the billing period passes the amount you set. Like the guard's alerts, it doesn't stop anything by itself.</p>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/ai-agents/"><span>Previous</span>AI agents</a><a class="next" href="/docs/self-hosting/"><span>Next</span>Self-hosting</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

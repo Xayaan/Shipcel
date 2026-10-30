@@ -1,0 +1,47 @@
+$ npm install --no-audit --no-fund
+
+added 19 packages in 10s
+
+
+$ npm ci --no-audit --no-fund
+
+added 20 packages in 262ms
+
+npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
+npm warn install-scripts   fsevents@2.3.3 (install: (install scripts present))
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+$ npm run build
+
+> shipcel-check-vite-react@1.0.0 build
+> vite build
+
+[36mvite v8.3.5 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 14 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                  0.19 kB │ gzip:  0.17 kB
+dist/assets/index-D3F6GrPu.js  219.48 kB │ gzip: 68.59 kB
+
+[32m✓ built in 56ms[39m
+
+
+$ sh -c printf '%s' '{"name":"cc-check-vite-react-0123456789ab","compatibility_date":"2026-10-07","assets":{"directory":"dist","not_found_handling":"single-page-application"},"preview_urls":true,"previews":{}}' > wrangler.jsonc && "/Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node" "/Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js" deploy --no-autoconfig --name cc-check-vite-react-0123456789ab --dry-run --outdir .bundle-check
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+✨ Read 3 files from the assets directory /private<temporary-directory>/vite-react/dist
+Total Upload: 0.36 KiB / gzip: 0.25 KiB
+No bindings found.
+--dry-run: exiting now.
+
+
+$ /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js dev (local run)
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+⎔ Starting local server...
+[wrangler:info] Ready on http://127.0.0.1:8827
+[wrangler:info] GET /dashboard/settings 200 OK (5ms) `Sec-Fetch-Mode: navigate` header present - using `not_found_handling` behavior

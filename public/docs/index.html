@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docs | Shipcel</title>
+<meta name="description" content="Guides for Shipcel: deploy from GitHub, the shipcel CLI, drag-and-drop uploads, previews and rollbacks, domains, secrets, databases, logs, teams, AI agents and running Shipcel yourself.">
+<meta property="og:title" content="Docs | Shipcel">
+<meta property="og:description" content="Guides for Shipcel: deploy from GitHub, the shipcel CLI, drag-and-drop uploads, previews and rollbacks, domains, secrets, databases, logs, teams, AI agents and running Shipcel yourself.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<div class="doc">
+<h1>Shipcel docs</h1>
+<p class="lede">Everything Shipcel does, step by step: from your first deploy to running Shipcel yourself. Shipcel puts your apps in your own Cloudflare account, so each guide also says what happens there.</p>
+<section aria-labelledby="get-started">
+<h2 id="get-started">Get started</h2>
+<div class="grid two"><a class="card doc-card" href="/docs/getting-started/"><strong>Getting started</strong><span>Shipcel deploys and manages apps in your own Cloudflare account, the way you would on Vercel or Netlify, without writing infrastructure code.</span></a><a class="card doc-card" href="/docs/cli/"><strong>The shipcel CLI</strong><span>The shipcel command sets up, builds and deploys your site or app to your own Cloudflare account, and manages your projects from a terminal or CI.</span></a></div>
+</section>
+<section aria-labelledby="deploy">
+<h2 id="deploy">Deploy</h2>
+<div class="grid two"><a class="card doc-card" href="/docs/deploy-from-github/"><strong>Deploy from GitHub</strong><span>Connect a repository and every push deploys.</span></a><a class="card doc-card" href="/docs/other-git-hosts/"><strong>Deploy from GitLab, Bitbucket or Gitea</strong><span>A repository on GitLab, Bitbucket, Gitea or Forgejo deploys the way a GitHub repository does: every push builds in that host's own CI, which runs shipcel deploy.</span></a><a class="card doc-card" href="/docs/deploy-without-git/"><strong>Deploy without Git</strong><span>Deploy a site or an app straight from your computer to your Cloudflare account: run shipcel in its folder, drop a built folder on the dashboard, or ask your AI agent.</span></a><a class="card doc-card" href="/docs/starter-kits/"><strong>Starter kits</strong><span>A starter kit is a complete new app, generated for your project, in exactly the shape Shipcel's GitHub deployments expect.</span></a><a class="card doc-card" href="/docs/previews-and-rollbacks/"><strong>Previews and rollbacks</strong><span>Try a change at its own address before it reaches production, and put production back in one step when something goes wrong.</span></a></div>
+</section>
+<section aria-labelledby="build-your-app">
+<h2 id="build-your-app">Build your app</h2>
+<div class="grid two"><a class="card doc-card" href="/docs/environment-variables/"><strong>Environment variables</strong><span>Your app gets configuration two ways: secrets, which the running app reads, and build variables, which a GitHub project's build reads.</span></a><a class="card doc-card" href="/docs/domains/"><strong>Domains</strong><span>Every app has a free address on Cloudflare's workers.dev, and you can add your own domain with a certificate in a few minutes.</span></a><a class="card doc-card" href="/docs/databases-and-storage/"><strong>Databases and storage</strong><span>Your app's data lives in your Cloudflare account: SQL in D1, files in R2, and key-value data in KV.</span></a><a class="card doc-card" href="/docs/sign-in-and-realtime/"><strong>Sign-in and realtime</strong><span>Shipcel can run a sign-in and realtime service for your app, in your own Cloudflare account: a Worker, a D1 database for its users and a Durable Object class for channels.</span></a><a class="card doc-card" href="/docs/logs-and-analytics/"><strong>Logs and analytics</strong><span>See how your app is doing: requests, errors, response times and CPU time from Cloudflare's analytics, HTTP status codes and recent requests and exceptions from Workers Logs, and notifications when a deploy or a health check fails.</span></a></div>
+</section>
+<section aria-labelledby="workspace">
+<h2 id="workspace">Workspace</h2>
+<div class="grid two"><a class="card doc-card" href="/docs/teams-and-tokens/"><strong>Teams and tokens</strong><span>Work with other people in a shared workspace, give each the access they need, and let the CLI, scripts and AI agents act for you with API tokens.</span></a><a class="card doc-card" href="/docs/ai-agents/"><strong>AI agents</strong><span>Let your own AI agent deploy and manage your apps: Claude Code, Codex, Cursor or any agent that speaks the Model Context Protocol (MCP).</span></a><a class="card doc-card" href="/docs/free-only-and-billing/"><strong>Free-only and billing</strong><span>Shipcel's Free plan costs nothing, and your apps use Cloudflare's free allowance in your own account.</span></a></div>
+</section>
+<section aria-labelledby="run-shipcel">
+<h2 id="run-shipcel">Run Shipcel</h2>
+<div class="grid two"><a class="card doc-card" href="/docs/self-hosting/"><strong>Self-hosting</strong><span>Shipcel is a Cloudflare Worker with a D1 database.</span></a><a class="card doc-card" href="/docs/add-a-starter-kit/"><strong>Add a starter kit</strong><span>The App catalog is the kits/ folder in Shipcel's repository: one TypeScript file per starter kit.</span></a><a class="card doc-card" href="/docs/troubleshooting/"><strong>Troubleshooting</strong><span>What the most common messages mean and what to do about them.</span></a></div>
+</section>
+</div>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting started | Shipcel docs</title>
+<meta name="description" content="Shipcel deploys and manages apps in your own Cloudflare account, the way you would on Vercel or Netlify, without writing infrastructure code. Your apps, databases and files live in your account; Shipcel sets them up and gives you one place to deploy, preview, roll back and watch them.">
+<meta property="og:title" content="Getting started | Shipcel docs">
+<meta property="og:description" content="Shipcel deploys and manages apps in your own Cloudflare account, the way you would on Vercel or Netlify, without writing infrastructure code. Your apps, databases and files live in your account; Shipcel sets them up and gives you one place to deploy, preview, roll back and watch them.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/" aria-current="page">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Get started</span></nav>
+<h1>Getting started</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#how-shipcel-works">How Shipcel works</a></li><li><a href="#ways-to-start">Ways to start</a></li><li><a href="#the-quickest-start-your-terminal">The quickest start: your terminal</a></li><li><a href="#1-open-the-dashboard">1. Open the dashboard</a></li><li><a href="#2-connect-github-and-cloudflare">2. Connect GitHub and Cloudflare</a></li><li><a href="#3-create-a-project">3. Create a project</a></li><li><a href="#4-deploy">4. Deploy</a></li><li><a href="#5-manage-it">5. Manage it</a></li><li><a href="#where-to-go-next">Where to go next</a></li></ul></nav>
+<p>Shipcel deploys and manages apps in your own Cloudflare account, the way you would on Vercel or Netlify, without writing infrastructure code. Your apps, databases and files live in your account; Shipcel sets them up and gives you one place to deploy, preview, roll back and watch them.</p>
+<h2 id="how-shipcel-works">How Shipcel works</h2>
+<ul><li>You connect two accounts: <strong>GitHub</strong>, to read the repositories you choose, and <strong>Cloudflare</strong>, to create Workers, databases and domains in the account you select.</li><li>Every app is a Cloudflare Worker in your account. Its free address is <code>https://&lt;app&gt;.&lt;your-subdomain&gt;.workers.dev</code>; you can add your own domain later.</li><li>Shipcel keeps a project for each app: where its code comes from, its deployments, and what you changed. Cloudflare bills you directly for anything beyond its free limits, with no markup from Shipcel.</li><li>With <strong>Free-only</strong> on (the default for every project), Shipcel never creates anything Cloudflare can bill for. See <a href="/docs/free-only-and-billing/">Free-only and billing</a>.</li></ul>
+<h2 id="ways-to-start">Ways to start</h2>
+<div class="table-wrap" role="region" aria-label="Ways to start" tabindex="0"><table><thead><tr><th scope="col">Way</th><th scope="col">Good for</th><th scope="col">Guide</th></tr></thead><tbody><tr><td>A GitHub repository</td><td>apps that deploy on every push</td><td><a href="/docs/deploy-from-github/">Deploy from GitHub</a></td></tr><tr><td>The <code>shipcel</code> CLI</td><td>any site or app, built on your computer</td><td><a href="/docs/cli/">The CLI</a></td></tr><tr><td>Drag and drop</td><td>a built folder, from the dashboard</td><td><a href="/docs/deploy-without-git/">Deploy without Git</a></td></tr><tr><td>A starter kit</td><td>a new app, ready to run and deploy</td><td><a href="/docs/starter-kits/">Starter kits</a></td></tr><tr><td>Your AI agent</td><td>asking Claude, Cursor or another agent to deploy</td><td><a href="/docs/ai-agents/">AI agents</a></td></tr></tbody></table></div>
+<h2 id="the-quickest-start-your-terminal">The quickest start: your terminal</h2>
+<pre class="code" tabindex="0"><code>npm install -g https://shipcel.com/cli/shipcel.tgz
+shipcel login
+cd my-app &amp;&amp; shipcel</code></pre>
+<p><code>shipcel login</code> opens one page where you sign in with GitHub, approve the CLI and connect Cloudflare. On a Shipcel you run yourself, install the CLI from its address and add <code>--url</code> with that address the first time.</p>
+<p>Then <code>shipcel</code> recognises your framework, builds on your computer and deploys to your Cloudflare account:</p>
+<ul><li>a static site goes up as files;</li><li>an app with code (Next.js, SvelteKit, a Worker with a database) goes through Wrangler, which the CLI runs for you;</li><li>an app with no <code>wrangler.jsonc</code> gets one, with its framework's Cloudflare adapter, after the CLI asks once.</li></ul>
+<p>A new app's first deploy goes to production. After that, <code>shipcel</code> deploys a preview and <code>shipcel --prod</code> deploys to production. Nothing needs setting up in Cloudflare; <a href="/docs/cli/">The CLI</a> has every command.</p>
+<h2 id="1-open-the-dashboard">1. Open the dashboard</h2>
+<p>The dashboard is at <a href="https://shipcel.com/app/" rel="noreferrer">shipcel.com/app/</a>, or at <code>/app/</code> on the address of a Shipcel you run yourself. To run one on your own computer, <a href="/docs/self-hosting/">Self-hosting</a> shows how to start it.</p>
+<h2 id="2-connect-github-and-cloudflare">2. Connect GitHub and Cloudflare</h2>
+<p>Open <strong>Connections</strong> in the sidebar.</p>
+<ol><li><strong>Connect GitHub.</strong> You sign in with GitHub and choose which repositories Shipcel's GitHub App can read. You can change that list later on GitHub.</li><li><strong>Connect Cloudflare.</strong> Cloudflare asks you to approve Shipcel's access. With one Cloudflare account, that's the account your apps go into; with several, you choose one.</li><li>If the account has no <code>workers.dev</code> subdomain yet, the first deploy asks you to claim one, such as <code>your-name.workers.dev</code>. Every app's free address uses it.</li></ol>
+<p>Only the account owner can connect accounts. Shipcel stores the access it receives encrypted, and you can disconnect either account at any time. <code>shipcel login</code> does steps 1 and 2 from your terminal.</p>
+<h2 id="3-create-a-project">3. Create a project</h2>
+<p>Click <strong>New project</strong> and choose where it starts:</p>
+<ul><li><strong>Starter kit</strong>: a ready-made app (React, Vue, Hono, Astro, SvelteKit, Next.js, Python, a static site or a JavaScript Worker) that you export, push to GitHub and deploy.</li><li><strong>GitHub repository</strong>: an app you already have. Shipcel lists your repositories, reads the one you choose and fills in its framework.</li></ul>
+<h2 id="4-deploy">4. Deploy</h2>
+<ul><li><strong>From GitHub</strong>, the project opens on <strong>Deployments</strong> with its repository chosen. Tick the box and click <strong>Connect repository</strong>: Shipcel adds a GitHub Actions workflow, and from then on every push deploys, the default branch to production and other branches as previews. See <a href="/docs/deploy-from-github/">Deploy from GitHub</a>.</li><li><strong>From your computer</strong>, run <code>shipcel</code> in the project's folder: it builds there and deploys the result, whether the project is a site or an app with code and a database. Or drop a built folder on the project's Deployments tab.</li></ul>
+<p>Your app is live at its <code>workers.dev</code> address when the deployment finishes.</p>
+<h2 id="5-manage-it">5. Manage it</h2>
+<p>The <strong>Manage</strong> tab of a deployed project has everything else: custom domains, secrets and build variables, the database (tables, SQL, migrations, backups), KV and R2 storage, versions and rollback, branch previews, analytics and logs, deploy notifications, and sign-in &amp; realtime for your app's users.</p>
+<h2 id="where-to-go-next">Where to go next</h2>
+<ul><li><a href="/docs/cli/">The CLI</a>: every command, with its Vercel equivalent.</li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a>: try changes before production, and undo them.</li><li><a href="/docs/domains/">Domains</a>: your own domain, with its certificate.</li><li><a href="/docs/troubleshooting/">Troubleshooting</a>: what common messages mean.</li></ul>
+<nav class="doc-pager" aria-label="More guides"><span></span><a class="next" href="/docs/cli/"><span>Next</span>The shipcel CLI</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

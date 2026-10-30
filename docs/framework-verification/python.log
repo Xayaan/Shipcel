@@ -1,0 +1,23 @@
+$ /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js deploy --no-autoconfig --x-provision --x-auto-create --name cc-check-python-0123456789ab --dry-run --outdir .bundle-check
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+Total Upload: 0.18 KiB / gzip: 0.15 KiB
+Your Worker has access to the following bindings:
+Binding        Resource         
+env.DB         D1 Database      
+
+--dry-run: exiting now.
+
+
+$ /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js dev (local run)
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+Your Worker has access to the following bindings:
+Binding        Resource         Mode
+env.DB         D1 Database      local
+
+⎔ Starting local server...
+[wrangler:info] Ready on http://127.0.0.1:8823
+[wrangler:info] GET / 200 OK (3658ms)

@@ -1,0 +1,233 @@
+$ npm install --no-audit --no-fund
+
+added 22 packages in 8s
+
+
+$ /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js setup --yes --no-install-wrangler
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+
+Detected Project Settings:
+ - Worker Name: shipcel-check-nextjs
+ - Framework: Next.js
+ - Build Command: npm run build
+ - Output Directory: .next
+
+
+📝 Update package.json scripts:
+ - "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
+ - "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview"
+
+📄 Create wrangler.jsonc:
+  {
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "shipcel-check-nextjs",
+    "compatibility_date": "2026-10-23",
+    "observability": {
+      "enabled": true
+    }
+  }
+
+🛠️  Configuring project for Next.js with OpenNext by running `@opennextjs/cloudflare migrate`
+
+
+┌───────────────────────────────┐
+│ OpenNext — Cloudflare migrate │
+└───────────────────────────────┘
+
+🚀 Setting up the OpenNext Cloudflare adapter...
+
+⚙️  Installing dependencies...
+
+
+added 310 packages, and audited 333 packages in 7s
+
+70 packages are looking for funding
+  run `npm fund` for details
+
+4 high severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+added 1 package, and audited 334 packages in 780ms
+
+70 packages are looking for funding
+  run `npm fund` for details
+
+4 high severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+⚙️  Creating wrangler.jsonc...
+
+⚙️  Creating open-next.config.ts...
+
+⚙️  Creating .dev.vars file...
+
+⚙️  Creating public/_headers file...
+
+⚙️  Updating package.json scripts...
+
+⚙️  Creating .gitignore file...
+
+⚙️  Updating Next.js config...
+
+⚙️  Checking for edge runtime usage...
+
+🎉 OpenNext Cloudflare adapter complete!
+
+Next steps:
+- Run: "npm run preview" to build and preview your Cloudflare application locally
+- Run: "npm run deploy" to deploy your application to Cloudflare Workers
+- ⚠️  Setup cache, see https://opennext.js.org/cloudflare/caching for more details
+
+├ Adding Wrangler files to the .gitignore file
+│ updated .gitignore file
+│
+🎉 Your project is now setup to deploy to Cloudflare
+You can now deploy with npm run deploy
+
+npm warn exec The following package was not found and will be installed: @opennextjs/cloudflare@1.20.15
+npm warn using --force Recommended protections disabled.
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+npm warn deprecated glob@10.3.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts   workerd@1.20261023.1 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+npm warn using --force Recommended protections disabled.
+npm warn install-scripts 3 packages have install scripts not yet covered by allowScripts:
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts   fsevents@2.3.3 (install: (install scripts present))
+npm warn install-scripts   workerd@1.20261023.1 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+(node:36735) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+WARN Failed to set up cache for your project.
+After the migration completes, please manually setup cache in  wrangler.jsonc and open-next.config.ts files (for more details see: https://opennext.js.org/cloudflare/caching).
+
+
+$ npm ci --no-audit --no-fund
+
+added 333 packages in 4s
+
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+npm warn deprecated glob@10.3.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn install-scripts 3 packages have install scripts not yet covered by allowScripts:
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts   fsevents@2.3.3 (install: (install scripts present))
+npm warn install-scripts   workerd@1.20261023.1 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+$ npx opennextjs-cloudflare build
+
+┌─────────────────────────────┐
+│ OpenNext — Cloudflare build │
+└─────────────────────────────┘
+
+App directory: /private<temporary-directory>/nextjs
+Next.js version : 16.4.3
+@opennextjs/cloudflare version: 1.20.15
+@opennextjs/aws version: 4.1.14
+workerd compatibility_date: 2026-10-23
+
+┌─────────────────────────────────┐
+│ OpenNext — Building Next.js app │
+└─────────────────────────────────┘
+
+
+> shipcel-check-nextjs@1.0.0 build
+> next build
+
+▲ Next.js 16.4.3 (Turbopack)
+✓ Running next.config.mjs took 6ms
+⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+Using secrets defined in .dev.vars
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 826ms
+  Running TypeScript ...
+  Finished TypeScript in 16ms ...
+  Collecting page data using 5 workers ...
+  Generating static pages using 5 workers (0/4) ...
+  Generating static pages using 5 workers (1/4) 
+  Generating static pages using 5 workers (2/4) 
+  Generating static pages using 5 workers (3/4) 
+✓ Generating static pages using 5 workers (4/4) in 172ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+└ ƒ /api/health
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+┌──────────────────────────────┐
+│ OpenNext — Generating bundle │
+└──────────────────────────────┘
+
+Bundling middleware function...
+Bundling static assets...
+Bundling cache assets...
+Building server function: default...
+Applying code patches: 1.568s
+# copyPackageTemplateFiles
+[35m⚙️ Bundling the OpenNext server...
+[0m
+[35mWorker saved in `.open-next/worker.js` 🚀
+[0m
+OpenNext build complete.
+
+
+$ /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js deploy --no-autoconfig --x-provision --x-auto-create --name shipcel-check-nextjs --dry-run --outdir .bundle-check
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+✨ Read 15 files from the assets directory /private<temporary-directory>/nextjs/.open-next/assets
+Total Upload: 4457.07 KiB / gzip: 944.13 KiB
+Your Worker has access to the following bindings:
+Binding                                               Resource      
+env.WORKER_SELF_REFERENCE (shipcel-check-nextjs)      Worker        
+env.IMAGES                                            Images        
+env.ASSETS                                            Assets        
+
+--dry-run: exiting now.
+
+
+$ /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js dev (local run)
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+Using secrets defined in .dev.vars
+Your Worker has access to the following bindings:
+Binding                                               Resource                  Mode
+env.WORKER_SELF_REFERENCE (shipcel-check-nextjs)      Worker                    local [connected]
+env.IMAGES                                            Images                    local
+env.ASSETS                                            Assets                    local
+env.NEXTJS_ENV ("(hidden)")                           Environment Variable      local
+
+
+Service bindings, Durable Object bindings, and Tail consumers connect to other Wrangler or Vite dev processes running locally, with their connection status indicated by [connected] or [not connected]. For more details, refer to https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/#local-development
+
+⎔ Starting local server...
+[wrangler:info] ✨ Parsed 1 valid header rule.
+[wrangler:info] Ready on http://127.0.0.1:8829
+[wrangler:info] GET /api/health 200 OK (85ms)

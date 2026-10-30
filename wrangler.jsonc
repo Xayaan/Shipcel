@@ -1,0 +1,58 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cloudcel-local",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-07",
+  "triggers": { "crons": ["* * * * *"] },
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": [
+      "/api/*",
+      "/mcp",
+      "/ingest/*",
+      "/analytics.js",
+      // OAuth for the MCP server (worker/oauth-server.ts).
+      "/.well-known/*",
+      "/oauth/*",
+    ],
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cloudcel-local",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations",
+    },
+  ],
+  // Shipcel at https://shipcel.com, in its owner's Cloudflare account: built with
+  // CLOUDFLARE_ENV=production and deployed by `npm run production:setup`, which also creates
+  // the database (writing its ID here) and sends the secrets to Cloudflare. No secret is kept
+  // in this file.
+  "env": {
+    "production": {
+      "name": "shipcel",
+      "routes": [{ "pattern": "shipcel.com", "custom_domain": true }],
+      "workers_dev": false,
+      "preview_urls": false,
+      "observability": { "enabled": true },
+      "vars": {
+        "AUTH_MODE": "github",
+        "APP_ORIGIN": "https://shipcel.com",
+        "NATIVE_BUILDS_ENABLED": "true",
+        // Shipcel's own visitor analytics (worker/analytics.ts): PostHog's project key is public.
+        "POSTHOG_KEY": "phc_txVK7JMLXUzZDvQ2GCYbRjjHMUv69KTq6ahbHPiswoFf",
+        "POSTHOG_REGION": "us",
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "shipcel",
+          "database_id": "46c6d490-0a53-436e-bc9c-b7a31f149db9",
+          "migrations_dir": "migrations",
+        },
+      ],
+    },
+  },
+}

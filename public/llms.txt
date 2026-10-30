@@ -1,0 +1,41 @@
+# Shipcel
+
+> Shipcel deploys websites and apps into a person's own Cloudflare account, with no infrastructure code: from GitHub, with the `shipcel` command, from a dropped folder, or by an AI agent through MCP. Shipcel is free; Cloudflare bills the account's usage at its list prices.
+
+From a terminal, deploy with the CLI in the app's folder:
+
+- Install it: `npm install -g https://shipcel.com/cli/shipcel.tgz`
+- Sign in: `shipcel login` opens one page where the person approves the CLI and connects Cloudflare. Without a browser (CI, or an agent working alone), set `SHIPCEL_TOKEN` to an API token made under **API & CLI** in the dashboard.
+- Deploy: `shipcel`. A new app's first deploy goes to production; after that `shipcel` deploys a preview, and `shipcel --prod` deploys to production.
+- `shipcel agent init` writes these commands into the project's AGENTS.md.
+
+Without a terminal, use the MCP server at https://shipcel.com/mcp, with the API token as a bearer token (chat apps such as Claude.ai connect with OAuth instead). It creates projects, deploys files, publishes, rolls back and sets secrets.
+
+## Start here
+
+- [Getting started](https://shipcel.com/docs/getting-started.md): Shipcel deploys and manages apps in your own Cloudflare account, the way you would on Vercel or Netlify, without writing infrastructure code.
+- [The shipcel CLI](https://shipcel.com/docs/cli.md): The shipcel command sets up, builds and deploys your site or app to your own Cloudflare account, and manages your projects from a terminal or CI.
+- [AI agents](https://shipcel.com/docs/ai-agents.md): Let your own AI agent deploy and manage your apps: Claude Code, Codex, Cursor or any agent that speaks the Model Context Protocol (MCP).
+
+## Guides
+
+- [Deploy from GitHub](https://shipcel.com/docs/deploy-from-github.md): Connect a repository and every push deploys.
+- [Deploy from GitLab, Bitbucket or Gitea](https://shipcel.com/docs/other-git-hosts.md): A repository on GitLab, Bitbucket, Gitea or Forgejo deploys the way a GitHub repository does: every push builds in that host's own CI, which runs shipcel deploy.
+- [Deploy without Git](https://shipcel.com/docs/deploy-without-git.md): Deploy a site or an app straight from your computer to your Cloudflare account: run shipcel in its folder, drop a built folder on the dashboard, or ask your AI agent.
+- [Starter kits](https://shipcel.com/docs/starter-kits.md): A starter kit is a complete new app, generated for your project, in exactly the shape Shipcel's GitHub deployments expect.
+- [Previews and rollbacks](https://shipcel.com/docs/previews-and-rollbacks.md): Try a change at its own address before it reaches production, and put production back in one step when something goes wrong.
+- [Environment variables](https://shipcel.com/docs/environment-variables.md): Your app gets configuration two ways: secrets, which the running app reads, and build variables, which a GitHub project's build reads.
+- [Domains](https://shipcel.com/docs/domains.md): Every app has a free address on Cloudflare's workers.dev, and you can add your own domain with a certificate in a few minutes.
+- [Databases and storage](https://shipcel.com/docs/databases-and-storage.md): Your app's data lives in your Cloudflare account: SQL in D1, files in R2, and key-value data in KV.
+- [Sign-in and realtime](https://shipcel.com/docs/sign-in-and-realtime.md): Shipcel can run a sign-in and realtime service for your app, in your own Cloudflare account: a Worker, a D1 database for its users and a Durable Object class for channels.
+- [Logs and analytics](https://shipcel.com/docs/logs-and-analytics.md): See how your app is doing: requests, errors, response times and CPU time from Cloudflare's analytics, HTTP status codes and recent requests and exceptions from Workers Logs, and notifications when a deploy or a health check fails.
+- [Teams and tokens](https://shipcel.com/docs/teams-and-tokens.md): Work with other people in a shared workspace, give each the access they need, and let the CLI, scripts and AI agents act for you with API tokens.
+- [Free-only and billing](https://shipcel.com/docs/free-only-and-billing.md): Shipcel's Free plan costs nothing, and your apps use Cloudflare's free allowance in your own account.
+- [Self-hosting](https://shipcel.com/docs/self-hosting.md): Shipcel is a Cloudflare Worker with a D1 database.
+- [Add a starter kit](https://shipcel.com/docs/add-a-starter-kit.md): The App catalog is the kits/ folder in Shipcel's repository: one TypeScript file per starter kit.
+- [Troubleshooting](https://shipcel.com/docs/troubleshooting.md): What the most common messages mean and what to do about them.
+
+## Optional
+
+- [Features](https://shipcel.com/features/): every feature, marked built, beta or not yet
+- [Pricing](https://shipcel.com/pricing/): Cloudflare's free and paid limits, and worked examples

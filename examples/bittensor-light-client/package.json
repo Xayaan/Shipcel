@@ -1,0 +1,15 @@
+{
+  "name": "bittensor-light-client",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A Bittensor (Finney) light client on Cloudflare: smoldot in a Durable Object, verifying the chain itself and answering JSON-RPC over HTTP and WebSocket.",
+  "scripts": {
+    "dev": "npx --yes wrangler@4.156.0 dev",
+    "deploy": "shipcel deploy --prod",
+    "check": "node scripts/check.mjs"
+  },
+  "dependencies": {
+    "smoldot": "3.7.0"
+  }
+}

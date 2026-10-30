@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deploy from GitLab, Bitbucket or Gitea | Shipcel docs</title>
+<meta name="description" content="A repository on GitLab, Bitbucket, Gitea or Forgejo deploys the way a GitHub repository does: every push builds in that host's own CI, which runs shipcel deploy. The production branch goes to production, and other branches get a preview. Shipcel never reads the repository; your CI builds it and uploads the result.">
+<meta property="og:title" content="Deploy from GitLab, Bitbucket or Gitea | Shipcel docs">
+<meta property="og:description" content="A repository on GitLab, Bitbucket, Gitea or Forgejo deploys the way a GitHub repository does: every push builds in that host's own CI, which runs shipcel deploy. The production branch goes to production, and other branches get a preview. Shipcel never reads the repository; your CI builds it and uploads the result.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/" aria-current="page">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Deploy</span></nav>
+<h1>Deploy from GitLab, Bitbucket or Gitea</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#connect-a-repository">Connect a repository</a></li><li><a href="#gitlab-com-no-secret">GitLab.com: no secret</a></li><li><a href="#deploy-tokens">Deploy tokens</a></li><li><a href="#what-doesn-t-deploy-this-way">What doesn't deploy this way</a></li></ul></nav>
+<p>A repository on GitLab, Bitbucket, Gitea or Forgejo deploys the way a GitHub repository does: every push builds in that host's own CI, which runs <code>shipcel deploy</code>. The production branch goes to production, and other branches get a preview. Shipcel never reads the repository; your CI builds it and uploads the result.</p>
+<h2 id="connect-a-repository">Connect a repository</h2>
+<p>In the repository's folder:</p>
+<pre class="code" tabindex="0"><code>shipcel git connect</code></pre>
+<p>The CLI reads the folder's Git remote, links the repository to a project (creating one named after the folder if it's new), and writes the CI file for that host:</p>
+<div class="table-wrap" role="region" aria-label="Connect a repository" tabindex="0"><table><thead><tr><th scope="col">Host</th><th scope="col">File</th><th scope="col">Sign-in</th></tr></thead><tbody><tr><td>GitLab.com</td><td><code>.gitlab-ci.yml</code></td><td>GitLab's own ID token: no secret</td></tr><tr><td>GitLab on a server of your own</td><td><code>.gitlab-ci.yml</code></td><td>A deploy token, as the variable <code>SHIPCEL_TOKEN</code></td></tr><tr><td>Bitbucket</td><td><code>bitbucket-pipelines.yml</code></td><td>A deploy token, as the variable <code>SHIPCEL_TOKEN</code></td></tr><tr><td>Gitea, Forgejo, Codeberg</td><td><code>.gitea/workflows/shipcel.yml</code></td><td>A deploy token, as the secret <code>SHIPCEL_TOKEN</code></td></tr></tbody></table></div>
+<p>Commit the file and push. A CI file the repository already has is left alone, and the CLI shows the job to add to it instead. The production branch is the remote's default branch as your last fetch recorded it; <code>--branch &lt;name&gt;</code> names another. For a host the CLI can't tell from its name, <code>--provider gitlab</code> or <code>--provider gitea</code> says which it is. From outside the folder, <code>--repo gitlab.com/group/project</code> names the repository.</p>
+<p>The project's <strong>Deployments</strong> tab shows the linked repository, and <strong>Disconnect repository</strong> stops its jobs from deploying. Delete the CI file in the repository too.</p>
+<h2 id="gitlab-com-no-secret">GitLab.com: no secret</h2>
+<p>The job asks GitLab for an ID token made for Shipcel's address (<code>id_tokens</code> in <code>.gitlab-ci.yml</code>), and Shipcel exchanges it for a token that deploys the linked project for an hour. The first job pins the GitLab project behind the path: if the path later names another project (renamed, transferred, or taken), its jobs deploy nothing until you link it again. The job also names its Shipcel project (<code>--project</code> in the file), so a link someone else makes to the same path gets nothing from your pipelines.</p>
+<p>The production branch deploys to production only while it is <strong>protected</strong> in GitLab (Settings → Repository → Protected branches); otherwise anyone who can push to it could replace production, so its jobs deploy previews. GitLab protects the default branch of a new project.</p>
+<h2 id="deploy-tokens">Deploy tokens</h2>
+<p>Bitbucket Pipelines, Gitea and Forgejo Actions, and GitLab on a server of your own sign in with a deploy token: a token that deploys one project and does nothing else in your workspace.</p>
+<pre class="code" tabindex="0"><code>shipcel tokens add &quot;Bitbucket: ada/shop&quot; --project shop</code></pre>
+<p>It opens the same approval page as <code>shipcel login</code>; after you approve, the terminal shows the token once. Keep it as a secured repository variable on Bitbucket, a masked and protected CI/CD variable on GitLab, or a repository secret on Gitea and Forgejo, named <code>SHIPCEL_TOKEN</code>. It lasts 90 days unless you say otherwise (<code>--expires 365</code>), and <code>shipcel tokens rm</code> revokes it.</p>
+<p>Anyone who can run your pipeline with that secret can deploy the project, so keep it to branches you trust: GitLab's protected variables, and Bitbucket's deployment variables, do that.</p>
+<h2 id="what-doesn-t-deploy-this-way">What doesn't deploy this way</h2>
+<p>Containers: their images are made by Cloudflare's builds, which Shipcel connects from GitHub only for now. Branch previews of Next.js apps aren't offered from any host yet.</p>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/deploy-from-github/"><span>Previous</span>Deploy from GitHub</a><a class="next" href="/docs/deploy-without-git/"><span>Next</span>Deploy without Git</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

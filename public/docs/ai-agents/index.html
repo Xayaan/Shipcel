@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI agents | Shipcel docs</title>
+<meta name="description" content="Let your own AI agent deploy and manage your apps: Claude Code, Codex, Cursor or any agent that speaks the Model Context Protocol (MCP). Shipcel runs no model and sees no prompts; your agent calls Shipcel's MCP server with your API token, and Shipcel does the Cloudflare side.">
+<meta property="og:title" content="AI agents | Shipcel docs">
+<meta property="og:description" content="Let your own AI agent deploy and manage your apps: Claude Code, Codex, Cursor or any agent that speaks the Model Context Protocol (MCP). Shipcel runs no model and sees no prompts; your agent calls Shipcel's MCP server with your API token, and Shipcel does the Cloudflare side.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/" aria-current="page">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Workspace</span></nav>
+<h1>AI agents</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#what-the-agent-can-do">What the agent can do</a></li><li><a href="#set-it-up">Set it up</a></li><li><a href="#limits">Limits</a></li></ul></nav>
+<p>Let your own AI agent deploy and manage your apps: Claude Code, Codex, Cursor or any agent that speaks the Model Context Protocol (MCP). Shipcel runs no model and sees no prompts; your agent calls Shipcel's MCP server with your API token, and Shipcel does the Cloudflare side.</p>
+<h2 id="what-the-agent-can-do">What the agent can do</h2>
+<div class="table-wrap" role="region" aria-label="What the agent can do" tabindex="0"><table><thead><tr><th scope="col">Tool</th><th scope="col">What it does</th></tr></thead><tbody><tr><td><code>list_projects</code>, <code>get_project</code></td><td>the projects in your workspace and their addresses</td></tr><tr><td><code>create_project</code></td><td>a new project</td></tr><tr><td><code>deploy_files</code></td><td>deploy files the agent wrote, like a dropped folder</td></tr><tr><td><code>publish</code></td><td>publish or unpublish an app's address</td></tr><tr><td><code>list_deployments</code>, <code>list_versions</code></td><td>what's deployed, and the versions</td></tr><tr><td><code>rollback</code></td><td>send traffic back to an earlier version</td></tr><tr><td><code>list_secrets</code>, <code>set_secret</code></td><td>the app's secret names, and setting one</td></tr><tr><td><code>get_signin_info</code></td><td>how the app's users sign in, with sign-in &amp; realtime</td></tr></tbody></table></div>
+<p>There's also a <code>build_and_deploy</code> prompt: describe an app and the agent builds and deploys it. The agent acts with your token, so it can do what a token can and nothing more: see <a href="/docs/teams-and-tokens/#api-tokens">Teams and tokens</a>.</p>
+<h2 id="set-it-up">Set it up</h2>
+<ol><li>Create an API token under <strong>API &amp; CLI</strong> and put it in your environment as <code>SHIPCEL_TOKEN</code>.</li><li>Open <strong>AI agents</strong> in the dashboard: it shows the settings for each agent with your Shipcel's address. For example, Claude Code:</li></ol>
+<pre class="code" tabindex="0"><code>claude mcp add --transport http --scope user shipcel https://shipcel.com/mcp \
+  --header &quot;Authorization: Bearer $SHIPCEL_TOKEN&quot;</code></pre>
+<p>Codex reads the token with <code>bearer_token_env_var = &quot;SHIPCEL_TOKEN&quot;</code>, and Cursor with <code>${env:SHIPCEL_TOKEN}</code> in <code>.cursor/mcp.json</code>. Every setting reads the token from your environment, so it never lands in a shared file.</p>
+<h2 id="limits">Limits</h2>
+<ul><li>A chat app that connects with OAuth (Claude.ai, ChatGPT: add <code>https://shipcel.com/mcp</code> as a connector) registers itself, sends you to a Shipcel page to allow it (sign in with GitHub first if needed), and gets a token of its own for 90 days, listed under <strong>API &amp; CLI</strong>; connect it again after that.</li><li>Through MCP, agents deploy files, like a folder upload. An agent that works in your terminal can deploy an app with code and a database by running <code>shipcel</code> in its folder; <code>shipcel agent init</code> writes the commands into <code>AGENTS.md</code>, and <code>shipcel mcp</code> shows how to connect an agent.</li></ul>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/teams-and-tokens/"><span>Previous</span>Teams and tokens</a><a class="next" href="/docs/free-only-and-billing/"><span>Next</span>Free-only and billing</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

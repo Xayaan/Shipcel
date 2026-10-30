@@ -1,0 +1,125 @@
+/* Hallmark · checked: 2026-10-28 · genre: modern-minimal (inferred) · scope: app · floor: 48 (8) and 7a left for a restyle
+ * built: the project · redesign: polish · v2.0.0 */
+/* The page the shipcel CLI opens: one column of steps, without the dashboard around it. */
+.cli-setup {
+  max-width: 560px;
+  margin: 8vh auto;
+  padding: 28px;
+}
+.cli-setup > img {
+  width: 44px;
+  margin-bottom: 20px;
+}
+.cli-setup h1 {
+  font-size: clamp(26px, 5vw, 36px);
+  letter-spacing: -1px;
+  line-height: 1.15;
+  margin: 0;
+}
+.cli-setup-lead {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 12px 0 24px;
+}
+.cli-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.cli-steps > li {
+  display: flex;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.cli-steps > li.current {
+  border-color: #9fbfa9;
+}
+.cli-step-mark {
+  flex: 0 0 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--soft);
+  color: #3f5247;
+}
+.cli-steps > li.done .cli-step-mark {
+  background: var(--green);
+  color: #fff;
+}
+.cli-step-body {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.cli-step-body h2 {
+  font-size: 14px;
+  line-height: 26px;
+  margin: 0;
+}
+.cli-step-state {
+  font-weight: 400;
+  color: var(--muted);
+}
+.cli-step-body p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 6px 0 12px;
+  overflow-wrap: anywhere;
+}
+.cli-step-body p:last-child {
+  margin-bottom: 0;
+}
+.cli-step-body .text-link {
+  border: 0;
+  background: none;
+  font-size: 13px;
+  text-decoration: underline;
+}
+.cli-step-body .field-label {
+  font-size: 12px;
+}
+.cli-step-body .button {
+  font-size: 13px;
+}
+.cli-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 28px;
+  letter-spacing: 0.08em;
+  color: #1d3a2e;
+}
+.cli-step-body p.cli-code {
+  color: #1d3a2e;
+  font-size: 28px;
+  margin: 12px 0;
+}
+.cli-setup-done {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0 0;
+  padding: 14px 16px;
+  border: 1px solid #c9dfcf;
+  border-radius: 8px;
+  background: #f3faf5;
+  color: #1d3a2e;
+  font-size: 14px;
+  font-weight: 600;
+}
+.cli-setup .signin-footnote {
+  margin-top: 20px;
+}
+/* Links in running text are underlined: colour alone doesn't mark them. */
+.cli-setup .signin-footnote a,
+.cli-step-body a:not(.button) {
+  color: var(--green);
+  text-decoration: underline;
+}

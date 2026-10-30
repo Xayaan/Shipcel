@@ -1,0 +1,18 @@
+$ sh -c printf '%s' '{"name":"cc-check-html-0123456789ab","compatibility_date":"2026-10-07","assets":{"directory":".","not_found_handling":"404-page"},"preview_urls":true,"previews":{}}' > wrangler.jsonc && printf '%s\n' .git .github node_modules .wrangler wrangler.jsonc .assetsignore >> .assetsignore && "/Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node" "/Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js" deploy --no-autoconfig --name cc-check-html-0123456789ab --dry-run --outdir .bundle-check
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+✨ Read 13 files from the assets directory /private<temporary-directory>/html
+Total Upload: 0.36 KiB / gzip: 0.25 KiB
+No bindings found.
+--dry-run: exiting now.
+
+
+$ /Users/zayaan_1/.nvm/versions/node/v24.22.1/bin/node /Users/zayaan_1/Downloads/Cloudcel/node_modules/wrangler/bin/wrangler.js dev (local run)
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+⎔ Starting local server...
+[wrangler:info] Ready on http://127.0.0.1:8828
+[wrangler:info] GET /about 200 OK (6ms)
+[wrangler:info] GET /.git/config 404 Not Found (2ms)

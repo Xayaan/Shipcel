@@ -1,0 +1,37 @@
+/* Hallmark · checked: 2026-10-28 · genre: modern-minimal (inferred) · scope: app · floor: see styles.css
+ * built: the project · redesign: polish · v2.0.0 */
+.team {
+  display: grid;
+  gap: 20px;
+}
+.role-list {
+  margin: 0 0 16px;
+  padding-left: 20px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.team-subheading {
+  font-size: 14px;
+  margin: 18px 0 6px;
+}
+.field-label.compact {
+  margin: 0;
+}
+.workspace-switcher {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.workspace-switcher select {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 6px;
+  color: inherit;
+}

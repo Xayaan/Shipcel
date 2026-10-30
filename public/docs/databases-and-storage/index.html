@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Databases and storage | Shipcel docs</title>
+<meta name="description" content="Your app's data lives in your Cloudflare account: SQL in D1, files in R2, and key-value data in KV. Shipcel creates them when you deploy, after you consent, and gives you a place to browse, change, back up and restore them. A Postgres or MySQL database hosted elsewhere connects through Hyperdrive.">
+<meta property="og:title" content="Databases and storage | Shipcel docs">
+<meta property="og:description" content="Your app's data lives in your Cloudflare account: SQL in D1, files in R2, and key-value data in KV. Shipcel creates them when you deploy, after you consent, and gives you a place to browse, change, back up and restore them. A Postgres or MySQL database hosted elsewhere connects through Hyperdrive.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/" aria-current="page">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Build your app</span></nav>
+<h1>Databases and storage</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#adding-a-database-or-storage">Adding a database or storage</a></li><li><a href="#d1-the-sql-database">D1: the SQL database</a></li><li><a href="#scheduled-backups-to-r2">Scheduled backups to R2</a></li><li><a href="#kv-and-r2-the-storage-browser">KV and R2: the storage browser</a></li><li><a href="#postgres-and-mysql-through-hyperdrive">Postgres and MySQL through Hyperdrive</a></li><li><a href="#free-limits-and-billing">Free limits and billing</a></li><li><a href="#your-data-stays-yours">Your data stays yours</a></li></ul></nav>
+<p>Your app's data lives in your Cloudflare account: SQL in D1, files in R2, and key-value data in KV. Shipcel creates them when you deploy, after you consent, and gives you a place to browse, change, back up and restore them. A Postgres or MySQL database hosted elsewhere connects through Hyperdrive.</p>
+<h2 id="adding-a-database-or-storage">Adding a database or storage</h2>
+<ul><li><strong>Starter kits:</strong> tick <strong>SQL database</strong> (D1, bound as <code>DB</code>) or <strong>File storage</strong> (R2, bound as <code>FILES</code>) when you create the project.</li><li><strong>Your own repository:</strong> declare draft bindings, without IDs, in its Wrangler configuration. Wrangler creates them on the first deploy:</li></ul>
+<pre class="code" tabindex="0"><code>{
+  &quot;d1_databases&quot;: [{ &quot;binding&quot;: &quot;DB&quot;, &quot;migrations_dir&quot;: &quot;migrations&quot; }],
+  &quot;kv_namespaces&quot;: [{ &quot;binding&quot;: &quot;CACHE&quot; }],
+  &quot;r2_buckets&quot;: [{ &quot;binding&quot;: &quot;FILES&quot; }]
+}</code></pre>
+<p>The Deployments tab lists each one as <strong>Resources to create</strong>, and nothing is created until you consent. Cloudflare names them after the deployed Worker. Existing resource IDs are refused, so an app never attaches to data it didn't create.</p>
+<h2 id="d1-the-sql-database">D1: the SQL database</h2>
+<p><strong>Manage → Database</strong> has three parts:</p>
+<ul><li><strong>Data:</strong> browse tables 50 rows at a time, and run SQL. A single <code>SELECT</code> or <code>EXPLAIN</code> runs at once (up to 200 rows shown). Anything that changes data asks first, then records a restore point, so you can undo it.</li><li><strong>Migrations:</strong> Shipcel reads the <code>.sql</code> files in the binding's <code>migrations_dir</code> at the deployed commit, shows which haven't run, and applies them in order after you review them. Each run records a restore point first.</li><li><strong>Backups:</strong> <strong>Export</strong> downloads the whole database as SQL (Cloudflare pauses the database's queries while an export runs). <strong>Restore</strong> puts the database back to any minute in the past 30 days (7 on Workers Free) with D1 Time Travel, and keeps an undo point. <strong>Scheduled copies</strong> keeps copies in R2 for as long as you choose (below).</li></ul>
+<p>With branch previews on, the same tools also work on the previews' separate copy of the database.</p>
+<h2 id="scheduled-backups-to-r2">Scheduled backups to R2</h2>
+<p><strong>Manage → Database → Scheduled copies</strong> copies the production database into an R2 bucket in your Cloudflare account every day or every week, at the hour (UTC) you pick, and keeps the newest copies, from 1 to 90. Each copy is Cloudflare's own SQL export of the database, the same file <strong>Export</strong> gives you, and any of them downloads from the list.</p>
+<ul><li>The first time, Shipcel makes a bucket named after the Worker, ending in <code>-backups</code>, and keeps copies only there. If a bucket of that name exists already, it asks you to rename or remove it first.</li><li>Cloudflare pauses the database's queries while it exports, usually for seconds, so pick a quiet hour. <strong>Back up now</strong> makes a copy at once.</li><li>A copy can be up to 300 MB, the most one upload through Cloudflare's API takes. For a larger database, keep copies with <code>wrangler d1 export</code>; Time Travel covers the last 30 days either way.</li><li>A copy that fails says why and stays listed for a month; the next one runs at its usual time.</li><li>A copy that can't start (the project is Free-only or paused by the budget guard, isn't deployed, or Cloudflare was disconnected) says why on the schedule, and Shipcel tries again an hour later.</li><li>Stopping backups, or removing the project, makes no more copies. Those made stay in the bucket until you delete them; started again, copies go on into the same bucket. While backups run, Free-only can't be turned back on.</li><li>R2 stores 10 GB free, then bills $0.015 per GB-month, so backups need Free-only off.</li></ul>
+<p>To bring a copy back, run it against a database without those tables, such as a new one:</p>
+<pre class="code" tabindex="0"><code>npx wrangler d1 create my-app-copy
+npx wrangler d1 execute my-app-copy --remote --file=2026-10-30T03-00-12Z-1a2b3c4d.sql</code></pre>
+<p>The file creates the tables and inserts the rows. Within the last 30 days, <strong>Restore</strong> (Time Travel) is quicker and needs no file.</p>
+<h2 id="kv-and-r2-the-storage-browser">KV and R2: the storage browser</h2>
+<p><strong>Manage → Storage</strong> lists the KV namespaces and R2 buckets the deployed Worker binds:</p>
+<ul><li><strong>KV:</strong> list keys by prefix, open a value (text up to 64 KB), download it, set or delete one. Setting a value keeps the key's metadata and expiration.</li><li><strong>R2:</strong> browse objects folder by folder, download them, upload files up to 25 MB, and delete them.</li></ul>
+<p>Every change asks first and is recorded in the project's operations. Viewers can't open the browser; it shows your data.</p>
+<h2 id="postgres-and-mysql-through-hyperdrive">Postgres and MySQL through Hyperdrive</h2>
+<p>Cloudflare doesn't host Postgres or MySQL, but Hyperdrive pools and caches connections from your Worker to a database hosted anywhere: Neon, Supabase, PlanetScale (which you can create from the Cloudflare dashboard, on the Cloudflare bill), or your own server. Shipcel turns a connection string into a Hyperdrive configuration in your account; the password goes to Cloudflare and nowhere else, and Shipcel keeps only the binding, host and database name.</p>
+<ol><li><strong>Manage → Database → Postgres and MySQL</strong>, or <code>shipcel hyperdrive add DB</code> (it asks for the connection string, <code>postgres://user:password@host:5432/database</code> or <code>mysql://…</code>, without showing it).</li><li>Put the snippet it shows in your Wrangler configuration, beside the other bindings:</li></ol>
+<pre class="code" tabindex="0"><code>{ &quot;hyperdrive&quot;: [{ &quot;binding&quot;: &quot;DB&quot;, &quot;id&quot;: &quot;the configuration id&quot; }] }</code></pre>
+<ol><li>Deploy. Your code reads <code>env.DB.connectionString</code> and connects with any Postgres or MySQL driver (<code>postgres</code>, <code>pg</code>, <code>mysql2</code>), with <code>nodejs_compat</code> in <code>compatibility_flags</code>. The <strong>Postgres API</strong> starter kit is this, ready to run.</li></ol>
+<p>A <code>hyperdrive</code> entry is accepted only for a database added to the same project, so an app never reaches a database it wasn't given. Branch previews bind the same database (there is no staging copy of a database hosted elsewhere); list it under <code>previews</code> too. Removing the database from Shipcel removes the Hyperdrive configuration; the database itself stays where it is hosted.</p>
+<h2 id="free-limits-and-billing">Free limits and billing</h2>
+<p>D1 and KV stop at their free daily limits on Workers Free instead of billing you. R2 is pay-as-you-go beyond its free tier, so it needs Free-only off: see <a href="/docs/free-only-and-billing/">Free-only and billing</a>. Hyperdrive is free up to 100,000 queries a day (10 configurations) and unlimited on Workers Paid (25); the Postgres or MySQL database behind it is billed by whoever hosts it.</p>
+<h2 id="your-data-stays-yours">Your data stays yours</h2>
+<p>Removing a project from Shipcel never deletes its databases, namespaces or buckets: they stay in your Cloudflare account, where you can delete them yourself.</p>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/domains/"><span>Previous</span>Domains</a><a class="next" href="/docs/sign-in-and-realtime/"><span>Next</span>Sign-in and realtime</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

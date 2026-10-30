@@ -1,0 +1,17 @@
+{
+  // A Worker with everything a small app needs on Cloudflare's free plan. The database and
+  // the namespace are declared by binding name only: Cloudflare creates them on the first
+  // deploy (shipcel asks first), named hello-database-db and hello-database-cache.
+  "name": "hello-database",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "public", "binding": "ASSETS" },
+  "d1_databases": [{ "binding": "DB" }],
+  "kv_namespaces": [{ "binding": "CACHE" }],
+  "vars": { "GREETING": "Hello from Shipcel" },
+  "triggers": { "crons": ["*/15 * * * *"] },
+  "durable_objects": {
+    "bindings": [{ "name": "COUNTER", "class_name": "Counter" }],
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Counter"] }],
+}

@@ -1,0 +1,97 @@
+$ npm install --no-audit --no-fund
+
+added 35 packages in 9s
+
+npm warn install-scripts 2 packages have install scripts not yet covered by allowScripts:
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts   workerd@1.20261023.1 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+$ pipx run --spec uv==0.13.6 uv lock
+
+⚠️  uv is already on your PATH and installed at /opt/homebrew/bin/uv.
+    Downloading and running anyway.
+Downloading uv (13.7MiB)
+ Downloaded uv
+Installed 1 package in 8ms
+Using CPython 3.12.9
+Resolved 24 packages in 1.31s
+
+$ npm ci --no-audit --no-fund
+
+added 36 packages in 2s
+
+npm warn install-scripts 3 packages have install scripts not yet covered by allowScripts:
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts   fsevents@2.3.3 (install: (install scripts present))
+npm warn install-scripts   workerd@1.20261023.1 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+$ pipx run --spec uv==0.13.6 uv run pywrangler deploy --no-autoconfig --x-provision --x-auto-create --name cc-check-python-fastapi-0123456789ab --dry-run --outdir .bundle-check
+INFO     Resolved 12 requirements from                                          
+         /private/var/folders/pc/hq774g7x5677hk2by_3m8wzw0000gr/T/shipcel-framew
+         orks-mhs4tP/python-fastapi/pylock.toml.                                
+INFO     Installing packages into python_modules...                             
+INFO     Packages installed in python_modules.                                  
+INFO     Installing packages into .venv-workers...                              
+INFO     Packages installed in .venv-workers.                                   
+INFO     Passing command to npx wrangler: npx --yes wrangler deploy             
+         --no-autoconfig --x-provision --x-auto-create --name                   
+         cc-check-python-fastapi-0123456789ab --dry-run --outdir .bundle-check  
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+Attaching additional modules:
+┌─────────────────────┬──────┬─────────────┐
+│ Name                │ Type │ Size        │
+├─────────────────────┼──────┼─────────────┤
+│ Vendored Modules    │      │ 9417.63 KiB │
+├─────────────────────┼──────┼─────────────┤
+│ Total (427 modules) │      │ 9417.63 KiB │
+└─────────────────────┴──────┴─────────────┘
+Total Upload: 9417.95 KiB / gzip: 2362.19 KiB
+Your Worker has access to the following bindings:
+Binding        Resource         
+env.DB         D1 Database      
+
+--dry-run: exiting now.
+
+⚠️  uv is already on your PATH and installed at /opt/homebrew/bin/uv.
+    Downloading and running anyway.
+Using CPython 3.12.9
+Creating virtual environment at: .venv
+Downloading pygments (1.2MiB)
+Downloading pydantic-core (2.0MiB)
+ Downloaded pygments
+ Downloaded pydantic-core
+Installed 21 packages in 19ms
+Using CPython 3.14.9 interpreter at: /opt/homebrew/opt/python@3.14/bin/python3.14
+Creating virtual environment at: .venv-workers
+Using CPython 3.14.2
+Creating virtual environment at: .venv-workers/pyodide-venv
+
+$ pipx run --spec uv==0.13.6 uv run pywrangler dev (local run)
+⚠️  uv is already on your PATH and installed at /opt/homebrew/bin/uv.
+    Downloading and running anyway.
+INFO     Passing command to npx wrangler: npx --yes wrangler dev --port 8824    
+         --ip 127.0.0.1                                                         
+
+ ⛅️ wrangler 4.156.0
+────────────────────
+Your Worker has access to the following bindings:
+Binding        Resource         Mode
+env.DB         D1 Database      local
+
+Attaching additional modules:
+┌─────────────────────┬──────┬─────────────┐
+│ Name                │ Type │ Size        │
+├─────────────────────┼──────┼─────────────┤
+│ Vendored Modules    │      │ 9417.63 KiB │
+├─────────────────────┼──────┼─────────────┤
+│ Total (427 modules) │      │ 9417.63 KiB │
+└─────────────────────┴──────┴─────────────┘
+⎔ Starting local server...
+[wrangler:info] Ready on http://127.0.0.1:8824
+[wrangler:info] GET / 200 OK (2638ms)

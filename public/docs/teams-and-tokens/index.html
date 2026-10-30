@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teams and tokens | Shipcel docs</title>
+<meta name="description" content="Work with other people in a shared workspace, give each the access they need, and let the CLI, scripts and AI agents act for you with API tokens.">
+<meta property="og:title" content="Teams and tokens | Shipcel docs">
+<meta property="og:description" content="Work with other people in a shared workspace, give each the access they need, and let the CLI, scripts and AI agents act for you with API tokens.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/" aria-current="page">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Workspace</span></nav>
+<h1>Teams and tokens</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#workspaces">Workspaces</a></li><li><a href="#roles">Roles</a></li><li><a href="#invite-people">Invite people</a></li><li><a href="#api-tokens">API tokens</a></li><li><a href="#in-ci">In CI</a></li></ul></nav>
+<p>Work with other people in a shared workspace, give each the access they need, and let the CLI, scripts and AI agents act for you with API tokens.</p>
+<h2 id="workspaces">Workspaces</h2>
+<p>Everything in Shipcel belongs to a workspace: projects, connections and tokens. You start with a personal workspace; create a team from <strong>Team</strong> in the sidebar and switch between workspaces at the top of the sidebar. Each workspace connects its own GitHub and Cloudflare accounts.</p>
+<h2 id="roles">Roles</h2>
+<div class="table-wrap" role="region" aria-label="Roles" tabindex="0"><table><thead><tr><th scope="col">Role</th><th scope="col">Can</th></tr></thead><tbody><tr><td>Owner</td><td>everything: connect accounts, choose the Cloudflare account, claim the <code>workers.dev</code> subdomain, turn Free-only off, notifications, the team</td></tr><tr><td>Developer</td><td>create and delete projects, deploy, every Manage operation, their own API tokens</td></tr><tr><td>Viewer</td><td>read projects, deployments and settings</td></tr></tbody></table></div>
+<p>A workspace always keeps at least one owner. Nobody can leave their personal workspace.</p>
+<h2 id="invite-people">Invite people</h2>
+<p><strong>Team → Invite</strong> creates a link for one GitHub login, with a role. It's shown once and works once, for that login, within 7 days. Owners change roles and remove people; removing someone also revokes their tokens for the workspace.</p>
+<h2 id="api-tokens">API tokens</h2>
+<p>A token lets the CLI, a script or an AI agent act as you in one workspace. Create one under <strong>API &amp; CLI</strong>: it's shown once, and Shipcel keeps only a fingerprint. A token expires in 30 days, 90 days or a year, or never, as you choose; revoke one at any time.</p>
+<p>A token can deploy and manage projects. It can't create tokens, approve CLI sign-ins, connect or change accounts, turn Free-only off, protect previews or set up notifications: those stay in the dashboard.</p>
+<p><code>shipcel login</code> creates a token for you through the browser, valid for 90 days, so you don't have to copy one.</p>
+<h2 id="in-ci">In CI</h2>
+<p>Store a token as a secret and set <code>SHIPCEL_URL</code> and <code>SHIPCEL_TOKEN</code>; see <a href="/docs/cli/#in-ci">The CLI</a>.</p>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/logs-and-analytics/"><span>Previous</span>Logs and analytics</a><a class="next" href="/docs/ai-agents/"><span>Next</span>AI agents</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

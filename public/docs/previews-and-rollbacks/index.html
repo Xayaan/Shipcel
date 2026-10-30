@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Previews and rollbacks | Shipcel docs</title>
+<meta name="description" content="Try a change at its own address before it reaches production, and put production back in one step when something goes wrong. Every deploy is a Cloudflare Worker version in your account, so both are instant.">
+<meta property="og:title" content="Previews and rollbacks | Shipcel docs">
+<meta property="og:description" content="Try a change at its own address before it reaches production, and put production back in one step when something goes wrong. Every deploy is a Cloudflare Worker version in your account, so both are instant.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/" aria-current="page">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Deploy</span></nav>
+<h1>Previews and rollbacks</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#versions">Versions</a></li><li><a href="#preview-deploys-folders">Preview deploys (folders)</a></li><li><a href="#branch-previews-github">Branch previews (GitHub)</a></li><li><a href="#who-can-open-previews">Who can open previews</a></li><li><a href="#roll-back">Roll back</a></li><li><a href="#split-traffic">Split traffic</a></li><li><a href="#health-checks">Health checks</a></li></ul></nav>
+<p>Try a change at its own address before it reaches production, and put production back in one step when something goes wrong. Every deploy is a Cloudflare Worker version in your account, so both are instant.</p>
+<h2 id="versions">Versions</h2>
+<p>Each deploy creates a new version of your app's Worker; Cloudflare keeps them, and production is whichever version (or two versions, in a split) currently receives traffic. You can see them in <strong>Manage → Builds &amp; versions → Versions and rollback</strong>, or with <code>shipcel ls</code>:</p>
+<pre class="code" tabindex="0"><code>AGE  VERSION   STATUS              PREVIEW                                               MESSAGE
+2m   1a2b3c4d  Preview             https://1a2b3c4d-my-site.your-name.workers.dev        Preview from Shipcel
+1h   5e6f7a8b  Production 100%     https://5e6f7a8b-my-site.your-name.workers.dev        Direct upload from Shipcel
+1d   9c0d1e2f  Earlier production  https://9c0d1e2f-my-site.your-name.workers.dev        Direct upload from Shipcel</code></pre>
+<h2 id="preview-deploys-folders">Preview deploys (folders)</h2>
+<p><code>shipcel deploy</code> without <code>--prod</code> uploads a version <strong>without deploying it</strong>: it gets its own address, <code>https://&lt;version&gt;-&lt;app&gt;.&lt;subdomain&gt;.workers.dev</code>, and production keeps serving the current version. When you're happy with it:</p>
+<pre class="code" tabindex="0"><code>shipcel promote 1a2b3c4d     # or its preview address</code></pre>
+<h2 id="branch-previews-github">Branch previews (GitHub)</h2>
+<p>For a project deployed from GitHub, turn on <strong>Branch previews</strong> on the Deployments tab once production is deployed: <strong>Review preview setup</strong>, then <strong>Turn on previews</strong>. Every push to another branch, including branches with pull requests, then gets a preview address that follows the branch, built by Cloudflare like production.</p>
+<ul><li>Previews never use production data. If the app has a D1 database, KV namespace or R2 bucket, Shipcel creates an empty copy of each for all branch previews to share; you consent to these first.</li><li>The Deployments tab lists recent preview builds with their addresses; turning previews off stops new ones.</li><li>Previews use Cloudflare's Worker Previews, which Cloudflare offers as a beta.</li><li>Pull requests from forks get no preview. Cloudflare builds branches of your repository, and building a fork's code with your build token would let anyone who opens a pull request run code with it. Push the branch to your repository to preview it.</li><li>Next.js apps get no branch previews yet: OpenNext calls its own Worker through a service binding (<code>WORKER_SELF_REFERENCE</code>), and a service binding from a Preview reaches production. Cloudflare's way around that, <code>ctx.exports</code>, isn't in OpenNext yet (1.20.14, 28 October 2026).</li></ul>
+<h2 id="who-can-open-previews">Who can open previews</h2>
+<p>Preview addresses are public by default: anyone with the link can open them. To require a sign-in, use <strong>Manage → Domains → Who can open previews</strong>: Shipcel puts a Cloudflare Access application in front of the previews only, allowing the email addresses and domains you list. Production stays public. This needs Cloudflare Zero Trust set up in your account (its Free plan covers 50 people); the section explains that step.</p>
+<h2 id="roll-back">Roll back</h2>
+<ul><li><strong>Dashboard:</strong> Manage → Builds &amp; versions → <strong>Roll back to Version N</strong> sends all traffic to the version before the one serving production. <strong>Send all traffic to Version N</strong> (Promote) works for any version.</li><li><strong>CLI:</strong> <code>shipcel rollback</code> goes back to the most recent earlier version that served production, skipping previews; <code>shipcel rollback &lt;version&gt;</code> goes to a given one.</li></ul>
+<p>A rollback changes which code runs. It doesn't undo database changes; restore the database separately if you need to (see <a href="/docs/databases-and-storage/">Databases and storage</a>).</p>
+<h2 id="split-traffic">Split traffic</h2>
+<p><strong>Split traffic</strong> sends 1–99% of requests to one version and the rest to the live one, to try a release on part of your traffic. Cloudflare allows two versions in a split. Shipcel checks that the version serves its share after the change.</p>
+<h2 id="health-checks">Health checks</h2>
+<p>After a promotion, rollback, split or build, Shipcel checks that the expected version is serving and that the homepage answers, and shows the result with the operation. Deploy notifications can send failures to Slack, Discord or any webhook: see <a href="/docs/logs-and-analytics/">Logs and analytics</a>.</p>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/starter-kits/"><span>Previous</span>Starter kits</a><a class="next" href="/docs/environment-variables/"><span>Next</span>Environment variables</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign-in and realtime | Shipcel docs</title>
+<meta name="description" content="Shipcel can run a sign-in and realtime service for your app, in your own Cloudflare account: a Worker, a D1 database for its users and a Durable Object class for channels. Your app talks to it with standard OpenID Connect, so any library works, and nothing about your users passes through Shipcel.">
+<meta property="og:title" content="Sign-in and realtime | Shipcel docs">
+<meta property="og:description" content="Shipcel can run a sign-in and realtime service for your app, in your own Cloudflare account: a Worker, a D1 database for its users and a Durable Object class for channels. Your app talks to it with standard OpenID Connect, so any library works, and nothing about your users passes through Shipcel.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f8f9fb">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/site.css">
+<script src="/analytics.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<nav class="wrap" aria-label="Main">
+<a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Shipcel</a>
+<ul class="nav-links"><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/compare/">Compare</a></li><li><a href="/docs/" aria-current="page">Docs</a></li></ul>
+<a class="button primary nav-cta" href="/app/">Dashboard</a>
+</nav>
+</header>
+<main id="main" class="wrap">
+<div class="docs">
+<nav class="docs-nav" aria-label="Docs">
+<p class="docs-section">Get started</p>
+<ul><li><a href="/docs/getting-started/">Getting started</a></li><li><a href="/docs/cli/">The shipcel CLI</a></li></ul>
+<p class="docs-section">Deploy</p>
+<ul><li><a href="/docs/deploy-from-github/">Deploy from GitHub</a></li><li><a href="/docs/other-git-hosts/">Deploy from GitLab, Bitbucket or Gitea</a></li><li><a href="/docs/deploy-without-git/">Deploy without Git</a></li><li><a href="/docs/starter-kits/">Starter kits</a></li><li><a href="/docs/previews-and-rollbacks/">Previews and rollbacks</a></li></ul>
+<p class="docs-section">Build your app</p>
+<ul><li><a href="/docs/environment-variables/">Environment variables</a></li><li><a href="/docs/domains/">Domains</a></li><li><a href="/docs/databases-and-storage/">Databases and storage</a></li><li><a href="/docs/sign-in-and-realtime/" aria-current="page">Sign-in and realtime</a></li><li><a href="/docs/logs-and-analytics/">Logs and analytics</a></li></ul>
+<p class="docs-section">Workspace</p>
+<ul><li><a href="/docs/teams-and-tokens/">Teams and tokens</a></li><li><a href="/docs/ai-agents/">AI agents</a></li><li><a href="/docs/free-only-and-billing/">Free-only and billing</a></li></ul>
+<p class="docs-section">Run Shipcel</p>
+<ul><li><a href="/docs/self-hosting/">Self-hosting</a></li><li><a href="/docs/add-a-starter-kit/">Add a starter kit</a></li><li><a href="/docs/troubleshooting/">Troubleshooting</a></li></ul>
+</nav>
+<article class="doc">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>Build your app</span></nav>
+<h1>Sign-in and realtime</h1>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#turning-it-on">Turning it on</a></li><li><a href="#how-people-sign-in">How people sign in</a></li><li><a href="#email-sign-in-needs-cloudflare-s-email-service">Email sign-in needs Cloudflare's Email Service</a></li><li><a href="#your-app-s-side">Your app's side</a></li><li><a href="#realtime">Realtime</a></li><li><a href="#data-api-and-row-level-security">Data API and row-level security</a></li><li><a href="#people">People</a></li></ul></nav>
+<p>Shipcel can run a sign-in and realtime service for your app, in your own Cloudflare account: a Worker, a D1 database for its users and a Durable Object class for channels. Your app talks to it with standard OpenID Connect, so any library works, and nothing about your users passes through Shipcel.</p>
+<h2 id="turning-it-on">Turning it on</h2>
+<p>Open the project's <strong>Manage → Sign-in &amp; realtime</strong> tab and turn it on. Shipcel shows what it will create first, creates it after you consent, and gives you the service's address and your app's client ID. The two secrets it needs (a signing key and a realtime secret) go straight to the Worker; Shipcel never stores them. Turning it off removes the Worker and its database.</p>
+<h2 id="how-people-sign-in">How people sign in</h2>
+<p>The hosted sign-in page offers whatever you have set up:</p>
+<ul><li><strong>Passkeys</strong>, always: a fingerprint, face or screen lock, with no password to remember or leak.</li><li><strong>GitHub and Google</strong>, once you add each provider's client ID and secret on the tab. The secret becomes a Worker secret.</li><li><strong>Email</strong>, once you set a sender address. The person types their address and gets a one-time link that works for 15 minutes, in the browser that asked for it. An address reached this way counts as verified, so it joins the account GitHub or Google verified with the same address.</li><li><strong>Passwords</strong>, if you allow them. Once signed in, a person sets one at the service's <code>/password/set</code> page (link to it from your app's settings), then signs in with it or still asks for a link by email. Passwords are hashed with PBKDF2 at 600,000 rounds.</li></ul>
+<h2 id="email-sign-in-needs-cloudflare-s-email-service">Email sign-in needs Cloudflare's Email Service</h2>
+<p>Links are sent through Cloudflare's Email Service from your own address, with no third-party provider:</p>
+<ol><li>In the Cloudflare dashboard, go to <strong>Compute → Email Service → Email Sending → Onboard Domain</strong> and choose the domain. Cloudflare adds the DNS records (SPF, DKIM, DMARC and bounce handling); the domain must use Cloudflare DNS.</li><li>On the Sign-in &amp; realtime tab, set the sender address, such as <code>sign-in@your-domain.com</code>, and save.</li></ol>
+<p>Email Sending is a Workers Paid feature: 3,000 emails a month are included, then Cloudflare charges $0.35 per 1,000. Without an onboarded domain, the service answers &quot;Sign-in by email isn't set up for this app&quot; and the other methods keep working.</p>
+<h2 id="your-app-s-side">Your app's side</h2>
+<p>Use any OpenID Connect library with the service's address as the issuer, the client ID from the tab, PKCE, and a return address you listed under <strong>Return addresses after sign-in</strong>. The ID token carries the person's <code>sub</code>, <code>email</code> and <code>email_verified</code>; the access token works at <code>/userinfo</code>. Sign-out goes through <code>/logout</code>.</p>
+<h2 id="realtime">Realtime</h2>
+<p>Channels live in a Durable Object class in your account: signed-in people join a channel, see who is present and broadcast messages to it. Turn realtime off on the tab when your app doesn't use it.</p>
+<h2 id="data-api-and-row-level-security">Data API and row-level security</h2>
+<p>The service can read and change rows of your app's own D1 database for your pages, so a page can list a signed-in person's notes without an endpoint of yours. Under <strong>Data API</strong> on the tab, pick the database (one your app's Worker binds) and open the tables you want reachable, each with who may read it and who may change it:</p>
+<ul><li><strong>Everyone</strong>, <strong>Signed-in users</strong>, or <strong>No one</strong>;</li><li><strong>Each user, their own rows:</strong> only rows whose owner column (say <code>user_id</code>) holds the person's id, the <code>sub</code> in their tokens. That's row-level security: one person never reads or changes another's rows.</li></ul>
+<p>No more people may change a table than read it, since a change answers with the rows it reached; a table no one reads only takes new rows. A table not opened, and Cloudflare's and SQLite's own tables, can't be reached. Saving deploys the service again with the database bound, and changing the tables after that only changes a setting. Your pages call <code>&lt;issuer&gt;/data/&lt;table&gt;</code> from a return address's origin, with the person's access token:</p>
+<pre class="code" tabindex="0"><code>const headers = { Authorization: `Bearer ${accessToken}` };
+// Read: filters as column=operator.value (eq, neq, gt, gte, lt, lte, like, is.null).
+await fetch(`${issuer}/data/notes?done=eq.0&amp;order=id.desc&amp;limit=20`, {
+  headers,
+});
+// Add rows (an object or up to 100); the owner column is filled in with the person's id.
+await fetch(`${issuer}/data/notes`, {
+  method: 'POST',
+  headers,
+  body: JSON.stringify({ body: 'Buy milk' }),
+});
+// Change or delete the rows a filter names, among those the person may change.
+await fetch(`${issuer}/data/notes?id=eq.5`, {
+  method: 'PATCH',
+  headers,
+  body: JSON.stringify({ done: true }),
+});
+await fetch(`${issuer}/data/notes?id=eq.5`, { method: 'DELETE', headers });</code></pre>
+<p>Each answer is <code>{ &quot;rows&quot;: [...] }</code>, with the rows read, added, changed or deleted; <code>select=a,b</code> picks columns, and <code>offset</code> pages on from <code>limit</code> (at most 200). A change that breaks a rule of the table, such as a duplicate key, is refused with D1's reason.</p>
+<p>Every change goes out on realtime as a <code>data:insert</code>, <code>data:update</code> or <code>data:delete</code> message with <code>{ table, rows }</code>, to those who may read the rows: <code>public:data:&lt;table&gt;</code> for a table everyone reads, <code>signed-in:data:&lt;table&gt;</code> for one signed-in users read (join it with an access token), and the owner's own <code>user:&lt;id&gt;</code> channel for rows only their owner reads. A change of more than 32 KB sends the count instead of the rows, for pages to read again.</p>
+<h2 id="people">People</h2>
+<p>The tab lists everyone who signed in, with their methods, and lets you disable or delete an account; both end that person's sessions at once.</p>
+<nav class="doc-pager" aria-label="More guides"><a href="/docs/databases-and-storage/"><span>Previous</span>Databases and storage</a><a class="next" href="/docs/logs-and-analytics/"><span>Next</span>Logs and analytics</a></nav>
+</article>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p><strong>Shipcel</strong> deploys your apps into your own Cloudflare account.</p>
+<p class="small">Prices and limits are list prices from each provider's official pages, checked 8 October 2026. They change; each page links to its sources.</p>
+</div>
+<div>
+<h2>Product</h2>
+<ul><li><a href="/features/">Features</a></li><li><a href="/pricing/">Pricing and free plan</a></li><li><a href="/why/">Why Shipcel</a></li><li><a href="/app/">Dashboard</a></li></ul>
+</div>
+<div>
+<h2>Learn</h2>
+<ul><li><a href="/docs/">Docs</a></li><li><a href="/docs/cli/">CLI reference</a></li><li><a href="/compare/">Comparisons</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/why/#not-yet">What isn’t ready yet</a></li><li><a href="/llms.txt">llms.txt, for AI agents</a></li></ul>
+</div>
+</div>
+</footer>
+</body>
+</html>
